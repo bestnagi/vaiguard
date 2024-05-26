@@ -1,0 +1,13 @@
+# Ignore the .streamlit/secrets.toml file
+.streamlit/secrets.toml
+
+# Ignore Python bytecode files
+__pycache__/
+*.py[cod]
+
+# Ignore virtual environment directories
+venv/
+.env/
+
+# Ignore macOS system files
+.DS_Store
