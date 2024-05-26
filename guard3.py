@@ -11,9 +11,14 @@ import tempfile
 from openai import OpenAI
 import ffmpeg
 
-# Initialize the OpenAI client with your API key
-openai_api_key = os.getenv("OPENAI_API_KEY", "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")
+
+# Initialize the OpenAI client with your API key from environment variables
+openai_api_key = os.getenv("OPENAI_API_KEY")
+if not openai_api_key:
+    raise ValueError("No OpenAI API key found. Please set the OPENAI_API_KEY environment variable.")
+
 client = OpenAI(api_key=openai_api_key)
+
 
 def process_video(file_path):
     video = cv2.VideoCapture(file_path)
