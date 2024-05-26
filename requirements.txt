@@ -1,0 +1,8 @@
+
+streamlit
+opencv-python
+openai
+numpy
+requests
+simpleaudio
+ffmpeg-python
