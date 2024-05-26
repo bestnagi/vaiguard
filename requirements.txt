@@ -3,5 +3,5 @@ opencv-python
 openai
 numpy
 requests
-simpleaudio
+pydub
 ffmpeg-python

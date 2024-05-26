@@ -4,13 +4,15 @@ import base64
 import os
 import requests
 import numpy as np
-import simpleaudio as sa
-import ffmpeg
+
+from pydub import AudioSegment
+from pydub.playback import play
 import tempfile
 from openai import OpenAI
+import ffmpeg
 
 # Initialize the OpenAI client with your API key
-openai_api_key = os.getenv("OPENAI_API_KEY", "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")
+openai_api_key = os.getenv("OPENAI_API_KEY", "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")
 client = OpenAI(api_key=openai_api_key)
 
 def process_video(file_path):
@@ -116,7 +118,9 @@ def main():
         st.write(voiceover_script)
 
         wav_path = generate_voiceover(voiceover_script)
-        st.audio(wav_path)
+        audio_segment = AudioSegment.from_wav(wav_path)
+        audio_bytes = audio_segment.export(format="wav").read()
+        st.audio(audio_bytes)
 
         os.remove(temp_file_path)
 
