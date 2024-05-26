@@ -13,7 +13,10 @@ import ffmpeg
 
 
 # Initialize the OpenAI client with your API key from environment variables
-openai_api_key = os.getenv("OPENAI_API_KEY")
+# Load the API key from Streamlit secrets
+openai_api_key = st.secrets["secrets"]["OPENAI_API_KEY"]
+
+#openai_api_key = os.getenv("OPENAI_API_KEY")
 if not openai_api_key:
     raise ValueError("No OpenAI API key found. Please set the OPENAI_API_KEY environment variable.")
 
