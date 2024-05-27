@@ -136,6 +136,10 @@ def combine_video_audio(video_path, audio_path, output_path):
     input_audio = ffmpeg.input(audio_path)
     ffmpeg.output(input_video, input_audio, output_path, vcodec='copy', acodec='aac', strict='experimental').run(overwrite_output=True)
 
+def remove_original_audio(video_path, output_path):
+    ffmpeg.input(video_path).output(output_path, an=None, vcodec='copy').run(overwrite_output=True)
+
+
 
 def main():
     st.title("Video Processing and Voiceover App")
@@ -173,14 +177,20 @@ def main():
 
         adjusted_audio_path = generate_voiceover(voiceover_script, video_length)
 
-        # Combine video and audio
+        # Remove original audio from video
+        video_no_audio_path = "video_no_audio.mp4"
+        remove_original_audio(temp_file_path, video_no_audio_path)
+
+        # Combine video without original audio and new audio
         output_path = "output_video_with_voiceover.mp4"
-        combine_video_audio(temp_file_path, adjusted_audio_path, output_path)
+        combine_video_audio(video_no_audio_path, adjusted_audio_path, output_path)
 
         # Display the final video with voiceover
         st.video(output_path)
 
         os.remove(temp_file_path)
+        os.remove(video_no_audio_path)
+        os.remove(adjusted_audio_path)
 
 if __name__ == "__main__":
     main()
