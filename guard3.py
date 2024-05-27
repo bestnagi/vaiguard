@@ -191,6 +191,20 @@ def main():
         os.remove(temp_file_path)
         os.remove(video_no_audio_path)
         os.remove(adjusted_audio_path)
+    
+    # Embed the D-ID agent script
+    st.markdown("""
+    <script
+        type="module"
+        src="https://agent.d-id.com/v1/index.js"
+        data-name="did-agent"
+        data-mode="fabio"
+        data-client-key="Z29vZ2xlLW9hdXRoMnwxMTc4NjA0NDA5MTAxNzE5ODI1MjM6WjZ1d1dEWmxickNLUlh3QU5IbXNZ"
+        data-agent-id="agt_J2yX0ess"
+        data-monitor="true">
+    </script>
+    """, unsafe_allow_html=True)
+
 
 if __name__ == "__main__":
     main()
