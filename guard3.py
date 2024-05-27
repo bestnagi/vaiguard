@@ -5,12 +5,15 @@ import os
 import requests
 import numpy as np
 
-from pydub import AudioSegment
 from pydub.playback import play
 import tempfile
 from openai import OpenAI
 import ffmpeg
 
+
+from moviepy.editor import VideoFileClip, AudioFileClip, concatenate_videoclips
+
+from pydub import AudioSegment
 
 # Initialize the OpenAI client with your API key from environment variables
 # Load the API key from Streamlit secrets
@@ -46,7 +49,7 @@ def generate_openai_response(base64Frames):
         {
             "role": "user",
             "content": [
-                "These are frames from a video that I want to upload. Generate a compelling description that I can upload along with the video.",
+                "These are frames from a video that I want to upload. Generate a security guard description that I can upload along with the video.",
                 *map(lambda x: {"image": x, "resize": 768}, base64Frames[0::30]),
             ],
         },
@@ -77,7 +80,7 @@ def generate_voiceover_script(base64Frames):
     result = client.chat.completions.create(**params)
     return result.choices[0].message.content
 
-def generate_voiceover(audio_script):
+def generate_voiceover(audio_script, video_length):
     response = requests.post(
         "https://api.openai.com/v1/audio/speech",
         headers={"Authorization": f"Bearer {openai_api_key}"},
@@ -91,10 +94,48 @@ def generate_voiceover(audio_script):
     with open(audio_path, "wb") as f:
         f.write(audio)
 
+    # Convert MP3 to WAV using ffmpeg-python
     wav_path = "voiceover.wav"
     ffmpeg.input(audio_path).output(wav_path).run(overwrite_output=True)
 
-    return wav_path
+    # Load the audio and adjust speed to match video length
+    audio_segment = AudioSegment.from_wav(wav_path)
+    audio_length = len(audio_segment) / 1000.0  # Length in seconds
+    st.write(f"Original Audio Length: {audio_length} seconds")  # Debug: Print audio length
+
+    # Calculate the speed change required
+    speed_change = audio_length / video_length
+    st.write(f"Speed Change Factor: {speed_change}")  # Debug: Print speed change factor
+    adjusted_audio = change_audio_speed(audio_segment, speed_change)
+
+    # Debug: Print adjusted audio length
+    adjusted_audio_length = len(adjusted_audio) / 1000.0
+    st.write(f"Adjusted Audio Length: {adjusted_audio_length} seconds")
+
+    # Export the adjusted audio
+    adjusted_audio_path = "adjusted_voiceover.wav"
+    adjusted_audio.export(adjusted_audio_path, format="wav")
+
+    return adjusted_audio_path
+
+def change_audio_speed(sound, speed=1.0):
+    sound_with_altered_frame_rate = sound._spawn(sound.raw_data, overrides={
+        "frame_rate": int(sound.frame_rate * speed)
+    })
+    return sound_with_altered_frame_rate.set_frame_rate(sound.frame_rate)
+
+
+
+def adjust_audio_speed(audio_path, target_duration):
+    audio = AudioFileClip(audio_path)
+    audio = audio.set_duration(target_duration)
+    return audio
+
+def combine_video_audio(video_path, audio_path, output_path):
+    input_video = ffmpeg.input(video_path)
+    input_audio = ffmpeg.input(audio_path)
+    ffmpeg.output(input_video, input_audio, output_path, vcodec='copy', acodec='aac', strict='experimental').run(overwrite_output=True)
+
 
 def main():
     st.title("Video Processing and Voiceover App")
@@ -108,14 +149,19 @@ def main():
 
         st.write("File uploaded successfully.")
 
+        # Display the video using Streamlit's video player
+        st.video(temp_file_path)
+
+        # Get the video length
+        video = cv2.VideoCapture(temp_file_path)
+        fps = video.get(cv2.CAP_PROP_FPS)
+        frame_count = video.get(cv2.CAP_PROP_FRAME_COUNT)
+        video_length = frame_count / fps
+        st.write(f"Video Length: {video_length} seconds")  # Debug: Print video length
+        video.release()
+
         base64Frames = process_video(temp_file_path)
         st.write(f"{len(base64Frames)} frames read at 1-second intervals.")
-
-        for img in base64Frames[:10]:  # Display first 10 frames as an example
-            decoded_img = base64.b64decode(img.encode("utf-8"))
-            np_img = np.frombuffer(decoded_img, dtype=np.uint8)
-            frame = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
-            st.image(frame, channels="BGR")
 
         description = generate_openai_response(base64Frames)
         st.write("Video Description:")
@@ -125,10 +171,14 @@ def main():
         st.write("Voiceover Script:")
         st.write(voiceover_script)
 
-        wav_path = generate_voiceover(voiceover_script)
-        audio_segment = AudioSegment.from_wav(wav_path)
-        audio_bytes = audio_segment.export(format="wav").read()
-        st.audio(audio_bytes)
+        adjusted_audio_path = generate_voiceover(voiceover_script, video_length)
+
+        # Combine video and audio
+        output_path = "output_video_with_voiceover.mp4"
+        combine_video_audio(temp_file_path, adjusted_audio_path, output_path)
+
+        # Display the final video with voiceover
+        st.video(output_path)
 
         os.remove(temp_file_path)
 
