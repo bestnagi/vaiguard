@@ -67,8 +67,8 @@ def generate_voiceover_script(base64Frames):
         {
             "role": "user",
             "content": [
-                "These are frames of a video. Commentate in the style of a security guard who's watching for any person or vehicle. No one is allowed to be in this area. Keep it short and concise. Only mention timestamps if the video includes timestamps. Only include narration.",
-                *map(lambda x: {"image": x, "resize": 768}, base64Frames[0::60]),
+                "These are frames of a video. Commentate in the style of a security guard who's watching for any person or vehicle. No one is allowed to be in this area. Keep it detailed and concise. Only mention timestamps if the video includes timestamps. Only include narration.",
+                *map(lambda x: {"image": x, "resize": 768}, base64Frames[0::30]),
             ],
         },
     ]
