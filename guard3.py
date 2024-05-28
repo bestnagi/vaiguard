@@ -146,7 +146,7 @@ def main():
     st.sidebar.markdown("""
     <script
         type="module"
-        src="https://agent.d-id.com/v1/index.js"
+        src="https://agent.d-id.com/1.0.0-beta.105/index.js"
         data-name="did-agent"
         data-mode="fabio"
         data-client-key="Z29vZ2xlLW9hdXRoMnwxMTc4NjA0NDA5MTAxNzE5ODI1MjM6WjZ1d1dEWmxickNLUlh3QU5IbXNZ"
