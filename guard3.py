@@ -142,8 +142,21 @@ def remove_original_audio(video_path, output_path):
 
 
 def main():
-    st.title("Video Processing and Voiceover App")
-
+    
+    st.sidebar.markdown("""
+    <script
+        type="module"
+        src="https://agent.d-id.com/v1/index.js"
+        data-name="did-agent"
+        data-mode="fabio"
+        data-client-key="Z29vZ2xlLW9hdXRoMnwxMTc4NjA0NDA5MTAxNzE5ODI1MjM6WjZ1d1dEWmxickNLUlh3QU5IbXNZ"
+        data-agent-id="agt_J2yX0ess"
+        data-monitor="true">
+    </script>
+    """, unsafe_allow_html=True)
+     
+    st.title("Virtual AI Guard")
+     
     uploaded_file = st.file_uploader("Upload an MP4 file", type=["mp4"])
 
     if uploaded_file is not None:
@@ -192,18 +205,7 @@ def main():
         os.remove(video_no_audio_path)
         os.remove(adjusted_audio_path)
     
-    # Embed the D-ID agent script
-    st.markdown("""
-    <script
-        type="module"
-        src="https://agent.d-id.com/v1/index.js"
-        data-name="did-agent"
-        data-mode="fabio"
-        data-client-key="Z29vZ2xlLW9hdXRoMnwxMTc4NjA0NDA5MTAxNzE5ODI1MjM6WjZ1d1dEWmxickNLUlh3QU5IbXNZ"
-        data-agent-id="agt_J2yX0ess"
-        data-monitor="true">
-    </script>
-    """, unsafe_allow_html=True)
+
 
 
 if __name__ == "__main__":
