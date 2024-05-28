@@ -50,7 +50,7 @@ def generate_openai_response(base64Frames):
             "role": "user",
             "content": [
                 "These are frames from a video that I want to upload. Generate a security guard description that I can upload along with the video.",
-                *map(lambda x: {"image": x, "resize": 768}, base64Frames[0::60]),
+                *map(lambda x: {"image": x, "resize": 768}, base64Frames[0::30]),
             ],
         },
     ]
@@ -68,7 +68,7 @@ def generate_voiceover_script(base64Frames):
             "role": "user",
             "content": [
                 "These are frames of a video. Commentate in the style of a security guard who's watching for any person or vehicle. No one is allowed to be in this area. Keep it detailed and concise. Each description should be around 15-20 words. Only mention timestamps if the video includes timestamps. Only include narration.",
-                *map(lambda x: {"image": x, "resize": 768}, base64Frames[0::60]),
+                *map(lambda x: {"image": x, "resize": 768}, base64Frames[0::30]),
             ],
         },
     ]
