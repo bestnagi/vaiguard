@@ -4,27 +4,22 @@ import base64
 import os
 import requests
 import numpy as np
-
-from pydub.playback import play
+import json
+import uuid
 import tempfile
+from pydub.playback import play
 from openai import OpenAI
 import ffmpeg
-
-
 from moviepy.editor import VideoFileClip, AudioFileClip, concatenate_videoclips
-
 from pydub import AudioSegment
 
 # Initialize the OpenAI client with your API key from environment variables
-# Load the API key from Streamlit secrets
 openai_api_key = st.secrets["secrets"]["OPENAI_API_KEY"]
 
-#openai_api_key = os.getenv("OPENAI_API_KEY")
 if not openai_api_key:
     raise ValueError("No OpenAI API key found. Please set the OPENAI_API_KEY environment variable.")
 
 client = OpenAI(api_key=openai_api_key)
-
 
 def process_video(file_path):
     video = cv2.VideoCapture(file_path)
@@ -49,7 +44,7 @@ def generate_openai_response(base64Frames):
         {
             "role": "user",
             "content": [
-                "These are frames from a video that I want to upload. Generate a security guard description that I can upload along with the video.",
+                "These are frames from a video that I want to upload. Generate a security guard report.",
                 *map(lambda x: {"image": x, "resize": 768}, base64Frames[0::30]),
             ],
         },
@@ -57,7 +52,7 @@ def generate_openai_response(base64Frames):
     params = {
         "model": "gpt-4o",
         "messages": prompt_messages,
-        "max_tokens": 200,
+        "max_tokens": 500,
     }
     result = client.chat.completions.create(**params)
     return result.choices[0].message.content
@@ -124,8 +119,6 @@ def change_audio_speed(sound, speed=1.0):
     })
     return sound_with_altered_frame_rate.set_frame_rate(sound.frame_rate)
 
-
-
 def adjust_audio_speed(audio_path, target_duration):
     audio = AudioFileClip(audio_path)
     audio = audio.set_duration(target_duration)
@@ -139,74 +132,119 @@ def combine_video_audio(video_path, audio_path, output_path):
 def remove_original_audio(video_path, output_path):
     ffmpeg.input(video_path).output(output_path, an=None, vcodec='copy').run(overwrite_output=True)
 
+def save_description(video_id, description):
+    try:
+        with open("descriptions.json", "r") as f:
+            descriptions = json.load(f)
+    except FileNotFoundError:
+        descriptions = {}
 
+    descriptions[video_id] = description
+
+    with open("descriptions.json", "w") as f:
+        json.dump(descriptions, f)
+
+def load_descriptions():
+    try:
+        with open("descriptions.json", "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {}
+
+def generate_chatbot_response(description, query):
+    prompt_messages = [
+        {
+            "role": "system",
+            "content": "You are an AI assistant that helps answer questions about video descriptions."
+        },
+        {
+            "role": "user",
+            "content": f"Video description: {description}\nUser question: {query}"
+        },
+    ]
+    params = {
+        "model": "gpt-4",
+        "messages": prompt_messages,
+        "max_tokens": 200,
+    }
+    result = client.chat.completions.create(**params)
+    return result.choices[0].message.content
+
+def chatbot_interface():
+    st.header("Video Description Chatbot")
+
+    descriptions = load_descriptions()
+    video_id = st.selectbox("Select Video ID", options=list(descriptions.keys()))
+
+    if video_id:
+        st.write("Video Description:")
+        st.write(descriptions[video_id])
+
+        user_query = st.text_input("Ask a question about this video:")
+        if user_query:
+            response = generate_chatbot_response(descriptions[video_id], user_query)
+            st.write("Chatbot Response:")
+            st.write(response)
 
 def main():
     
-    st.sidebar.markdown("""
-    <script
-        type="module"
-        src="https://agent.d-id.com/1.0.0-beta.97/index.js"
-        data-name="did-agent"
-        data-mode="fabio"
-        data-client-key="Z29vZ2xlLW9hdXRoMnwxMTc4NjA0NDA5MTAxNzE5ODI1MjM6WjZ1d1dEWmxickNLUlh3QU5IbXNZ"
-        data-agent-id="agt_J2yX0ess"
-        data-monitor="true">
-    </script>
-    """, unsafe_allow_html=True)
-     
-    st.title("Virtual AI Guard")
-     
-    uploaded_file = st.file_uploader("Upload an MP4 file", type=["mp4"])
-
-    if uploaded_file is not None:
-        with tempfile.NamedTemporaryFile(delete=False) as temp_file:
-            temp_file.write(uploaded_file.read())
-            temp_file_path = temp_file.name
-
-        st.write("File uploaded successfully.")
-
-        # Display the video using Streamlit's video player
-        st.video(temp_file_path)
-
-        # Get the video length
-        video = cv2.VideoCapture(temp_file_path)
-        fps = video.get(cv2.CAP_PROP_FPS)
-        frame_count = video.get(cv2.CAP_PROP_FRAME_COUNT)
-        video_length = frame_count / fps
-        st.write(f"Video Length: {video_length} seconds")  # Debug: Print video length
-        video.release()
-
-        base64Frames = process_video(temp_file_path)
-        st.write(f"{len(base64Frames)} frames read at 1-second intervals.")
-
-        description = generate_openai_response(base64Frames)
-        st.write("Video Description:")
-        st.write(description)
-
-        voiceover_script = generate_voiceover_script(base64Frames)
-        st.write("Voiceover Script:")
-        st.write(voiceover_script)
-
-        adjusted_audio_path = generate_voiceover(voiceover_script, video_length)
-
-        # Remove original audio from video
-        video_no_audio_path = "video_no_audio.mp4"
-        remove_original_audio(temp_file_path, video_no_audio_path)
-
-        # Combine video without original audio and new audio
-        output_path = "output_video_with_voiceover.mp4"
-        combine_video_audio(video_no_audio_path, adjusted_audio_path, output_path)
-
-        # Display the final video with voiceover
-        st.video(output_path)
-
-        os.remove(temp_file_path)
-        os.remove(video_no_audio_path)
-        os.remove(adjusted_audio_path)
     
+    st.title("Virtual AI Guard")
 
+    option = st.sidebar.selectbox(
+        "Choose an action",
+        ["Upload Video", "Chatbot"]
+    )
 
+    if option == "Upload Video":
+        uploaded_file = st.file_uploader("Upload an MP4 file", type=["mp4"])
+
+        if uploaded_file is not None:
+            video_id = str(uuid.uuid4())
+
+            with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+                temp_file.write(uploaded_file.read())
+                temp_file_path = temp_file.name
+
+            st.write("File uploaded successfully.")
+            st.video(temp_file_path)
+
+            video = cv2.VideoCapture(temp_file_path)
+            fps = video.get(cv2.CAP_PROP_FPS)
+            frame_count = video.get(cv2.CAP_PROP_FRAME_COUNT)
+            video_length = frame_count / fps
+            st.write(f"Video Length: {video_length} seconds")
+            video.release()
+
+            base64Frames = process_video(temp_file_path)
+            st.write(f"{len(base64Frames)} frames read at 1-second intervals.")
+
+            description = generate_openai_response(base64Frames)
+            st.write("Video Description:")
+            st.write(description)
+
+            save_description(video_id, description)
+
+            voiceover_script = generate_voiceover_script(base64Frames)
+            st.write("Voiceover Script:")
+            st.write(voiceover_script)
+
+            adjusted_audio_path = generate_voiceover(voiceover_script, video_length)
+
+            video_no_audio_path = "video_no_audio.mp4"
+            remove_original_audio(temp_file_path, video_no_audio_path)
+
+            output_path = "output_video_with_voiceover.mp4"
+            combine_video_audio(video_no_audio_path, adjusted_audio_path, output_path)
+
+            st.video(output_path)
+
+            os.remove(temp_file_path)
+            os.remove(video_no_audio_path)
+            os.remove(adjusted_audio_path)
+
+    elif option == "Chatbot":
+        chatbot_interface()
 
 if __name__ == "__main__":
     main()
