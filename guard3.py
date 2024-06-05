@@ -1,17 +1,14 @@
 import streamlit as st
 import cv2
 import base64
-import os
 import requests
 import numpy as np
-import json
-import uuid
-import tempfile
-from pydub.playback import play
+from threading import Thread, Event, Lock
+from queue import Queue
 from openai import OpenAI
-import ffmpeg
-from moviepy.editor import VideoFileClip, AudioFileClip, concatenate_videoclips
-from pydub import AudioSegment
+import streamlink
+import time
+import logging
 
 # Initialize the OpenAI client with your API key from environment variables
 openai_api_key = st.secrets["secrets"]["OPENAI_API_KEY"]
@@ -21,230 +18,229 @@ if not openai_api_key:
 
 client = OpenAI(api_key=openai_api_key)
 
-def process_video(file_path):
-    video = cv2.VideoCapture(file_path)
-    fps = video.get(cv2.CAP_PROP_FPS)
-    frame_skip_interval = int(0.1 * fps)
+# Set up logging
+logging.basicConfig(filename='error_log.log', level=logging.ERROR, 
+                    format='%(asctime)s %(levelname)s:%(message)s')
 
-    base64Frames = []
-    frame_count = 0
-    while video.isOpened():
-        success, frame = video.read()
-        if not success:
-            break
-        if frame_count % frame_skip_interval == 0:
-            _, buffer = cv2.imencode(".jpg", frame)
-            base64Frames.append(base64.b64encode(buffer).decode("utf-8"))
-        frame_count += 1
-    video.release()
-    return base64Frames
+def detect_person(frame, body_cascade):
+    try:
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        bodies = body_cascade.detectMultiScale(gray, 1.1, 4)
+        return len(bodies) > 0
+    except Exception as e:
+        error_message = f"Error in detect_person: {e}"
+        st.error(error_message)
+        logging.error(error_message)
+        return False
+
+def read_frames_from_stream(youtube_url, frame_queue, stop_event, frame_skip):
+    try:
+        stream_url = get_youtube_stream_url(youtube_url)
+        if not stream_url:
+            frame_queue.put((None, "Failed to retrieve the stream URL."))
+            return
+
+        cap = cv2.VideoCapture(stream_url)
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        if fps <= 0:
+            fps = 30  # Default to 30 FPS if the value is not available
+        frame_duration = 1 / fps
+        frame_count = 0
+
+        while not stop_event.is_set():
+            start_time = time.time()
+            ret, frame = cap.read()
+            if not ret:
+                frame_queue.put((None, "Error retrieving frame."))
+                break
+            if frame_count % frame_skip == 0:
+                frame_queue.put((frame, None))
+            frame_count += 1
+            elapsed_time = time.time() - start_time
+            sleep_time = max(0, frame_duration - elapsed_time)
+            time.sleep(sleep_time)
+
+        cap.release()
+        frame_queue.put((None, "Stream stopped."))
+    except Exception as e:
+        error_message = f"Error retrieving frame: {e}"
+        frame_queue.put((None, error_message))
+        st.error(error_message)
+        logging.error(error_message)
+
+def get_youtube_stream_url(youtube_url):
+    try:
+        streams = streamlink.streams(youtube_url)
+        if "best" in streams:
+            return streams["best"].to_url()
+        else:
+            error_message = "No suitable stream found."
+            st.error(error_message)
+            logging.error(error_message)
+            return None
+    except Exception as e:
+        error_message = f"Error retrieving stream URL: {e}"
+        st.error(error_message)
+        logging.error(error_message)
+        return None
 
 def generate_openai_response(base64Frames):
-    prompt_messages = [
-        {
-            "role": "user",
-            "content": [
-                "These are frames from a video that I want to upload. Generate a security guard report.",
-                *map(lambda x: {"image": x, "resize": 768}, base64Frames[0::30]),
-            ],
-        },
-    ]
-    params = {
-        "model": "gpt-4o",
-        "messages": prompt_messages,
-        "max_tokens": 500,
-    }
-    result = client.chat.completions.create(**params)
-    return result.choices[0].message.content
-
-def generate_voiceover_script(base64Frames):
-    prompt_messages = [
-        {
-            "role": "user",
-            "content": [
-                "These are frames of a video. Commentate in the style of a security guard who's watching for any person or vehicle. No one is allowed to be in this area. Keep it detailed and concise. Each description should be around 15-20 words. Only mention timestamps if the video includes timestamps. Only include narration.",
-                *map(lambda x: {"image": x, "resize": 768}, base64Frames[0::30]),
-            ],
-        },
-    ]
-    params = {
-        "model": "gpt-4o",
-        "messages": prompt_messages,
-        "max_tokens": 500,
-    }
-    result = client.chat.completions.create(**params)
-    return result.choices[0].message.content
-
-def generate_voiceover(audio_script, video_length):
-    response = requests.post(
-        "https://api.openai.com/v1/audio/speech",
-        headers={"Authorization": f"Bearer {openai_api_key}"},
-        json={"model": "tts-1-1106", "input": audio_script, "voice": "onyx"},
-    )
-    audio = b""
-    for chunk in response.iter_content(chunk_size=1024 * 1024):
-        audio += chunk
-
-    audio_path = "voiceover-s.mp3"
-    with open(audio_path, "wb") as f:
-        f.write(audio)
-
-    # Convert MP3 to WAV using ffmpeg-python
-    wav_path = "voiceover.wav"
-    ffmpeg.input(audio_path).output(wav_path).run(overwrite_output=True)
-
-    # Load the audio and adjust speed to match video length
-    audio_segment = AudioSegment.from_wav(wav_path)
-    audio_length = len(audio_segment) / 1000.0  # Length in seconds
-    st.write(f"Original Audio Length: {audio_length} seconds")  # Debug: Print audio length
-
-    # Calculate the speed change required
-    speed_change = audio_length / video_length
-    st.write(f"Speed Change Factor: {speed_change}")  # Debug: Print speed change factor
-    adjusted_audio = change_audio_speed(audio_segment, speed_change)
-
-    # Debug: Print adjusted audio length
-    adjusted_audio_length = len(adjusted_audio) / 1000.0
-    st.write(f"Adjusted Audio Length: {adjusted_audio_length} seconds")
-
-    # Export the adjusted audio
-    adjusted_audio_path = "adjusted_voiceover.wav"
-    adjusted_audio.export(adjusted_audio_path, format="wav")
-
-    return adjusted_audio_path
-
-def change_audio_speed(sound, speed=1.0):
-    sound_with_altered_frame_rate = sound._spawn(sound.raw_data, overrides={
-        "frame_rate": int(sound.frame_rate * speed)
-    })
-    return sound_with_altered_frame_rate.set_frame_rate(sound.frame_rate)
-
-def adjust_audio_speed(audio_path, target_duration):
-    audio = AudioFileClip(audio_path)
-    audio = audio.set_duration(target_duration)
-    return audio
-
-def combine_video_audio(video_path, audio_path, output_path):
-    input_video = ffmpeg.input(video_path)
-    input_audio = ffmpeg.input(audio_path)
-    ffmpeg.output(input_video, input_audio, output_path, vcodec='copy', acodec='aac', strict='experimental').run(overwrite_output=True)
-
-def remove_original_audio(video_path, output_path):
-    ffmpeg.input(video_path).output(output_path, an=None, vcodec='copy').run(overwrite_output=True)
-
-def save_description(video_id, description):
     try:
-        with open("descriptions.json", "r") as f:
-            descriptions = json.load(f)
-    except FileNotFoundError:
-        descriptions = {}
+        prompt_messages = [
+            {
+                "role": "user",
+                "content": [
+                    "These are frames of a video. Commentate in the style of a security guard who's watching for any person or vehicle. No one is allowed to be in this area. Keep it detailed and concise. Each description should be around 15-20 words. Only mention timestamps if the video includes timestamps. Only include narration.",
+                    *map(lambda x: {"image": x, "resize": 768}, base64Frames),
+                ],
+            },
+        ]
+        params = {
+            "model": "gpt-4o",
+            "messages": prompt_messages,
+            "max_tokens": 500,
+        }
+        result = client.chat.completions.create(**params)
+        return result.choices[0].message.content
+    except Exception as e:
+        error_message = f"Error in generate_openai_response: {e}"
+        st.error(error_message)
+        logging.error(error_message)
+        return "Error generating response."
 
-    descriptions[video_id] = description
-
-    with open("descriptions.json", "w") as f:
-        json.dump(descriptions, f)
-
-def load_descriptions():
+def resize_frame(frame, width=640, height=360):
     try:
-        with open("descriptions.json", "r") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return {}
+        return cv2.resize(frame, (width, height))
+    except Exception as e:
+        error_message = f"Error resizing frame: {e}"
+        st.error(error_message)
+        logging.error(error_message)
+        return frame
 
-def generate_chatbot_response(description, query):
-    prompt_messages = [
-        {
-            "role": "system",
-            "content": "You are an AI assistant that helps answer questions about video descriptions."
-        },
-        {
-            "role": "user",
-            "content": f"Video description: {description}\nUser question: {query}"
-        },
-    ]
-    params = {
-        "model": "gpt-4",
-        "messages": prompt_messages,
-        "max_tokens": 200,
-    }
-    result = client.chat.completions.create(**params)
-    return result.choices[0].message.content
+def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock):
+    frame_counter = 0
+    batch_size = 10  # Send every 10 frames
 
-def chatbot_interface():
-    st.header("Video Description Chatbot")
+    while not stop_event.is_set():
+        try:
+            analysis_lock.acquire()
+            if len(buffer_queue) >= batch_size:
+                frames_to_analyze = [buffer_queue.pop(0) for _ in range(batch_size)]
+                analysis_lock.release()
 
-    descriptions = load_descriptions()
-    video_id = st.selectbox("Select Video ID", options=list(descriptions.keys()))
+                # Convert frames to base64
+                base64Frames = []
+                for frame in frames_to_analyze:
+                    _, buffer = cv2.imencode(".jpg", frame)
+                    base64_frame = base64.b64encode(buffer).decode("utf-8")
+                    base64Frames.append(base64_frame)
 
-    if video_id:
-        st.write("Video Description:")
-        st.write(descriptions[video_id])
+                # Prepare thumbnails HTML
+                thumbnails_html = '<div style="white-space: nowrap; overflow-x: auto;">'
+                for base64_frame in base64Frames:
+                    thumbnails_html += f'<img src="data:image/jpeg;base64,{base64_frame}" style="display: inline-block; margin-right: 5px;" width="100"/>'
+                thumbnails_html += '</div>'
 
-        user_query = st.text_input("Ask a question about this video:")
-        if user_query:
-            response = generate_chatbot_response(descriptions[video_id], user_query)
-            st.write("Chatbot Response:")
-            st.write(response)
+                # Send frames to OpenAI for analysis
+                st.write(f"Sending frames to OpenAI for analysis: {len(base64Frames)} frames")
+                response = generate_openai_response(base64Frames)
+
+                # Send results to analysis_queue
+                analysis_queue.put(("thumbnails", thumbnails_html))
+                analysis_queue.put(("incident_report", f"OpenAI Response for batch {frame_counter // batch_size + 1}: {response}"))
+                frame_counter += batch_size
+            else:
+                analysis_lock.release()
+        except Exception as e:
+            error_message = f"Error in analyze_frames: {e}"
+            st.error(error_message)
+            logging.error(error_message)
+        time.sleep(1)  # Adjust this value to control analysis frequency
 
 def main():
-    
-    
-    st.title("Virtual AI Guard")
+    st.title("Live Stream Viewer and AI Incident Reporter")
 
-    option = st.sidebar.selectbox(
-        "Choose an action",
-        ["Upload Video", "Chatbot"]
-    )
+    youtube_url = st.text_input("Enter Live Stream URL")
+    frame_skip = 10 #st.number_input("Enter number of frames to skip", min_value=1, max_value=30, value=5)
+    if youtube_url:
+        frame_queue = Queue(maxsize=100)  # Increased buffer size
+        buffer_queue = []
+        analysis_queue = Queue()
+        stop_event = Event()
+        analysis_lock = Lock()
+        display_placeholder = st.empty()
+        frame_counter_placeholder = st.empty()
+        base64Frames = []
+        person_detected = False
+        body_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_fullbody.xml")
 
-    if option == "Upload Video":
-        uploaded_file = st.file_uploader("Upload an MP4 file", type=["mp4"])
+        def fetch_frames():
+            read_frames_from_stream(youtube_url, frame_queue, stop_event, frame_skip)
 
-        if uploaded_file is not None:
-            video_id = str(uuid.uuid4())
+        def process_frames():
+            nonlocal person_detected, base64Frames, buffer_queue
+            frame_counter = 0
 
-            with tempfile.NamedTemporaryFile(delete=False) as temp_file:
-                temp_file.write(uploaded_file.read())
-                temp_file_path = temp_file.name
+            while not stop_event.is_set():
+                try:
+                    frame, error_message = frame_queue.get()
+                    if error_message:
+                        st.error(error_message)
+                        logging.error(error_message)
+                        break
+                    if frame is None:
+                        break
 
-            st.write("File uploaded successfully.")
-            st.video(temp_file_path)
+                    # Resize the frame to a larger size for display
+                    resized_frame = resize_frame(frame, width=640, height=360)
+                    
+                    # Update the live stream frame
+                    display_placeholder.image(resized_frame, channels="BGR", caption="Live Stream")
 
-            video = cv2.VideoCapture(temp_file_path)
-            fps = video.get(cv2.CAP_PROP_FPS)
-            frame_count = video.get(cv2.CAP_PROP_FRAME_COUNT)
-            video_length = frame_count / fps
-            st.write(f"Video Length: {video_length} seconds")
-            video.release()
+                    if detect_person(resized_frame, body_cascade):
+                        person_detected = True
+                        st.write("Person detected. Collecting frames for analysis.")
+                        frame_counter = 0  # Reset frame counter when a person is detected
 
-            base64Frames = process_video(temp_file_path)
-            st.write(f"{len(base64Frames)} frames read at 1-second intervals.")
+                    if person_detected:
+                        analysis_lock.acquire()
+                        buffer_queue.append(resized_frame)
+                        analysis_lock.release()
+                        frame_counter += 1
+                        frame_counter_placeholder.write(f"Frames collected: {frame_counter}")
 
-            description = generate_openai_response(base64Frames)
-            st.write("Video Description:")
-            st.write(description)
+                    # Process analysis results from the queue
+                    while not analysis_queue.empty():
+                        item_type, content = analysis_queue.get()
+                        if item_type == "thumbnails":
+                            thumbnails_container = st.empty()
+                            thumbnails_container.markdown(content, unsafe_allow_html=True)
+                        elif item_type == "incident_report":
+                            incident_report_placeholder = st.empty()
+                            incident_report_placeholder.write(content)
 
-            save_description(video_id, description)
+                    if stop_event.is_set():
+                        break
+                except Exception as e:
+                    error_message = f"Error processing frame: {e}"
+                    st.error(error_message)
+                    logging.error(error_message)
 
-            voiceover_script = generate_voiceover_script(base64Frames)
-            st.write("Voiceover Script:")
-            st.write(voiceover_script)
+        fetch_thread = Thread(target=fetch_frames)
+        fetch_thread.start()
 
-            adjusted_audio_path = generate_voiceover(voiceover_script, video_length)
+        analysis_thread = Thread(target=analyze_frames, args=(buffer_queue, analysis_queue, stop_event, analysis_lock))
+        analysis_thread.start()
 
-            video_no_audio_path = "video_no_audio.mp4"
-            remove_original_audio(temp_file_path, video_no_audio_path)
+        st.write("Live stream is running...")
 
-            output_path = "output_video_with_voiceover.mp4"
-            combine_video_audio(video_no_audio_path, adjusted_audio_path, output_path)
+        process_frames()
 
-            st.video(output_path)
-
-            os.remove(temp_file_path)
-            os.remove(video_no_audio_path)
-            os.remove(adjusted_audio_path)
-
-    elif option == "Chatbot":
-        chatbot_interface()
+        if st.button("Stop Stream", key="stop_button_end"):
+            stop_event.set()
+            fetch_thread.join()
+            analysis_thread.join()
+            st.write("Live stream stopped.")
 
 if __name__ == "__main__":
     main()
