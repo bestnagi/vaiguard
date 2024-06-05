@@ -6,3 +6,4 @@ requests
 pydub
 ffmpeg-python
 moviepy
+streamlink
