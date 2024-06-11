@@ -1,8 +1,9 @@
 import streamlit as st
 import cv2
-import tempfile
-import numpy as np
 import base64
+import requests
+import numpy as np
+import tempfile
 from threading import Thread, Event, Lock
 from queue import Queue
 from openai import OpenAI
@@ -18,7 +19,6 @@ openai_api_key = st.secrets["secrets"]["OPENAI_API_KEY"]
 if not openai_api_key:
     raise ValueError("No OpenAI API key found. Please set the OPENAI_API_KEY environment variable.")
 
-# Initialize the OpenAI client once
 client = OpenAI(api_key=openai_api_key)
 
 # Set up logging
@@ -48,7 +48,6 @@ def log_openai_response(video_clip_path, openai_response, log_file="log_history.
     with open(log_path, "w") as f:
         json.dump(log_history, f, indent=4)
 
-# Function to detect a person in a frame
 def detect_person(frame, body_cascade):
     try:
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -60,7 +59,6 @@ def detect_person(frame, body_cascade):
         logging.error(error_message)
         return False
 
-# Function to read frames from a YouTube stream
 def read_frames_from_stream(youtube_url, frame_queue, stop_event, frame_skip):
     try:
         stream_url = get_youtube_stream_url(youtube_url)
@@ -96,7 +94,6 @@ def read_frames_from_stream(youtube_url, frame_queue, stop_event, frame_skip):
         st.error(error_message)
         logging.error(error_message)
 
-# Function to get the YouTube stream URL
 def get_youtube_stream_url(youtube_url):
     try:
         streams = streamlink.streams(youtube_url)
@@ -113,14 +110,13 @@ def get_youtube_stream_url(youtube_url):
         logging.error(error_message)
         return None
 
-# Function to generate OpenAI response
 def generate_openai_response(base64Frames):
     try:
         prompt_messages = [
             {
                 "role": "user",
                 "content": [
-                    "These are frames of a video. Commentate in the style of a security guard who's watching for any person or vehicle. No one is allowed to be in this area. Pay attention to details and behavior and outerwear and any possible threats. Only mention timestamps if the video includes timestamps. Only include narration.",
+                    "These are frames of a video. Commentate in the style of a security guard who's watching for any person or vehicle. No one is allowed to be in this area. Keep it detailed and concise. Each description should be around 15-20 words. Only mention timestamps if the video includes timestamps. Only include narration.",
                     *map(lambda x: {"image": x, "resize": 768}, base64Frames),
                 ],
             },
@@ -138,8 +134,6 @@ def generate_openai_response(base64Frames):
         logging.error(error_message)
         return "Error generating response."
 
-
-# Function to resize frame
 def resize_frame(frame, width=640, height=360):
     try:
         return cv2.resize(frame, (width, height))
@@ -149,7 +143,6 @@ def resize_frame(frame, width=640, height=360):
         logging.error(error_message)
         return frame
 
-# Function to create video clip
 def create_video_clip(frames, output_path, fps=30):
     height, width, layers = frames[0].shape
     size = (width, height)
@@ -159,8 +152,7 @@ def create_video_clip(frames, output_path, fps=30):
         out.write(frame)
     out.release()
 
-# Function to analyze frames and log responses
-def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock, pedestrian_detected_flag, body_cascade):
+def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock, body_cascade):
     frame_counter = 0
     batch_size = 10  # Send every 10 frames
     clip_counter = 0
@@ -169,7 +161,7 @@ def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock, pede
     while not stop_event.is_set():
         try:
             analysis_lock.acquire()
-            if len(buffer_queue) >= batch_size and pedestrian_detected_flag[0]:
+            if len(buffer_queue) >= batch_size:
                 frames_to_analyze = [buffer_queue.pop(0) for _ in range(batch_size)]
                 analysis_lock.release()
 
@@ -191,7 +183,7 @@ def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock, pede
                 st.write(f"OpenAI Response: {response}")
 
                 # Recheck for the presence of a person in the frames
-                pedestrian_detected_flag[0] = any(detect_person(frame, body_cascade) for frame in frames_to_analyze)
+                pedestrian_detected_flag = any(detect_person(frame, body_cascade) for frame in frames_to_analyze)
 
                 # Send results to analysis_queue
                 analysis_queue.put(("video_clip", clip_path))
@@ -205,7 +197,6 @@ def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock, pede
             logging.error(error_message)
         time.sleep(1)  # Adjust this value to control analysis frequency
 
-# Function to display log history
 def display_log_history():
     log_path = os.path.join(log_dir, "log_history.json")
     if os.path.exists(log_path):
@@ -220,7 +211,6 @@ def display_log_history():
     else:
         st.write("No log history available.")
 
-# Function to query logs using OpenAI
 def query_logs(query, log_file="log_history.json"):
     log_path = os.path.join(log_dir, log_file)
     if os.path.exists(log_path):
@@ -236,16 +226,15 @@ def query_logs(query, log_file="log_history.json"):
         ]
         
         response = client.chat.completions.create(
-            model="gpt-4-turbo",
+            model="gpt-4o",
             messages=prompt_messages,
-            max_tokens=150
+            max_tokens=500
         )
         
         return response.choices[0].message.content
     else:
         return "No log history available to query."
 
-# Main function to run the Streamlit app
 def main():
     st.title("Live Stream Viewer and AI Incident Reporter")
 
@@ -327,7 +316,7 @@ def main():
             fetch_thread = Thread(target=fetch_frames)
             fetch_thread.start()
 
-            analysis_thread = Thread(target=analyze_frames, args=(buffer_queue, analysis_queue, stop_event, analysis_lock, pedestrian_detected_flag, body_cascade))
+            analysis_thread = Thread(target=analyze_frames, args=(buffer_queue, analysis_queue, stop_event, analysis_lock, body_cascade))
             analysis_thread.start()
 
             st.write("Live stream is running...")
