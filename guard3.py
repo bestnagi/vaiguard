@@ -1,9 +1,8 @@
 import streamlit as st
 import cv2
-import base64
 import tempfile
-import requests
 import numpy as np
+import base64
 from threading import Thread, Event, Lock
 from queue import Queue
 from openai import OpenAI
@@ -115,7 +114,6 @@ def get_youtube_stream_url(youtube_url):
         return None
 
 # Function to generate OpenAI response
-# Function to generate OpenAI response
 def generate_openai_response(base64Frames):
     try:
         prompt_messages = [
@@ -140,6 +138,7 @@ def generate_openai_response(base64Frames):
         logging.error(error_message)
         return "Error generating response."
 
+
 # Function to resize frame
 def resize_frame(frame, width=640, height=360):
     try:
@@ -161,7 +160,7 @@ def create_video_clip(frames, output_path, fps=30):
     out.release()
 
 # Function to analyze frames and log responses
-def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock, pedestrian_detected_flag):
+def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock, pedestrian_detected_flag, body_cascade):
     frame_counter = 0
     batch_size = 10  # Send every 10 frames
     clip_counter = 0
@@ -179,12 +178,20 @@ def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock, pede
                 create_video_clip(frames_to_analyze, clip_path)
                 clip_counter += 1
 
+                # Convert frames to base64
+                base64Frames = [base64.b64encode(cv2.imencode('.jpg', frame)[1]).decode('utf-8') for frame in frames_to_analyze]
+
                 # Send frames to OpenAI for analysis
                 st.write(f"Sending frames to OpenAI for analysis: {len(frames_to_analyze)} frames")
-                response = generate_openai_response([base64.b64encode(cv2.imencode('.jpg', frame)[1]).decode('utf-8') for frame in frames_to_analyze])
+                response = generate_openai_response(base64Frames)
 
                 # Log the response along with the video clip
                 log_openai_response(clip_path, response)
+
+                st.write(f"OpenAI Response: {response}")
+
+                # Recheck for the presence of a person in the frames
+                pedestrian_detected_flag[0] = any(detect_person(frame, body_cascade) for frame in frames_to_analyze)
 
                 # Send results to analysis_queue
                 analysis_queue.put(("video_clip", clip_path))
@@ -229,9 +236,9 @@ def query_logs(query, log_file="log_history.json"):
         ]
         
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4-turbo",
             messages=prompt_messages,
-            max_tokens=500
+            max_tokens=150
         )
         
         return response.choices[0].message.content
@@ -290,12 +297,9 @@ def main():
                             pedestrian_detected_flag[0] = True
                             st.write("Person detected. Collecting frames for analysis.")
                             frame_counter = 0  # Reset frame counter when a person is detected
-                        else:
-                            if person_detected:
-                                st.write("No person detected in the frame.")
-                            person_detected = False
-                            pedestrian_detected_flag[0] = False
-
+                        elif person_detected:
+                            st.write("Continuing to send frames for analysis until the next batch is processed.")
+                        
                         if person_detected:
                             analysis_lock.acquire()
                             buffer_queue.append(resized_frame)
@@ -323,7 +327,7 @@ def main():
             fetch_thread = Thread(target=fetch_frames)
             fetch_thread.start()
 
-            analysis_thread = Thread(target=analyze_frames, args=(buffer_queue, analysis_queue, stop_event, analysis_lock, pedestrian_detected_flag))
+            analysis_thread = Thread(target=analyze_frames, args=(buffer_queue, analysis_queue, stop_event, analysis_lock, pedestrian_detected_flag, body_cascade))
             analysis_thread.start()
 
             st.write("Live stream is running...")
