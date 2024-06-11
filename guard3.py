@@ -19,6 +19,7 @@ openai_api_key = st.secrets["secrets"]["OPENAI_API_KEY"]
 if not openai_api_key:
     raise ValueError("No OpenAI API key found. Please set the OPENAI_API_KEY environment variable.")
 
+# Initialize the OpenAI client once
 client = OpenAI(api_key=openai_api_key)
 
 # Set up logging
@@ -114,18 +115,20 @@ def get_youtube_stream_url(youtube_url):
         return None
 
 # Function to generate OpenAI response
+# Function to generate OpenAI response
 def generate_openai_response(base64Frames):
     try:
         prompt_messages = [
-            {"role": "system", "content": "You are a security guard providing detailed narration for video frames."},
-            {"role": "user", "content": "These are frames of a video. Commentate in the style of a security guard who's watching for any person or vehicle. No one is allowed to be in this area. Pay attention to details and the behavior and outerwear. Only mention timestamps if the video includes timestamps. Only include narration."}
+            {
+                "role": "user",
+                "content": [
+                    "These are frames of a video. Commentate in the style of a security guard who's watching for any person or vehicle. No one is allowed to be in this area. Keep it detailed and concise. Each description should be around 15-20 words. Only mention timestamps if the video includes timestamps. Only include narration.",
+                    *map(lambda x: {"image": x, "resize": 768}, base64Frames),
+                ],
+            },
         ]
-        # Add each frame as an individual message
-        for base64_frame in base64Frames:
-            prompt_messages.append({"role": "user", "content": f"Frame: data:image/jpeg;base64,{base64_frame}"})
-
         params = {
-            "model": "gpt-4o",  # Assuming gpt-4-turbo, adjust if using a different model
+            "model": "gpt-4o",
             "messages": prompt_messages,
             "max_tokens": 500,
         }
@@ -136,7 +139,8 @@ def generate_openai_response(base64Frames):
         st.error(error_message)
         logging.error(error_message)
         return "Error generating response."
-
+    
+    
 # Function to resize frame
 def resize_frame(frame, width=640, height=360):
     try:
@@ -162,6 +166,7 @@ def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock, pede
     frame_counter = 0
     batch_size = 10  # Send every 10 frames
     clip_counter = 0
+    max_frames_per_request = 100  # Adjust this number as needed
 
     while not stop_event.is_set():
         try:
@@ -195,9 +200,12 @@ def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock, pede
                 </div>
                 '''
 
+                # Ensure the frames to analyze do not exceed the max frames per request
+                frames_for_analysis = frames_to_analyze[:max_frames_per_request]
+
                 # Send frames to OpenAI for analysis
-                st.write(f"Sending frames to OpenAI for analysis: {len(frames_to_analyze)} frames")
-                response = generate_openai_response([base64.b64encode(cv2.imencode('.jpg', frame)[1]).decode('utf-8') for frame in frames_to_analyze])
+                st.write(f"Sending frames to OpenAI for analysis: {len(frames_for_analysis)} frames")
+                response = generate_openai_response([base64.b64encode(cv2.imencode('.jpg', frame)[1]).decode('utf-8') for frame in frames_for_analysis])
 
                 # Log the response along with the video clip
                 log_openai_response(clip_path, response)
@@ -252,14 +260,15 @@ def query_logs(query, log_file="log_history.json"):
         ]
         
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4-turbo",
             messages=prompt_messages,
-            max_tokens=500
+            max_tokens=150
         )
         
         return response.choices[0].message.content
     else:
         return "No log history available to query."
+
 
 # Main function to run the Streamlit app
 def main():
