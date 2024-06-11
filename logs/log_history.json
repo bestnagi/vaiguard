@@ -1,0 +1,37 @@
+[
+    {
+        "video_clip": "logs/clip_0.mp4",
+        "openai_response": "Frame 1: \nA single motorcyclist wearing a pink jacket with a box strapped to the back passes through the area. \n\nFrame 2: \nA white van is moving through the middle of the road. Several pedestrians can be seen on the sidewalk.\n\nFrame 3: \nMultiple motorcyclists are visible. A person in a white shirt and shorts walks along the sidewalk, while a red car drives by. \n\nFrame 4: \nAdditional motorcyclists pass through, alongside a red car. A person in an orange vest and a helmet is riding a bike in the foreground.\n\nFrame 5:\nMotorcyclists wearing bright jackets enter the restricted area. A red car continues to drive along the street.\n\nFrame 6: \nA red truck is driving on the street, and there are more motorcyclists ahead. Pedestrians remain on the sidewalk.\n\nFrame 7:\nA large black truck proceeds along the street. A motorcyclist wearing a grey shirt and white helmet rides past.\n\nFrame 8:\nContinued flow of traffic with more motorcyclists and the black truck still moving forward. Pedestrians can be seen in the background.\n\nFrame 9: \nA white car has entered the frame. Pedestrian activity continues on the sidewalk, and motorcyclists are visible.\n\nFrame 10:\nTraffic persists with motorcyclists moving on the road. The white car is now further down the street. Pedestrian behavior remains consistent on the sidewalk.",
+        "timestamp": "2024-06-11 00:33:46"
+    },
+    {
+        "video_clip": "logs/clip_1.mp4",
+        "openai_response": "4:38:21 - Observing area. Multiple motorbikes passing through. No unusual activity detected.\n\n4:38:24 - Continued surveillance. White sedan moving from right to left. Two motorbikes and a red vehicle on the road.\n\n4:38:28 - Consistent traffic flow. Motorbike approaching from the left side. No pedestrians within restricted area.\n\n4:38:32 - Red pickup truck visible. Two motorbikes following the truck. No unauthorized individuals in the vicinity.\n\n4:38:35 - Monitoring red pickup truck moving along the road. Two motorbikes in the frame. Area remains clear and secure.\n\n4:38:42 - Two individuals spotted walking along the left sidewalk, outside the restricted zone. No immediate concerns.\n\n4:38:42 - Further observation shows a motorbike continuing on the road. Area still appears secure.\n\n4:38:45 - Continuous surveillance shows no breach of restricted area. Civilians seen walking and biking on permitted zones.\n\n4:38:49 - No change in activity pattern. Motorbike rider moving across the frame. Sidewalks and roads are clear.\n\n4:38:52 - Uninterrupted monitoring confirms area remains secure. Regular traffic flow with no immediate threats.\n\nMaintaining vigilance and ensuring no unauthorized entry within the restricted area. Situation is normal.",
+        "timestamp": "2024-06-11 00:35:03"
+    },
+    {
+        "video_clip": "logs/clip_2.mp4",
+        "openai_response": "Error generating response.",
+        "timestamp": "2024-06-11 00:35:35"
+    },
+    {
+        "video_clip": "logs/clip_3.mp4",
+        "openai_response": "Error generating response.",
+        "timestamp": "2024-06-11 00:36:01"
+    },
+    {
+        "video_clip": "logs/clip_4.mp4",
+        "openai_response": "Observation: There is one individual in the prohibited area. \n\n00:00 - Observing an individual in reddish attire moving southward. The pedestrian appears to be walking in the middle of the street.\n00:05 - The individual maintains a steady pace, continuing in the same direction.\n00:10 - The pedestrian is approaching the middle zone of the road, continuing towards the bottom of the frame.\n00:15 - The individual continues walking southward, coming closer to the pink and white structure on the right side of the road.\n00:20 - No significant changes in the individual's pace or direction. Other pedestrians are visible near the left frame but do not enter the restricted area.\n00:25 - The individual has almost reached the lower portion of the frame. No suspicious behavior noted.\n00:30 - The area is temporarily empty of pedestrians moving southward. The individual has moved out of the frame. \n\nNo vehicles are observed entering the restricted area. Maintaining surveillance for any new entry or unusual activity.",
+        "timestamp": "2024-06-11 00:36:20"
+    },
+    {
+        "video_clip": "logs/clip_5.mp4",
+        "openai_response": "Camera is active. Scanning the area.\n\nMan spotted in red shorts and no shirt. Walking down the center of the road. No one is allowed here.\n\nAnother individual, white shirt and white shorts, spotted on the left sidewalk near the purple building. Needs to be cleared.\n\nMotorcycles seen moving up and down the road. Not permitted. Road should be empty.\n\nWhite shirt individual continues walking, sticking to the sidewalk.\n\nMotorcycle with two riders approaching from the left side, moving through the area. Unauthorised vehicle.\n\nRed shorts individual getting closer, now at the sidewalk near the signpost. \n\nMotorcycles continuing to ride through. Increased activity needs attention.\n\nRed shorts individual walks past the camera on the sidewalk towards the left. Not supposed to be here.\n\nFinally, area starts to clear. Remaining motorcycles on the left side of the road. Vigilance necessary until area is fully secure.",
+        "timestamp": "2024-06-11 00:37:06"
+    },
+    {
+        "video_clip": "logs/clip_0.mp4",
+        "openai_response": "Security Log: Observing video frames for unauthorized presence. No one is allowed in this area.\n\n- A person dressed in black is seen walking on the sidewalk near the signpost, moving slowly ahead.\n- Another individual, wearing light clothing, is walking along the opposite sidewalk.\n- A motorcyclist on a black motorcycle is riding down the road, approaching from the left.\n- Several stationary motorcycles are parked on the right side near the signpost.\n- Traffic cones are positioned on the sidewalk.\n- The motorcyclist continues moving ahead, steadily coming from the left side of the frame and appears to be passing through without stopping.\n- Observing the same person in black continuing forward on the sidewalk, nearing the signpost's front edge.\n\nNo immediate or suspicious activity detected beyond the presence of individuals and vehicles in a restricted area. Constant monitoring advised.",
+        "timestamp": "2024-06-11 00:55:13"
+    }
+]
