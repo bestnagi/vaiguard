@@ -11,3 +11,5 @@ venv/
 
 # Ignore macOS system files
 .DS_Store
+error_log.log
+error_log.log
