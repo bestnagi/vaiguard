@@ -115,20 +115,22 @@ def get_youtube_stream_url(youtube_url):
         return None
 
 # Function to generate OpenAI response
-# Function to generate OpenAI response
 def generate_openai_response(base64Frames):
     try:
+        # Limit the number of frames to avoid exceeding the context length
+        max_frames = 100  # Adjust this number as needed
+        limited_base64Frames = base64Frames[:max_frames]
+
         prompt_messages = [
-            {
-                "role": "user",
-                "content": [
-                    "These are frames of a video. Commentate in the style of a security guard who's watching for any person or vehicle. No one is allowed to be in this area. Keep it detailed and concise. Each description should be around 15-20 words. Only mention timestamps if the video includes timestamps. Only include narration.",
-                    *map(lambda x: {"image": x, "resize": 768}, base64Frames),
-                ],
-            },
+            {"role": "system", "content": "You are a security guard providing detailed narration for video frames."},
+            {"role": "user", "content": "These are frames of a video. Commentate in the style of a security guard who's watching for any person or vehicle. No one is allowed to be in this area. Pay attention to details and the behavior and outerwear. Only mention timestamps if the video includes timestamps. Only include narration."}
         ]
+        # Add each frame as an individual message
+        for base64_frame in limited_base64Frames:
+            prompt_messages.append({"role": "user", "content": f"Frame: data:image/jpeg;base64,{base64_frame}"})
+
         params = {
-            "model": "gpt-4o",
+            "model": "gpt-4o",  # Assuming gpt-4-turbo, adjust if using a different model
             "messages": prompt_messages,
             "max_tokens": 500,
         }
@@ -139,8 +141,7 @@ def generate_openai_response(base64Frames):
         st.error(error_message)
         logging.error(error_message)
         return "Error generating response."
-    
-    
+
 # Function to resize frame
 def resize_frame(frame, width=640, height=360):
     try:
@@ -180,38 +181,15 @@ def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock, pede
                 create_video_clip(frames_to_analyze, clip_path)
                 clip_counter += 1
 
-                # Convert video clip to base64
-                with open(clip_path, "rb") as video_file:
-                    video_base64 = base64.b64encode(video_file.read()).decode("utf-8")
-
-                # Prepare video clip HTML with looping effect
-                video_html = f'''
-                <style>
-                .video-thumbnail {{
-                    display: inline-block;
-                    margin-right: 5px;
-                    width: 200px;
-                }}
-                </style>
-                <div style="white-space: nowrap; overflow-x: auto;">
-                    <video class="video-thumbnail" controls loop>
-                        <source src="data:video/mp4;base64,{video_base64}" type="video/mp4">
-                    </video>
-                </div>
-                '''
-
-                # Ensure the frames to analyze do not exceed the max frames per request
-                frames_for_analysis = frames_to_analyze[:max_frames_per_request]
-
                 # Send frames to OpenAI for analysis
-                st.write(f"Sending frames to OpenAI for analysis: {len(frames_for_analysis)} frames")
-                response = generate_openai_response([base64.b64encode(cv2.imencode('.jpg', frame)[1]).decode('utf-8') for frame in frames_for_analysis])
+                st.write(f"Sending frames to OpenAI for analysis: {len(frames_to_analyze)} frames")
+                response = generate_openai_response([base64.b64encode(cv2.imencode('.jpg', frame)[1]).decode('utf-8') for frame in frames_to_analyze])
 
                 # Log the response along with the video clip
                 log_openai_response(clip_path, response)
 
                 # Send results to analysis_queue
-                analysis_queue.put(("video_clip", video_html))
+                analysis_queue.put(("video_clip", clip_path))
                 analysis_queue.put(("incident_report", f"OpenAI Response for batch {frame_counter // batch_size + 1}: {response}"))
                 frame_counter += batch_size
             else:
@@ -233,14 +211,7 @@ def display_log_history():
             st.write(f"Timestamp: {entry['timestamp']}")
             st.write(f"OpenAI Response: {entry['openai_response']}")
             video_path = entry["video_clip"]
-            with open(video_path, "rb") as video_file:
-                video_base64 = base64.b64encode(video_file.read()).decode("utf-8")
-                video_html = f'''
-                <video width="320" height="240" controls loop>
-                    <source src="data:video/mp4;base64,{video_base64}" type="video/mp4">
-                </video>
-                '''
-                st.markdown(video_html, unsafe_allow_html=True)
+            st.video(video_path)
     else:
         st.write("No log history available.")
 
@@ -260,15 +231,14 @@ def query_logs(query, log_file="log_history.json"):
         ]
         
         response = client.chat.completions.create(
-            model="gpt-4-turbo",
+            model="gpt-4o",
             messages=prompt_messages,
-            max_tokens=150
+            max_tokens=500
         )
         
         return response.choices[0].message.content
     else:
         return "No log history available to query."
-
 
 # Main function to run the Streamlit app
 def main():
@@ -340,7 +310,7 @@ def main():
                             item_type, content = analysis_queue.get()
                             if item_type == "video_clip":
                                 video_clip_container = st.empty()
-                                video_clip_container.markdown(content, unsafe_allow_html=True)
+                                video_clip_container.video(content)
                             elif item_type == "incident_report":
                                 incident_report_placeholder = st.empty()
                                 incident_report_placeholder.write(content)
