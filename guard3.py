@@ -115,22 +115,20 @@ def get_youtube_stream_url(youtube_url):
         return None
 
 # Function to generate OpenAI response
+# Function to generate OpenAI response
 def generate_openai_response(base64Frames):
     try:
-        # Limit the number of frames to avoid exceeding the context length
-        max_frames = 100  # Adjust this number as needed
-        limited_base64Frames = base64Frames[:max_frames]
-
         prompt_messages = [
-            {"role": "system", "content": "You are a security guard providing detailed narration for video frames."},
-            {"role": "user", "content": "These are frames of a video. Commentate in the style of a security guard who's watching for any person or vehicle. No one is allowed to be in this area. Pay attention to details and the behavior and outerwear. Only mention timestamps if the video includes timestamps. Only include narration."}
+            {
+                "role": "user",
+                "content": [
+                    "These are frames of a video. Commentate in the style of a security guard who's watching for any person or vehicle. No one is allowed to be in this area. Pay attention to details and behavior and outerwear and any possible threats. Only mention timestamps if the video includes timestamps. Only include narration.",
+                    *map(lambda x: {"image": x, "resize": 768}, base64Frames),
+                ],
+            },
         ]
-        # Add each frame as an individual message
-        for base64_frame in limited_base64Frames:
-            prompt_messages.append({"role": "user", "content": f"Frame: data:image/jpeg;base64,{base64_frame}"})
-
         params = {
-            "model": "gpt-4o",  # Assuming gpt-4-turbo, adjust if using a different model
+            "model": "gpt-4o",
             "messages": prompt_messages,
             "max_tokens": 500,
         }
