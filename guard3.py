@@ -12,6 +12,7 @@ import time
 import logging
 import json
 import os
+from datetime import datetime
 
 # Initialize the OpenAI client with your API key from environment variables
 openai_api_key = st.secrets["secrets"]["OPENAI_API_KEY"]
@@ -29,9 +30,9 @@ logging.basicConfig(filename='error_log.log', level=logging.ERROR,
 log_dir = tempfile.gettempdir()
 
 # Function to log OpenAI responses
-def log_openai_response(video_clip_path, openai_response, log_file="log_history.json"):
+def log_openai_response(frames, openai_response, log_file="log_history.json"):
     log_entry = {
-        "video_clip": video_clip_path,
+        "frames": frames,
         "openai_response": openai_response,
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
     }
@@ -116,7 +117,7 @@ def generate_openai_response(base64Frames):
             {
                 "role": "user",
                 "content": [
-                    "These are frames of a video. Commentate in the style of a security guard who's watching for any person or vehicle. No one is allowed to be in this area. Keep it detailed and concise. Each description should be around 15-20 words. Only mention timestamps if the video includes timestamps. Only include narration.",
+                    "These are frames of a video. You are the best security guard in the world. You pay attention to little details and you're super vigilant. Commentate in the style of a security guard who's watching for any person or vehicle or anything that stands out. Focus also on clothing and behavior and anything you redeem relevant. Only mention timestamps if the video includes timestamps. Only include narration.",
                     *map(lambda x: {"image": x, "resize": 768}, base64Frames),
                 ],
             },
@@ -143,20 +144,9 @@ def resize_frame(frame, width=640, height=360):
         logging.error(error_message)
         return frame
 
-def create_video_clip(frames, output_path, fps=30):
-    height, width, layers = frames[0].shape
-    size = (width, height)
-    out = cv2.VideoWriter(output_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, size)
-
-    for frame in frames:
-        out.write(frame)
-    out.release()
-
 def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock, body_cascade):
     frame_counter = 0
     batch_size = 10  # Send every 10 frames
-    clip_counter = 0
-    max_frames_per_request = 100  # Adjust this number as needed
 
     while not stop_event.is_set():
         try:
@@ -165,28 +155,24 @@ def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock, body
                 frames_to_analyze = [buffer_queue.pop(0) for _ in range(batch_size)]
                 analysis_lock.release()
 
-                # Create a video clip from frames
-                clip_path = os.path.join(log_dir, f"clip_{clip_counter}.mp4")
-                create_video_clip(frames_to_analyze, clip_path)
-                clip_counter += 1
-
                 # Convert frames to base64
                 base64Frames = [base64.b64encode(cv2.imencode('.jpg', frame)[1]).decode('utf-8') for frame in frames_to_analyze]
 
+                # Prepare thumbnails HTML
+                thumbnails_html = '<div style="white-space: nowrap; overflow-x: auto;">'
+                for base64_frame in base64Frames:
+                    thumbnails_html += f'<img src="data:image/jpeg;base64,{base64_frame}" style="display: inline-block; margin-right: 5px;" width="100"/>'
+                thumbnails_html += '</div>'
+
                 # Send frames to OpenAI for analysis
-                st.write(f"Sending frames to OpenAI for analysis: {len(frames_to_analyze)} frames")
+                st.write(f"Sending frames to OpenAI for analysis: {len(base64Frames)} frames")
                 response = generate_openai_response(base64Frames)
 
-                # Log the response along with the video clip
-                log_openai_response(clip_path, response)
-
-                st.write(f"OpenAI Response: {response}")
-
-                # Recheck for the presence of a person in the frames
-                pedestrian_detected_flag = any(detect_person(frame, body_cascade) for frame in frames_to_analyze)
+                # Log the response along with the frames
+                log_openai_response(base64Frames, response)
 
                 # Send results to analysis_queue
-                analysis_queue.put(("video_clip", clip_path))
+                analysis_queue.put(("thumbnails", thumbnails_html))
                 analysis_queue.put(("incident_report", f"OpenAI Response for batch {frame_counter // batch_size + 1}: {response}"))
                 frame_counter += batch_size
             else:
@@ -197,17 +183,24 @@ def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock, body
             logging.error(error_message)
         time.sleep(1)  # Adjust this value to control analysis frequency
 
-def display_log_history():
+def display_log_history(selected_date=None):
     log_path = os.path.join(log_dir, "log_history.json")
     if os.path.exists(log_path):
         with open(log_path, "r") as f:
             log_history = json.load(f)
         
+        if selected_date:
+            log_history = [entry for entry in log_history if entry["timestamp"].startswith(selected_date)]
+        
         for entry in log_history:
             st.write(f"Timestamp: {entry['timestamp']}")
             st.write(f"OpenAI Response: {entry['openai_response']}")
-            video_path = entry["video_clip"]
-            st.video(video_path)
+            frames = entry.get("frames", [])
+            thumbnails_html = '<div style="white-space: nowrap; overflow-x: auto;">'
+            for frame in frames:
+                thumbnails_html += f'<img src="data:image/jpeg;base64,{frame}" style="display: inline-block; margin-right: 5px;" width="100"/>'
+            thumbnails_html += '</div>'
+            st.markdown(thumbnails_html, unsafe_allow_html=True)
     else:
         st.write("No log history available.")
 
@@ -263,6 +256,7 @@ def main():
             def process_frames():
                 nonlocal person_detected, base64Frames, buffer_queue, pedestrian_detected_flag
                 frame_counter = 0
+                message_displayed = False
 
                 while not stop_event.is_set():
                     try:
@@ -286,8 +280,10 @@ def main():
                             pedestrian_detected_flag[0] = True
                             st.write("Person detected. Collecting frames for analysis.")
                             frame_counter = 0  # Reset frame counter when a person is detected
-                        elif person_detected:
+                            message_displayed = False
+                        elif person_detected and not message_displayed:
                             st.write("Continuing to send frames for analysis until the next batch is processed.")
+                            message_displayed = True
                         
                         if person_detected:
                             analysis_lock.acquire()
@@ -299,9 +295,9 @@ def main():
                         # Process analysis results from the queue
                         while not analysis_queue.empty():
                             item_type, content = analysis_queue.get()
-                            if item_type == "video_clip":
-                                video_clip_container = st.empty()
-                                video_clip_container.video(content)
+                            if item_type == "thumbnails":
+                                thumbnails_container = st.empty()
+                                thumbnails_container.markdown(content, unsafe_allow_html=True)
                             elif item_type == "incident_report":
                                 incident_report_placeholder = st.empty()
                                 incident_report_placeholder.write(content)
@@ -331,7 +327,10 @@ def main():
 
     with col2:
         st.header("Log History")
-        display_log_history()
+
+        selected_date = st.date_input("Select a date to view log history:")
+        selected_date_str = selected_date.strftime("%Y-%m-%d")
+        display_log_history(selected_date_str)
 
         st.header("Chatbot")
         user_query = st.text_input("Ask a question about the log history:", key="user_query")
