@@ -7,3 +7,4 @@ pydub
 ffmpeg-python
 moviepy
 streamlink
+aiohttp
