@@ -57,7 +57,7 @@ def log_openai_response(frames, openai_response, log_file="log_history.json"):
 def detect_person(frame, body_cascade):
     try:
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        bodies = body_cascade.detectMultiScale(gray, 1.1, 4)
+        bodies = body_cascade.detectMultiScale(gray, scaleFactor=1.05, minNeighbors=2, minSize=(30, 30))
         return len(bodies) > 0
     except Exception as e:
         error_message = f"Error in detect_person: {e}"
@@ -164,7 +164,7 @@ async def generate_openai_response(session, base64Frames):
         logging.error(error_message)
         return "Error generating response."
 
-def resize_frame(frame, width=320, height=180):
+def resize_frame(frame, width=400, height=225):
     try:
         return cv2.resize(frame, (width, height))
     except Exception as e:
@@ -209,7 +209,7 @@ def display_log_history(selected_date=None):
     log_path = os.path.join(log_dir, "log_history.json")
     if os.path.exists(log_path):
         try:
-            with open(log_path, "r") as f:
+            with open(log_path, "r") as f):
                 log_history = json.load(f)
         except json.JSONDecodeError as e:
             st.error(f"Error reading log history: {e}")
@@ -243,7 +243,7 @@ def query_logs(query, log_file="log_history.json"):
             return "Error reading log history."
         
         # Format log history as context for the chatbot
-        context = "\n".join([f"Timestamp: {entry['timestamp']}\nResponse: {entry['openai_response']}" for entry in log_history])
+        context = "\n.join([f"Timestamp: {entry['timestamp']}\nResponse: {entry['openai_response']}" for entry in log_history])
         
         prompt_messages = [
             {"role": "system", "content": "You are an assistant that answers questions based on the log history of OpenAI responses."},
@@ -302,7 +302,7 @@ def main():
 
                         for i, frame in enumerate(frames):
                             # Resize the frame to a smaller size for display
-                            resized_frame = resize_frame(frame, width=320, height=180)
+                            resized_frame = resize_frame(frame, width=400, height=225)
                             
                             # Update the live stream frame
                             display_placeholder.image(resized_frame, channels="BGR", caption="Live Stream")
