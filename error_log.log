@@ -1,27 +1,1447 @@
-2024-06-11 14:12:25,817 error:Error in analyze_frames: name 'base64' is not defined
-2024-06-11 14:12:29,858 error:Error in analyze_frames: name 'base64' is not defined
-2024-06-11 14:12:33,907 error:Error in analyze_frames: name 'base64' is not defined
-2024-06-11 14:12:37,955 error:Error in analyze_frames: name 'base64' is not defined
-2024-06-11 14:12:41,992 error:Error in analyze_frames: name 'base64' is not defined
-2024-06-11 14:12:46,037 error:Error in analyze_frames: name 'base64' is not defined
-2024-06-11 14:12:50,077 error:Error in analyze_frames: name 'base64' is not defined
-2024-06-11 14:12:54,125 error:Error in analyze_frames: name 'base64' is not defined
-2024-06-11 14:12:58,156 error:Error in analyze_frames: name 'base64' is not defined
-2024-06-11 14:13:01,190 error:Error in analyze_frames: name 'base64' is not defined
-2024-06-11 14:13:05,231 error:Error in analyze_frames: name 'base64' is not defined
-2024-06-11 14:13:09,292 error:Error in analyze_frames: name 'base64' is not defined
-2024-06-11 14:13:13,362 error:Error in analyze_frames: name 'base64' is not defined
-2024-06-11 14:13:17,403 error:Error in analyze_frames: name 'base64' is not defined
-2024-06-11 14:13:20,427 error:Error in analyze_frames: name 'base64' is not defined
-2024-06-11 14:13:24,466 error:Error in analyze_frames: name 'base64' is not defined
-2024-06-11 14:15:19,318 error:Error in analyze_frames: name 'body_cascade' is not defined
-2024-06-11 14:15:28,900 error:Error in analyze_frames: name 'body_cascade' is not defined
-2024-06-11 14:15:31,182 error:Error in generate_openai_response: Error code: 400 - {'error': {'message': "You uploaded an unsupported image. Please make sure your image is below 20 MB in size and is of one the following formats: ['png', 'jpeg', 'gif', 'webp'].", 'type': 'invalid_request_error', 'param': None, 'code': 'sanitizer_server_error'}}
-2024-06-11 14:15:31,183 error:Error in analyze_frames: name 'body_cascade' is not defined
-2024-06-11 14:15:52,930 error:Error in analyze_frames: name 'body_cascade' is not defined
-2024-06-11 14:16:04,273 error:Error in analyze_frames: name 'body_cascade' is not defined
-2024-06-11 14:16:15,541 error:Error in analyze_frames: name 'body_cascade' is not defined
-2024-06-11 14:16:32,844 error:Error in analyze_frames: name 'body_cascade' is not defined
-2024-06-11 14:16:49,059 error:Error in analyze_frames: name 'body_cascade' is not defined
-2024-06-11 14:17:03,122 error:Error in analyze_frames: name 'body_cascade' is not defined
-2024-06-11 14:33:03,251 error:Error in generate_openai_response: Error code: 400 - {'error': {'message': "You uploaded an unsupported image. Please make sure your image is below 20 MB in size and is of one the following formats: ['png', 'jpeg', 'gif', 'webp'].", 'type': 'invalid_request_error', 'param': None, 'code': 'sanitizer_server_error'}}
+2024-06-13 18:03:17,695 debug:load_ssl_context verify=True cert=None trust_env=True http2=False
+2024-06-13 18:03:17,696 debug:load_verify_locations cafile='/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/certifi/cacert.pem'
+2024-06-13 18:03:18,419 debug:load_ssl_context verify=True cert=None trust_env=True http2=False
+2024-06-13 18:03:18,462 debug:load_verify_locations cafile='/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/certifi/cacert.pem'
+2024-06-13 18:03:18,508 info:Attempting to retrieve streams for URL: https://www.youtube.com/watch?v=3LXQWU67Ufk
+2024-06-13 18:03:18,517 debug:Using selector: KqueueSelector
+2024-06-13 18:03:19,385 debug:Starting new HTTPS connection (1): www.youtube.com:443
+2024-06-13 18:03:19,591 debug:https://www.youtube.com:443 "GET /watch?v=3LXQWU67Ufk HTTP/1.1" 200 None
+2024-06-13 18:03:19,995 debug:Starting new HTTPS connection (1): manifest.googlevideo.com:443
+2024-06-13 18:03:20,306 debug:https://manifest.googlevideo.com:443 "GET /api/manifest/hls_variant/expire/1718348599/ei/15ZrZrS0JeK1sfIPpPeD2A4/ip/72.216.175.180/id/3LXQWU67Ufk.1/source/yt_live_broadcast/requiressl/yes/xpc/EgVo2aDSNQ%3D%3D/hfr/1/playlist_duration/30/manifest_duration/30/maudio/1/spc/UWF9f5ZTc_cd0QNQubXryl6nQhmmkPmVZZagxf-P5bNmvSQpqwHzB6Pk2T3r3Qk/vprv/1/go/1/rqh/5/pacing/0/nvgoi/1/keepalive/yes/dover/11/itag/0/playlist_type/DVR/sparams/expire%2Cei%2Cip%2Cid%2Csource%2Crequiressl%2Cxpc%2Chfr%2Cplaylist_duration%2Cmanifest_duration%2Cmaudio%2Cspc%2Cvprv%2Cgo%2Crqh%2Citag%2Cplaylist_type/sig/AJfQdSswRQIhAJwMLnLBqTkjJ0RMy5o3Fu918jGZwWhRSRnMmcW_bi-gAiBeu4w3EwDXtQ9VfB0jVhLy7GdB75f3OWShZbVqNa3f_w%3D%3D/file/index.m3u8 HTTP/1.1" 200 None
+2024-06-13 18:03:20,310 info:Streams found: dict_keys(['144p', '240p', '360p', '480p', '720p', '1080p', 'worst', 'best'])
+2024-06-13 18:03:35,897 debug:Captured and queued frames. Sleeping for 0 seconds.
+2024-06-13 18:03:43,634 debug:Sending batch 1 to OpenAI for analysis.
+2024-06-13 18:03:43,637 info:Sending 10 frames to OpenAI for analysis.
+2024-06-13 18:03:50,266 debug:Captured and queued frames. Sleeping for 0 seconds.
+2024-06-13 18:03:57,671 debug:Sending batch 2 to OpenAI for analysis.
+2024-06-13 18:03:57,671 info:Sending 10 frames to OpenAI for analysis.
+2024-06-13 18:04:04,596 debug:Captured and queued frames. Sleeping for 0 seconds.
+2024-06-13 18:04:06,603 debug:OpenAI response: Alright, we're monitoring a lively scene here. Starting with the storefront on the left side, there's a person in a light brown coat with long sleeves, wearing a hat, interacting with the colorful tables and chairs. This individual appears to be holding some kind of flyer or pamphlet. To their left, a few outdoor diners are seated around the bright red and green tables.
+
+Center frame, a biker in dark shorts and a grey hoodie moves diagonally across the pedestrian path. He maintains consistent speed, showing no signs of stopping—nothing suspicious, but worth noting his movement. Directly ahead of him, and moving slowly, is another identifiable person, pushing a stroller. Closer to the benches and green spaces, a man in a light blue hoodie walks past; he's accompanied by a person in green pants and carrying a backpack.
+
+As each second ticks by, more individuals come into view. Two women, one in a blue jacket with darker shorts, the other in what seems to be black leggings and sneakers, walk side-by-side, focusing intently on their surroundings. There’s a consistent flow of people moving through the scene, most minding their own business. Another biker, noticeable in darker gear and a helmet, joins the frame from the back.
+
+Pay attention to a couple in matching hats, traversing from right to left. Their casual attire includes black jackets and relaxed-fit pants. Moving our gaze back to the left, we get a better look at a storefront with a bright red, eye-catching sign. A tall figure in green attire with a backpack mingles near the beachside path, easily visible near the mid-center frame.
+
+Transitioning to a new group, a person in a striped top and shorts emerges. It’s worth noting this individual's frequent shifts in position, suggesting an erratic walking pattern. By the next timestamp, another significant character—wearing a well-padded dark jacket with noticeable reflective patches—takes focus as they cover ground towards the bottom right.
+
+Further observations involve a light stream of patrons around the cafe setup, with noticeable chatter and exchanging of items, though nothing over-the-top takes place.
+
+Lastly, a biker on the furthest right nimbly navigates through, avoiding pedestrians. His gear is a defining black with possibly some reflective gear or accessories.
+
+All in all, a generally calm yet lively environment. Vigilance remains high as this diverse group populates the area effortlessly.
+2024-06-13 18:04:07,289 debug:Logged OpenAI response: Alright, we're monitoring a lively scene here. Starting with the storefront on the left side, there's a person in a light brown coat with long sleeves, wearing a hat, interacting with the colorful tables and chairs. This individual appears to be holding some kind of flyer or pamphlet. To their left, a few outdoor diners are seated around the bright red and green tables.
+
+Center frame, a biker in dark shorts and a grey hoodie moves diagonally across the pedestrian path. He maintains consistent speed, showing no signs of stopping—nothing suspicious, but worth noting his movement. Directly ahead of him, and moving slowly, is another identifiable person, pushing a stroller. Closer to the benches and green spaces, a man in a light blue hoodie walks past; he's accompanied by a person in green pants and carrying a backpack.
+
+As each second ticks by, more individuals come into view. Two women, one in a blue jacket with darker shorts, the other in what seems to be black leggings and sneakers, walk side-by-side, focusing intently on their surroundings. There’s a consistent flow of people moving through the scene, most minding their own business. Another biker, noticeable in darker gear and a helmet, joins the frame from the back.
+
+Pay attention to a couple in matching hats, traversing from right to left. Their casual attire includes black jackets and relaxed-fit pants. Moving our gaze back to the left, we get a better look at a storefront with a bright red, eye-catching sign. A tall figure in green attire with a backpack mingles near the beachside path, easily visible near the mid-center frame.
+
+Transitioning to a new group, a person in a striped top and shorts emerges. It’s worth noting this individual's frequent shifts in position, suggesting an erratic walking pattern. By the next timestamp, another significant character—wearing a well-padded dark jacket with noticeable reflective patches—takes focus as they cover ground towards the bottom right.
+
+Further observations involve a light stream of patrons around the cafe setup, with noticeable chatter and exchanging of items, though nothing over-the-top takes place.
+
+Lastly, a biker on the furthest right nimbly navigates through, avoiding pedestrians. His gear is a defining black with possibly some reflective gear or accessories.
+
+All in all, a generally calm yet lively environment. Vigilance remains high as this diverse group populates the area effortlessly.
+2024-06-13 18:04:07,289 debug:OpenAI Response for batch 1: Alright, we're monitoring a lively scene here. Starting with the storefront on the left side, there's a person in a light brown coat with long sleeves, wearing a hat, interacting with the colorful tables and chairs. This individual appears to be holding some kind of flyer or pamphlet. To their left, a few outdoor diners are seated around the bright red and green tables.
+
+Center frame, a biker in dark shorts and a grey hoodie moves diagonally across the pedestrian path. He maintains consistent speed, showing no signs of stopping—nothing suspicious, but worth noting his movement. Directly ahead of him, and moving slowly, is another identifiable person, pushing a stroller. Closer to the benches and green spaces, a man in a light blue hoodie walks past; he's accompanied by a person in green pants and carrying a backpack.
+
+As each second ticks by, more individuals come into view. Two women, one in a blue jacket with darker shorts, the other in what seems to be black leggings and sneakers, walk side-by-side, focusing intently on their surroundings. There’s a consistent flow of people moving through the scene, most minding their own business. Another biker, noticeable in darker gear and a helmet, joins the frame from the back.
+
+Pay attention to a couple in matching hats, traversing from right to left. Their casual attire includes black jackets and relaxed-fit pants. Moving our gaze back to the left, we get a better look at a storefront with a bright red, eye-catching sign. A tall figure in green attire with a backpack mingles near the beachside path, easily visible near the mid-center frame.
+
+Transitioning to a new group, a person in a striped top and shorts emerges. It’s worth noting this individual's frequent shifts in position, suggesting an erratic walking pattern. By the next timestamp, another significant character—wearing a well-padded dark jacket with noticeable reflective patches—takes focus as they cover ground towards the bottom right.
+
+Further observations involve a light stream of patrons around the cafe setup, with noticeable chatter and exchanging of items, though nothing over-the-top takes place.
+
+Lastly, a biker on the furthest right nimbly navigates through, avoiding pedestrians. His gear is a defining black with possibly some reflective gear or accessories.
+
+All in all, a generally calm yet lively environment. Vigilance remains high as this diverse group populates the area effortlessly.
+2024-06-13 18:04:07,290 error:Task exception was never retrieved
+future: <Task finished name='Task-2361' coro=<handle_openai_response() done, defined at /Users/naji.mounsef/Documents/vaiguard-1/guard3.py:207> exception=NoSessionContext()>
+Traceback (most recent call last):
+  File "/Users/naji.mounsef/Documents/vaiguard-1/guard3.py", line 216, in handle_openai_response
+    display_placeholder.markdown(f"### OpenAI Response for batch {batch_number}:\n{response}")
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/runtime/metrics_util.py", line 397, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/elements/markdown.py", line 106, in markdown
+    return self.dg._enqueue("markdown", markdown_proto)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 530, in _enqueue
+    _enqueue_message(msg)
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 869, in _enqueue_message
+    raise NoSessionContext()
+streamlit.errors.NoSessionContext
+2024-06-13 18:04:12,347 debug:Sending batch 3 to OpenAI for analysis.
+2024-06-13 18:04:12,347 info:Sending 10 frames to OpenAI for analysis.
+2024-06-13 18:04:16,894 debug:OpenAI response: Alright, let’s keep a sharp eye on the scene here.
+
+18:03:19 - Observing several pedestrians along the walkway. Notably, a person near the sandwich shop wearing a gray and white jacket with a hood. They're stationary for now, perhaps looking at the menu.
+
+18:03:20 - Foot traffic remains steady. Same person by the sandwich shop; their behavior remains unchanged. A person in a yellow costume or jacket is visible near the center, which is quite eye-catching.
+
+18:03:21 - More movement detected. The individual in the yellow jacket seems to be chatting with a person to their left. Another individual, dressed in red shorts and black top, is walking towards the camera.
+
+18:03:22 - The person in red shorts continues to approach the camera. The person near the sandwich shop is now adjusting their hood. People generally moving and minding their business.
+
+18:03:23 - Eye-catching yellow jacket person still central in the frame. Foot traffic increasing slightly. No unusual behavior yet.
+
+18:03:24 - Person in a blue sweater and black pants to the right seems to be walking slowly, possibly looking for something or someone. The sandwich shop patrons appear to be a bit more active now.
+
+18:03:25 - Yellow jacket individual still communicative with surrounding people; no signs of distress or suspicious activity. Shoppers with bags are moving towards the upper end of the frame.
+
+18:03:26 - Another pedestrian, dressed in dark clothing, moves toward the bottom right of the screen, carrying a red bag. Nothing seems off.
+
+18:03:27 - Person in yellow jacket remains engaged with their group. People around the benches on the right looking relaxed.
+
+18:03:28 - Continuing to monitor all individuals. The flow of people remains consistent. Notable person in yellow jacket leaving the frame to the upper end, but no unusual or suspicious activity detected.
+
+All in all, typical busy walkway scene. Everyone seems engrossed in their activities, and nothing suspicious has been flagged. Will continue to observe and report any irregularities.
+2024-06-13 18:04:17,463 debug:Logged OpenAI response: Alright, let’s keep a sharp eye on the scene here.
+
+18:03:19 - Observing several pedestrians along the walkway. Notably, a person near the sandwich shop wearing a gray and white jacket with a hood. They're stationary for now, perhaps looking at the menu.
+
+18:03:20 - Foot traffic remains steady. Same person by the sandwich shop; their behavior remains unchanged. A person in a yellow costume or jacket is visible near the center, which is quite eye-catching.
+
+18:03:21 - More movement detected. The individual in the yellow jacket seems to be chatting with a person to their left. Another individual, dressed in red shorts and black top, is walking towards the camera.
+
+18:03:22 - The person in red shorts continues to approach the camera. The person near the sandwich shop is now adjusting their hood. People generally moving and minding their business.
+
+18:03:23 - Eye-catching yellow jacket person still central in the frame. Foot traffic increasing slightly. No unusual behavior yet.
+
+18:03:24 - Person in a blue sweater and black pants to the right seems to be walking slowly, possibly looking for something or someone. The sandwich shop patrons appear to be a bit more active now.
+
+18:03:25 - Yellow jacket individual still communicative with surrounding people; no signs of distress or suspicious activity. Shoppers with bags are moving towards the upper end of the frame.
+
+18:03:26 - Another pedestrian, dressed in dark clothing, moves toward the bottom right of the screen, carrying a red bag. Nothing seems off.
+
+18:03:27 - Person in yellow jacket remains engaged with their group. People around the benches on the right looking relaxed.
+
+18:03:28 - Continuing to monitor all individuals. The flow of people remains consistent. Notable person in yellow jacket leaving the frame to the upper end, but no unusual or suspicious activity detected.
+
+All in all, typical busy walkway scene. Everyone seems engrossed in their activities, and nothing suspicious has been flagged. Will continue to observe and report any irregularities.
+2024-06-13 18:04:17,464 debug:OpenAI Response for batch 2: Alright, let’s keep a sharp eye on the scene here.
+
+18:03:19 - Observing several pedestrians along the walkway. Notably, a person near the sandwich shop wearing a gray and white jacket with a hood. They're stationary for now, perhaps looking at the menu.
+
+18:03:20 - Foot traffic remains steady. Same person by the sandwich shop; their behavior remains unchanged. A person in a yellow costume or jacket is visible near the center, which is quite eye-catching.
+
+18:03:21 - More movement detected. The individual in the yellow jacket seems to be chatting with a person to their left. Another individual, dressed in red shorts and black top, is walking towards the camera.
+
+18:03:22 - The person in red shorts continues to approach the camera. The person near the sandwich shop is now adjusting their hood. People generally moving and minding their business.
+
+18:03:23 - Eye-catching yellow jacket person still central in the frame. Foot traffic increasing slightly. No unusual behavior yet.
+
+18:03:24 - Person in a blue sweater and black pants to the right seems to be walking slowly, possibly looking for something or someone. The sandwich shop patrons appear to be a bit more active now.
+
+18:03:25 - Yellow jacket individual still communicative with surrounding people; no signs of distress or suspicious activity. Shoppers with bags are moving towards the upper end of the frame.
+
+18:03:26 - Another pedestrian, dressed in dark clothing, moves toward the bottom right of the screen, carrying a red bag. Nothing seems off.
+
+18:03:27 - Person in yellow jacket remains engaged with their group. People around the benches on the right looking relaxed.
+
+18:03:28 - Continuing to monitor all individuals. The flow of people remains consistent. Notable person in yellow jacket leaving the frame to the upper end, but no unusual or suspicious activity detected.
+
+All in all, typical busy walkway scene. Everyone seems engrossed in their activities, and nothing suspicious has been flagged. Will continue to observe and report any irregularities.
+2024-06-13 18:04:17,464 error:Task exception was never retrieved
+future: <Task finished name='Task-4300' coro=<handle_openai_response() done, defined at /Users/naji.mounsef/Documents/vaiguard-1/guard3.py:207> exception=NoSessionContext()>
+Traceback (most recent call last):
+  File "/Users/naji.mounsef/Documents/vaiguard-1/guard3.py", line 216, in handle_openai_response
+    display_placeholder.markdown(f"### OpenAI Response for batch {batch_number}:\n{response}")
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/runtime/metrics_util.py", line 397, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/elements/markdown.py", line 106, in markdown
+    return self.dg._enqueue("markdown", markdown_proto)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 530, in _enqueue
+    _enqueue_message(msg)
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 869, in _enqueue_message
+    raise NoSessionContext()
+streamlit.errors.NoSessionContext
+2024-06-13 18:04:19,113 debug:Captured and queued frames. Sleeping for 0 seconds.
+2024-06-13 18:04:26,500 debug:Sending batch 4 to OpenAI for analysis.
+2024-06-13 18:04:26,501 info:Sending 10 frames to OpenAI for analysis.
+2024-06-13 18:06:05,348 debug:load_ssl_context verify=True cert=None trust_env=True http2=False
+2024-06-13 18:06:05,349 debug:load_verify_locations cafile='/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/certifi/cacert.pem'
+2024-06-13 18:06:05,385 info:Attempting to retrieve streams for URL: https://www.youtube.com/watch?v=3LXQWU67Ufk
+2024-06-13 18:06:05,385 debug:Using selector: KqueueSelector
+2024-06-13 18:06:05,468 debug:Starting new HTTPS connection (1): www.youtube.com:443
+2024-06-13 18:06:05,691 debug:https://www.youtube.com:443 "GET /watch?v=3LXQWU67Ufk HTTP/1.1" 200 None
+2024-06-13 18:06:06,159 debug:Starting new HTTPS connection (1): manifest.googlevideo.com:443
+2024-06-13 18:06:06,507 debug:https://manifest.googlevideo.com:443 "GET /api/manifest/hls_variant/expire/1718348765/ei/fZdrZt3BK_vRsfIP74inqAQ/ip/72.216.175.180/id/3LXQWU67Ufk.1/source/yt_live_broadcast/requiressl/yes/xpc/EgVo2aDSNQ%3D%3D/hfr/1/playlist_duration/30/manifest_duration/30/maudio/1/spc/UWF9f3AElFSmXSXYTTvqfz0A2GLmnvVIWMWFKInBYHRHv0tadIdIQ7JVCuChWSQ/vprv/1/go/1/rqh/5/pacing/0/nvgoi/1/keepalive/yes/dover/11/itag/0/playlist_type/DVR/sparams/expire%2Cei%2Cip%2Cid%2Csource%2Crequiressl%2Cxpc%2Chfr%2Cplaylist_duration%2Cmanifest_duration%2Cmaudio%2Cspc%2Cvprv%2Cgo%2Crqh%2Citag%2Cplaylist_type/sig/AJfQdSswRQIgC4K7fEdFD9nDgljiEoWTTfQzArsEnE1EntfWc3XeXncCIQCNxluXCDmaaP58JQe_MDMeb_Ww-sKx9gqr2Y8rLRj7ug%3D%3D/file/index.m3u8 HTTP/1.1" 200 None
+2024-06-13 18:06:06,510 info:Streams found: dict_keys(['144p', '240p', '360p', '480p', '720p', '1080p', 'worst', 'best'])
+2024-06-13 18:06:23,507 debug:Captured and queued frames. Sleeping for 0 seconds.
+2024-06-13 18:06:34,160 debug:load_ssl_context verify=True cert=None trust_env=True http2=False
+2024-06-13 18:06:34,162 debug:load_verify_locations cafile='/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/certifi/cacert.pem'
+2024-06-13 18:06:38,747 debug:Captured and queued frames. Sleeping for 0 seconds.
+2024-06-13 18:06:43,535 debug:Sending batch 1 to OpenAI for analysis.
+2024-06-13 18:06:43,535 info:Sending 10 frames to OpenAI for analysis.
+2024-06-13 18:06:53,866 debug:Captured and queued frames. Sleeping for 0 seconds.
+2024-06-13 18:06:59,583 debug:Sending batch 2 to OpenAI for analysis.
+2024-06-13 18:06:59,583 info:Sending 10 frames to OpenAI for analysis.
+2024-06-13 18:07:06,249 debug:OpenAI response: Alright, I'm keeping an eye on the frames for any key details. Here's what I observe:
+
+**Frame 1:** 
+- A small gathering on the left sitting on blankets, likely tourists or local visitors enjoying the day.
+- A cyclist moving along the path at a moderate speed.
+- A group of four individuals walking on the pavement in the forefront. One wearing a blue cap and blue checkered shirt, holding a red drink can.  
+- Another individual in a dark shirt and carrying a skateboard, looking around. Potential skater.
+- A person in a white shirt and shorts walking with a phone.
+
+**Frame 2:**
+- The skater in the dark shirt is making their way along the pavement, still carrying the skateboard.
+- The group of four is slightly ahead now, still in the same configuration.
+- The person with the drink can in blue checkered shirt is closest to the camera.
+
+**Frame 3:**
+- The skater has moved further ahead, as if potentially intending to sit or skate.
+- The group of four continues to walk; the individual in blue cap and checkered shirt is engaging in conversation with the others.
+- Someone can be seen sitting on the left, now slightly adjusting their position on the blanket.
+
+**Frame 4:**
+- The cyclist on the left is making steady progress, maintaining their speed.
+- The blue-cap individual continues to lead the group, walking with purpose.
+- The person in white shorts and shirt seems to be looking towards the beach area briefly.
+
+**Frame 5:**
+- The skater is now much further ahead, almost in front of the stand with "Help for Syria" sign.
+- The person in the red top on the left has started walking towards the camera.
+- Regular activity continues on the beach and promenade.
+
+**Frame 6:**
+- The group of four becomes more distributed; the skater turned back.
+- Two cyclists in the background maintain their pace along the beach path.
+- Occasional visitors moving along the vendors' stalls on the right, noting the stand activity.
+
+**Frame 7:**
+- The skater has halted, now standing temporarily.
+- The individual in red walking closer towards the group from the camera’s viewpoint.
+- The checkered shirt individual is now at the focus of the group, still holding the red drink can.
+  
+**Frame 8:**
+- The skater resumes their path, headed towards the standing table setup under the sign.
+- A significant
+2024-06-13 18:07:06,854 debug:Logged OpenAI response: Alright, I'm keeping an eye on the frames for any key details. Here's what I observe:
+
+**Frame 1:** 
+- A small gathering on the left sitting on blankets, likely tourists or local visitors enjoying the day.
+- A cyclist moving along the path at a moderate speed.
+- A group of four individuals walking on the pavement in the forefront. One wearing a blue cap and blue checkered shirt, holding a red drink can.  
+- Another individual in a dark shirt and carrying a skateboard, looking around. Potential skater.
+- A person in a white shirt and shorts walking with a phone.
+
+**Frame 2:**
+- The skater in the dark shirt is making their way along the pavement, still carrying the skateboard.
+- The group of four is slightly ahead now, still in the same configuration.
+- The person with the drink can in blue checkered shirt is closest to the camera.
+
+**Frame 3:**
+- The skater has moved further ahead, as if potentially intending to sit or skate.
+- The group of four continues to walk; the individual in blue cap and checkered shirt is engaging in conversation with the others.
+- Someone can be seen sitting on the left, now slightly adjusting their position on the blanket.
+
+**Frame 4:**
+- The cyclist on the left is making steady progress, maintaining their speed.
+- The blue-cap individual continues to lead the group, walking with purpose.
+- The person in white shorts and shirt seems to be looking towards the beach area briefly.
+
+**Frame 5:**
+- The skater is now much further ahead, almost in front of the stand with "Help for Syria" sign.
+- The person in the red top on the left has started walking towards the camera.
+- Regular activity continues on the beach and promenade.
+
+**Frame 6:**
+- The group of four becomes more distributed; the skater turned back.
+- Two cyclists in the background maintain their pace along the beach path.
+- Occasional visitors moving along the vendors' stalls on the right, noting the stand activity.
+
+**Frame 7:**
+- The skater has halted, now standing temporarily.
+- The individual in red walking closer towards the group from the camera’s viewpoint.
+- The checkered shirt individual is now at the focus of the group, still holding the red drink can.
+  
+**Frame 8:**
+- The skater resumes their path, headed towards the standing table setup under the sign.
+- A significant
+2024-06-13 18:07:06,855 debug:OpenAI Response for batch 1: Alright, I'm keeping an eye on the frames for any key details. Here's what I observe:
+
+**Frame 1:** 
+- A small gathering on the left sitting on blankets, likely tourists or local visitors enjoying the day.
+- A cyclist moving along the path at a moderate speed.
+- A group of four individuals walking on the pavement in the forefront. One wearing a blue cap and blue checkered shirt, holding a red drink can.  
+- Another individual in a dark shirt and carrying a skateboard, looking around. Potential skater.
+- A person in a white shirt and shorts walking with a phone.
+
+**Frame 2:**
+- The skater in the dark shirt is making their way along the pavement, still carrying the skateboard.
+- The group of four is slightly ahead now, still in the same configuration.
+- The person with the drink can in blue checkered shirt is closest to the camera.
+
+**Frame 3:**
+- The skater has moved further ahead, as if potentially intending to sit or skate.
+- The group of four continues to walk; the individual in blue cap and checkered shirt is engaging in conversation with the others.
+- Someone can be seen sitting on the left, now slightly adjusting their position on the blanket.
+
+**Frame 4:**
+- The cyclist on the left is making steady progress, maintaining their speed.
+- The blue-cap individual continues to lead the group, walking with purpose.
+- The person in white shorts and shirt seems to be looking towards the beach area briefly.
+
+**Frame 5:**
+- The skater is now much further ahead, almost in front of the stand with "Help for Syria" sign.
+- The person in the red top on the left has started walking towards the camera.
+- Regular activity continues on the beach and promenade.
+
+**Frame 6:**
+- The group of four becomes more distributed; the skater turned back.
+- Two cyclists in the background maintain their pace along the beach path.
+- Occasional visitors moving along the vendors' stalls on the right, noting the stand activity.
+
+**Frame 7:**
+- The skater has halted, now standing temporarily.
+- The individual in red walking closer towards the group from the camera’s viewpoint.
+- The checkered shirt individual is now at the focus of the group, still holding the red drink can.
+  
+**Frame 8:**
+- The skater resumes their path, headed towards the standing table setup under the sign.
+- A significant
+2024-06-13 18:07:06,855 error:Task exception was never retrieved
+future: <Task finished name='Task-2595' coro=<handle_openai_response() done, defined at /Users/naji.mounsef/Documents/vaiguard-1/guard3.py:207> exception=NoSessionContext()>
+Traceback (most recent call last):
+  File "/Users/naji.mounsef/Documents/vaiguard-1/guard3.py", line 216, in handle_openai_response
+    display_placeholder.markdown(f"### OpenAI Response for batch {batch_number}:\n{response}")
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/runtime/metrics_util.py", line 397, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/elements/markdown.py", line 106, in markdown
+    return self.dg._enqueue("markdown", markdown_proto)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 530, in _enqueue
+    _enqueue_message(msg)
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 869, in _enqueue_message
+    raise NoSessionContext()
+streamlit.errors.NoSessionContext
+2024-06-13 18:07:08,875 debug:Captured and queued frames. Sleeping for 0 seconds.
+2024-06-13 18:07:13,887 debug:Sending batch 3 to OpenAI for analysis.
+2024-06-13 18:07:13,887 info:Sending 10 frames to OpenAI for analysis.
+2024-06-13 18:07:16,472 debug:OpenAI response: Alright, folks, this is the security update for the next few minutes. 
+
+**18:06:13** 
+- The environment is a beachfront boardwalk with light pedestrian activity.
+- One man in a red jacket walking directly down the center of the walkway.
+- Another individual in a light blue floral shirt appears to be looking at the various stands on the side.
+- No unusual behavior or clothing detected. Everyone seems to be minding their business.
+
+**18:06:14**
+- The man in the red jacket continues walking straight. 
+- Blue floral shirt individual now interacting with a table display.
+- No other significant changes or suspicious activities currently.
+
+**18:06:15**
+- Red jacket man still moving forward, slightly to the right side.
+- Blue floral shirt individual appears to be getting information or purchasing something.
+- The crowd density remains minimal, and activity levels normal.
+
+**18:06:16**
+- Observation remains the same as in the previous seconds. The man in the red jacket continues his pace.
+- Blue floral shirt still at the table.
+- The general pace of the environment is steady and calm.
+
+**18:06:17**
+- Man in red jacket makes no sudden movements, still forward motion.
+- Individual in the blue floral shirt has not moved much. Continuing interaction at the table.
+- No indications of anyone acting out of the norm.
+
+**18:06:18**
+- Red jacket man slightly closer to the camera.
+- Blue floral shirt individual starting to move away from the table, carrying a small bag.
+- Pedestrian at the far left side moving away from the camera onward down the boardwalk.
+- All clear so far, no suspicious behavior to report.
+
+**18:06:19**
+- Movement update: The individual in the red jacket still moving in the same direction, not accelerating or changing direction suddenly.
+- Blue floral shirt now walking away from the stand, towards the left.
+- The rest of the boardwalk activity appears normal.
+
+**18:06:20**
+- More people visible ahead on the walk but nothing unusual.
+- Red jacket man continues his slow, steady walk.
+- Blue floral shirt individual blending into the general pedestrian flow.
+- The environment remains peaceful with no security risks noted.
+
+**18:06:21**
+- Man in red jacket now closer to the camera but still walking casually.
+- Blue floral shirt is far left out of focus but still visible.
+- Pedestrian movement pattern is natural. No one
+2024-06-13 18:07:16,982 debug:Logged OpenAI response: Alright, folks, this is the security update for the next few minutes. 
+
+**18:06:13** 
+- The environment is a beachfront boardwalk with light pedestrian activity.
+- One man in a red jacket walking directly down the center of the walkway.
+- Another individual in a light blue floral shirt appears to be looking at the various stands on the side.
+- No unusual behavior or clothing detected. Everyone seems to be minding their business.
+
+**18:06:14**
+- The man in the red jacket continues walking straight. 
+- Blue floral shirt individual now interacting with a table display.
+- No other significant changes or suspicious activities currently.
+
+**18:06:15**
+- Red jacket man still moving forward, slightly to the right side.
+- Blue floral shirt individual appears to be getting information or purchasing something.
+- The crowd density remains minimal, and activity levels normal.
+
+**18:06:16**
+- Observation remains the same as in the previous seconds. The man in the red jacket continues his pace.
+- Blue floral shirt still at the table.
+- The general pace of the environment is steady and calm.
+
+**18:06:17**
+- Man in red jacket makes no sudden movements, still forward motion.
+- Individual in the blue floral shirt has not moved much. Continuing interaction at the table.
+- No indications of anyone acting out of the norm.
+
+**18:06:18**
+- Red jacket man slightly closer to the camera.
+- Blue floral shirt individual starting to move away from the table, carrying a small bag.
+- Pedestrian at the far left side moving away from the camera onward down the boardwalk.
+- All clear so far, no suspicious behavior to report.
+
+**18:06:19**
+- Movement update: The individual in the red jacket still moving in the same direction, not accelerating or changing direction suddenly.
+- Blue floral shirt now walking away from the stand, towards the left.
+- The rest of the boardwalk activity appears normal.
+
+**18:06:20**
+- More people visible ahead on the walk but nothing unusual.
+- Red jacket man continues his slow, steady walk.
+- Blue floral shirt individual blending into the general pedestrian flow.
+- The environment remains peaceful with no security risks noted.
+
+**18:06:21**
+- Man in red jacket now closer to the camera but still walking casually.
+- Blue floral shirt is far left out of focus but still visible.
+- Pedestrian movement pattern is natural. No one
+2024-06-13 18:07:16,983 debug:OpenAI Response for batch 2: Alright, folks, this is the security update for the next few minutes. 
+
+**18:06:13** 
+- The environment is a beachfront boardwalk with light pedestrian activity.
+- One man in a red jacket walking directly down the center of the walkway.
+- Another individual in a light blue floral shirt appears to be looking at the various stands on the side.
+- No unusual behavior or clothing detected. Everyone seems to be minding their business.
+
+**18:06:14**
+- The man in the red jacket continues walking straight. 
+- Blue floral shirt individual now interacting with a table display.
+- No other significant changes or suspicious activities currently.
+
+**18:06:15**
+- Red jacket man still moving forward, slightly to the right side.
+- Blue floral shirt individual appears to be getting information or purchasing something.
+- The crowd density remains minimal, and activity levels normal.
+
+**18:06:16**
+- Observation remains the same as in the previous seconds. The man in the red jacket continues his pace.
+- Blue floral shirt still at the table.
+- The general pace of the environment is steady and calm.
+
+**18:06:17**
+- Man in red jacket makes no sudden movements, still forward motion.
+- Individual in the blue floral shirt has not moved much. Continuing interaction at the table.
+- No indications of anyone acting out of the norm.
+
+**18:06:18**
+- Red jacket man slightly closer to the camera.
+- Blue floral shirt individual starting to move away from the table, carrying a small bag.
+- Pedestrian at the far left side moving away from the camera onward down the boardwalk.
+- All clear so far, no suspicious behavior to report.
+
+**18:06:19**
+- Movement update: The individual in the red jacket still moving in the same direction, not accelerating or changing direction suddenly.
+- Blue floral shirt now walking away from the stand, towards the left.
+- The rest of the boardwalk activity appears normal.
+
+**18:06:20**
+- More people visible ahead on the walk but nothing unusual.
+- Red jacket man continues his slow, steady walk.
+- Blue floral shirt individual blending into the general pedestrian flow.
+- The environment remains peaceful with no security risks noted.
+
+**18:06:21**
+- Man in red jacket now closer to the camera but still walking casually.
+- Blue floral shirt is far left out of focus but still visible.
+- Pedestrian movement pattern is natural. No one
+2024-06-13 18:07:16,983 error:Task exception was never retrieved
+future: <Task finished name='Task-3955' coro=<handle_openai_response() done, defined at /Users/naji.mounsef/Documents/vaiguard-1/guard3.py:207> exception=NoSessionContext()>
+Traceback (most recent call last):
+  File "/Users/naji.mounsef/Documents/vaiguard-1/guard3.py", line 216, in handle_openai_response
+    display_placeholder.markdown(f"### OpenAI Response for batch {batch_number}:\n{response}")
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/runtime/metrics_util.py", line 397, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/elements/markdown.py", line 106, in markdown
+    return self.dg._enqueue("markdown", markdown_proto)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 530, in _enqueue
+    _enqueue_message(msg)
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 869, in _enqueue_message
+    raise NoSessionContext()
+streamlit.errors.NoSessionContext
+2024-06-13 18:07:23,535 debug:Captured and queued frames. Sleeping for 0 seconds.
+2024-06-13 18:07:26,918 debug:OpenAI response: "Alright, timestamp starting at 18:06:23. The boardwalk is quite busy. Lots of pedestrians strolling around, a mix of tourists and locals. 
+
+Observing the stall on the left, there’s a person in a red shirt and blue jeans seated, sorting through some items. A vendor's table with various trinkets laid out. 
+
+In the next frame, 18:06:24, subtle changes. There’s increased foot traffic near the stalls. Noticing a person in a pink top and another in a white shirt approaching the stalls. 
+
+Advance to 18:06:25. The sun is casting longer shadows now. Several new pedestrians come into view. The person with a large flag banner has shifted positions. 
+
+At timestamp 18:06:26, foot traffic increases. Concentrating on the group near the banner; two individuals in blue, likely looking at the vendor's items. 
+
+Moving on to 18:06:27. Noteworthy across the boardwalk: two people in distinct pink tops along the middle, by the chalk art on the pavement. They appear to be orienting themselves, possibly deciding which direction to head.
+
+Next frame, 18:06:28. We're catching more foot traffic filtering in. Stalls are visibly busier. Pay attention to those in bright clothing for easy identification.
+
+Timestamp 18:06:29. A mix of fashion choices, lots of casual and beachwear. New influx of people, notable density increase towards the middle right. Orange canopy stall drawing in seated figures near stalls.
+
+Then, 18:06:30. More pedestrians visible further down the path. The crowd density larger still, people standing, talking, and browsing items. 
+
+At 18:06:31, the boardwalk is bustling. Notice individuals in lighter clothing forming a group by a green-roofed stall. Potential bottleneck here? Worth monitoring.
+
+Lastly, timestamp 18:06:32. Busy scene. High foot traffic to the mid-right side, mixture of all age groups, casual attire. The far background pint-sized with many small groups forming. Very high pedestrian activity. Watch for any sudden breaks in pattern, odd behavior, or urgency in movements.”
+
+(end of current visual surveillance commentary)"
+2024-06-13 18:07:27,561 debug:Logged OpenAI response: "Alright, timestamp starting at 18:06:23. The boardwalk is quite busy. Lots of pedestrians strolling around, a mix of tourists and locals. 
+
+Observing the stall on the left, there’s a person in a red shirt and blue jeans seated, sorting through some items. A vendor's table with various trinkets laid out. 
+
+In the next frame, 18:06:24, subtle changes. There’s increased foot traffic near the stalls. Noticing a person in a pink top and another in a white shirt approaching the stalls. 
+
+Advance to 18:06:25. The sun is casting longer shadows now. Several new pedestrians come into view. The person with a large flag banner has shifted positions. 
+
+At timestamp 18:06:26, foot traffic increases. Concentrating on the group near the banner; two individuals in blue, likely looking at the vendor's items. 
+
+Moving on to 18:06:27. Noteworthy across the boardwalk: two people in distinct pink tops along the middle, by the chalk art on the pavement. They appear to be orienting themselves, possibly deciding which direction to head.
+
+Next frame, 18:06:28. We're catching more foot traffic filtering in. Stalls are visibly busier. Pay attention to those in bright clothing for easy identification.
+
+Timestamp 18:06:29. A mix of fashion choices, lots of casual and beachwear. New influx of people, notable density increase towards the middle right. Orange canopy stall drawing in seated figures near stalls.
+
+Then, 18:06:30. More pedestrians visible further down the path. The crowd density larger still, people standing, talking, and browsing items. 
+
+At 18:06:31, the boardwalk is bustling. Notice individuals in lighter clothing forming a group by a green-roofed stall. Potential bottleneck here? Worth monitoring.
+
+Lastly, timestamp 18:06:32. Busy scene. High foot traffic to the mid-right side, mixture of all age groups, casual attire. The far background pint-sized with many small groups forming. Very high pedestrian activity. Watch for any sudden breaks in pattern, odd behavior, or urgency in movements.”
+
+(end of current visual surveillance commentary)"
+2024-06-13 18:07:27,561 debug:OpenAI Response for batch 3: "Alright, timestamp starting at 18:06:23. The boardwalk is quite busy. Lots of pedestrians strolling around, a mix of tourists and locals. 
+
+Observing the stall on the left, there’s a person in a red shirt and blue jeans seated, sorting through some items. A vendor's table with various trinkets laid out. 
+
+In the next frame, 18:06:24, subtle changes. There’s increased foot traffic near the stalls. Noticing a person in a pink top and another in a white shirt approaching the stalls. 
+
+Advance to 18:06:25. The sun is casting longer shadows now. Several new pedestrians come into view. The person with a large flag banner has shifted positions. 
+
+At timestamp 18:06:26, foot traffic increases. Concentrating on the group near the banner; two individuals in blue, likely looking at the vendor's items. 
+
+Moving on to 18:06:27. Noteworthy across the boardwalk: two people in distinct pink tops along the middle, by the chalk art on the pavement. They appear to be orienting themselves, possibly deciding which direction to head.
+
+Next frame, 18:06:28. We're catching more foot traffic filtering in. Stalls are visibly busier. Pay attention to those in bright clothing for easy identification.
+
+Timestamp 18:06:29. A mix of fashion choices, lots of casual and beachwear. New influx of people, notable density increase towards the middle right. Orange canopy stall drawing in seated figures near stalls.
+
+Then, 18:06:30. More pedestrians visible further down the path. The crowd density larger still, people standing, talking, and browsing items. 
+
+At 18:06:31, the boardwalk is bustling. Notice individuals in lighter clothing forming a group by a green-roofed stall. Potential bottleneck here? Worth monitoring.
+
+Lastly, timestamp 18:06:32. Busy scene. High foot traffic to the mid-right side, mixture of all age groups, casual attire. The far background pint-sized with many small groups forming. Very high pedestrian activity. Watch for any sudden breaks in pattern, odd behavior, or urgency in movements.”
+
+(end of current visual surveillance commentary)"
+2024-06-13 18:07:27,561 error:Task exception was never retrieved
+future: <Task finished name='Task-5153' coro=<handle_openai_response() done, defined at /Users/naji.mounsef/Documents/vaiguard-1/guard3.py:207> exception=NoSessionContext()>
+Traceback (most recent call last):
+  File "/Users/naji.mounsef/Documents/vaiguard-1/guard3.py", line 216, in handle_openai_response
+    display_placeholder.markdown(f"### OpenAI Response for batch {batch_number}:\n{response}")
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/runtime/metrics_util.py", line 397, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/elements/markdown.py", line 106, in markdown
+    return self.dg._enqueue("markdown", markdown_proto)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 530, in _enqueue
+    _enqueue_message(msg)
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 869, in _enqueue_message
+    raise NoSessionContext()
+streamlit.errors.NoSessionContext
+2024-06-13 18:07:29,574 debug:Sending batch 4 to OpenAI for analysis.
+2024-06-13 18:07:29,574 info:Sending 10 frames to OpenAI for analysis.
+2024-06-13 18:07:37,790 debug:Captured and queued frames. Sleeping for 0 seconds.
+2024-06-13 18:07:43,608 debug:Sending batch 5 to OpenAI for analysis.
+2024-06-13 18:07:43,608 info:Sending 10 frames to OpenAI for analysis.
+2024-06-13 18:07:47,504 debug:OpenAI response: Observation starting at timestamp 18:06:33:
+- It's a busy day at the venue with numerous pedestrians milling about.
+- We have a mix of families, groups of friends, and individuals. 
+- A variety of clothing styles and colors; some people in casual summer attire like shorts and t-shirts, while others wear jeans and hoodies.
+- No obvious security threats at this moment. 
+- Focus on the stalls, any unusually large groups hovering near one could indicate trouble.
+
+Timestamp 18:06:34:
+- Various umbrellas and tents set up for vendors.
+- People seem engrossed in their shopping and socializing, no one standing out significantly.
+- Further back, large gathering around a tent, clear visibility is obscured by other umbrellas.
+- Still no signs of hostile activity or inappropriate behavior.
+
+Timestamp 18:06:35:
+- Some are starting to move off the main thoroughfare.
+- Two individuals in close proximity appear to be more observational than shopping; may need closer eye if behavior persists. 
+- A few children in view, but being closely monitored by accompanying adults.
+- The activity remains consistent with a busy shopping area.
+
+Timestamp 18:06:36:
+- Crowds are moving organically, no signs of clustering or congestion.
+- Vibrant red banner may be an obstruction in case of emergency, need to monitor anyhow.
+- People in light and dark clothing - no suspicious items being carried visibly.
+
+Timestamp 18:06:37:
+- Consistent flow of pedestrian traffic.
+- No visible security concerns.
+- Temperature and environment appear comfortable given attire.
+- Few individuals are in a hurry, generally casual pace noted.
+
+Timestamp 18:06:38:
+- Crowd dynamic remains unchanged – everyone still seems to be enjoying a leisurely outing.
+- People sitting near stalls, possibly eating or resting.
+- Continue to watch for anyone looking anxious or out of place.
+
+Timestamp 18:06:39:
+- Same scenario; slow-moving crowds, relaxed environment.
+- Keep tabs on individuals loitering without apparent reason.
+
+Timestamp 18:06:40:
+- Visibility into the group near blue tent - seems like families.
+- Could be a performance or demonstration happening; increased activity in that area may need further observation.
+
+Timestamp 18:06:41:
+- No new developments in crowd behavior.
+- Constant flow keeps congestion minimal.
+- Maintain attentiveness for any sudden changes or alarms.
+
+Timestamp 18:06:42:
+- Humidity is high at 
+2024-06-13 18:07:48,055 debug:Logged OpenAI response: Observation starting at timestamp 18:06:33:
+- It's a busy day at the venue with numerous pedestrians milling about.
+- We have a mix of families, groups of friends, and individuals. 
+- A variety of clothing styles and colors; some people in casual summer attire like shorts and t-shirts, while others wear jeans and hoodies.
+- No obvious security threats at this moment. 
+- Focus on the stalls, any unusually large groups hovering near one could indicate trouble.
+
+Timestamp 18:06:34:
+- Various umbrellas and tents set up for vendors.
+- People seem engrossed in their shopping and socializing, no one standing out significantly.
+- Further back, large gathering around a tent, clear visibility is obscured by other umbrellas.
+- Still no signs of hostile activity or inappropriate behavior.
+
+Timestamp 18:06:35:
+- Some are starting to move off the main thoroughfare.
+- Two individuals in close proximity appear to be more observational than shopping; may need closer eye if behavior persists. 
+- A few children in view, but being closely monitored by accompanying adults.
+- The activity remains consistent with a busy shopping area.
+
+Timestamp 18:06:36:
+- Crowds are moving organically, no signs of clustering or congestion.
+- Vibrant red banner may be an obstruction in case of emergency, need to monitor anyhow.
+- People in light and dark clothing - no suspicious items being carried visibly.
+
+Timestamp 18:06:37:
+- Consistent flow of pedestrian traffic.
+- No visible security concerns.
+- Temperature and environment appear comfortable given attire.
+- Few individuals are in a hurry, generally casual pace noted.
+
+Timestamp 18:06:38:
+- Crowd dynamic remains unchanged – everyone still seems to be enjoying a leisurely outing.
+- People sitting near stalls, possibly eating or resting.
+- Continue to watch for anyone looking anxious or out of place.
+
+Timestamp 18:06:39:
+- Same scenario; slow-moving crowds, relaxed environment.
+- Keep tabs on individuals loitering without apparent reason.
+
+Timestamp 18:06:40:
+- Visibility into the group near blue tent - seems like families.
+- Could be a performance or demonstration happening; increased activity in that area may need further observation.
+
+Timestamp 18:06:41:
+- No new developments in crowd behavior.
+- Constant flow keeps congestion minimal.
+- Maintain attentiveness for any sudden changes or alarms.
+
+Timestamp 18:06:42:
+- Humidity is high at 
+2024-06-13 18:07:48,055 debug:OpenAI Response for batch 4: Observation starting at timestamp 18:06:33:
+- It's a busy day at the venue with numerous pedestrians milling about.
+- We have a mix of families, groups of friends, and individuals. 
+- A variety of clothing styles and colors; some people in casual summer attire like shorts and t-shirts, while others wear jeans and hoodies.
+- No obvious security threats at this moment. 
+- Focus on the stalls, any unusually large groups hovering near one could indicate trouble.
+
+Timestamp 18:06:34:
+- Various umbrellas and tents set up for vendors.
+- People seem engrossed in their shopping and socializing, no one standing out significantly.
+- Further back, large gathering around a tent, clear visibility is obscured by other umbrellas.
+- Still no signs of hostile activity or inappropriate behavior.
+
+Timestamp 18:06:35:
+- Some are starting to move off the main thoroughfare.
+- Two individuals in close proximity appear to be more observational than shopping; may need closer eye if behavior persists. 
+- A few children in view, but being closely monitored by accompanying adults.
+- The activity remains consistent with a busy shopping area.
+
+Timestamp 18:06:36:
+- Crowds are moving organically, no signs of clustering or congestion.
+- Vibrant red banner may be an obstruction in case of emergency, need to monitor anyhow.
+- People in light and dark clothing - no suspicious items being carried visibly.
+
+Timestamp 18:06:37:
+- Consistent flow of pedestrian traffic.
+- No visible security concerns.
+- Temperature and environment appear comfortable given attire.
+- Few individuals are in a hurry, generally casual pace noted.
+
+Timestamp 18:06:38:
+- Crowd dynamic remains unchanged – everyone still seems to be enjoying a leisurely outing.
+- People sitting near stalls, possibly eating or resting.
+- Continue to watch for anyone looking anxious or out of place.
+
+Timestamp 18:06:39:
+- Same scenario; slow-moving crowds, relaxed environment.
+- Keep tabs on individuals loitering without apparent reason.
+
+Timestamp 18:06:40:
+- Visibility into the group near blue tent - seems like families.
+- Could be a performance or demonstration happening; increased activity in that area may need further observation.
+
+Timestamp 18:06:41:
+- No new developments in crowd behavior.
+- Constant flow keeps congestion minimal.
+- Maintain attentiveness for any sudden changes or alarms.
+
+Timestamp 18:06:42:
+- Humidity is high at 
+2024-06-13 18:07:48,056 error:Task exception was never retrieved
+future: <Task finished name='Task-6441' coro=<handle_openai_response() done, defined at /Users/naji.mounsef/Documents/vaiguard-1/guard3.py:207> exception=NoSessionContext()>
+Traceback (most recent call last):
+  File "/Users/naji.mounsef/Documents/vaiguard-1/guard3.py", line 216, in handle_openai_response
+    display_placeholder.markdown(f"### OpenAI Response for batch {batch_number}:\n{response}")
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/runtime/metrics_util.py", line 397, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/elements/markdown.py", line 106, in markdown
+    return self.dg._enqueue("markdown", markdown_proto)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 530, in _enqueue
+    _enqueue_message(msg)
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 869, in _enqueue_message
+    raise NoSessionContext()
+streamlit.errors.NoSessionContext
+2024-06-13 18:07:52,154 debug:Captured and queued frames. Sleeping for 0 seconds.
+2024-06-13 18:07:57,986 debug:OpenAI response: 18:06:43 - We're looking at a lively promenade with a dense crowd. Lots of people walking, inspecting stalls, and generally enjoying the area. Quite a diverse group here, which is normal for this time. Several people in light, summery attire. No notable disruptions or suspicious behavior observed at this moment.
+
+18:06:44 - Similar scene, though the crowd seems to be in constant motion. A man in a white hat is visible towards the center left, also wearing a white shirt. There's a person to the right, under a tent, with a brightly colored costume, not causing a disturbance but worth keeping an eye on for visibility. Everyone seems to be going about their business peacefully.
+
+18:06:47 - Activity continues as people move along at a steady pace. In the center right, there is a couple walking together, holding hands, dressed casually. No signs of distress or unusual behavior. A young man near the front in black clothing appears to be engaged in conversation. Crowd dynamics remain steady.
+
+18:06:48 - Family with a small dog now visible in the center. Dog is well-behaved, walking alongside them. People near the vendor tents are browsing through items. Still observing standard crowded activities, nothing out of the ordinary. Weather looks warm and pleasant, which is keeping crowd numbers high.
+
+18:06:49 - A woman in a black dress towards the front left carrying a bag. The family with the dog continues on the path. Notice several people appearing interested in the merchandise under the tent. All individuals are still moving along calmly, no aggressive behavior or conflicts detected. 
+
+18:06:50 - Large red flag in the foreground flutters, not obscuring visibility significantly. More people appear to join the crowd, maintaining the same level of density. The woman in black from earlier is moving toward a stall. Vendor activities are stable and uninterrupted. Environment remains friendly and safe.
+
+18:06:53 - Camera shifts to a beachside view. Sparse number of people walking on the sand. Notice a couple of cyclists on the pathway. People appear relaxed, enjoying the beach. No disruptions noted and visibility on the beach is clear.
+
+18:06:54 - Situation still calm with beachgoers. People scattered across the sand, some walking their dogs. The cyclists continue along their route. No loitering or groups forming that could suggest any untoward activity.
+
+18:06:55 - Consistent scene with more beach activity
+2024-06-13 18:07:58,648 debug:Logged OpenAI response: 18:06:43 - We're looking at a lively promenade with a dense crowd. Lots of people walking, inspecting stalls, and generally enjoying the area. Quite a diverse group here, which is normal for this time. Several people in light, summery attire. No notable disruptions or suspicious behavior observed at this moment.
+
+18:06:44 - Similar scene, though the crowd seems to be in constant motion. A man in a white hat is visible towards the center left, also wearing a white shirt. There's a person to the right, under a tent, with a brightly colored costume, not causing a disturbance but worth keeping an eye on for visibility. Everyone seems to be going about their business peacefully.
+
+18:06:47 - Activity continues as people move along at a steady pace. In the center right, there is a couple walking together, holding hands, dressed casually. No signs of distress or unusual behavior. A young man near the front in black clothing appears to be engaged in conversation. Crowd dynamics remain steady.
+
+18:06:48 - Family with a small dog now visible in the center. Dog is well-behaved, walking alongside them. People near the vendor tents are browsing through items. Still observing standard crowded activities, nothing out of the ordinary. Weather looks warm and pleasant, which is keeping crowd numbers high.
+
+18:06:49 - A woman in a black dress towards the front left carrying a bag. The family with the dog continues on the path. Notice several people appearing interested in the merchandise under the tent. All individuals are still moving along calmly, no aggressive behavior or conflicts detected. 
+
+18:06:50 - Large red flag in the foreground flutters, not obscuring visibility significantly. More people appear to join the crowd, maintaining the same level of density. The woman in black from earlier is moving toward a stall. Vendor activities are stable and uninterrupted. Environment remains friendly and safe.
+
+18:06:53 - Camera shifts to a beachside view. Sparse number of people walking on the sand. Notice a couple of cyclists on the pathway. People appear relaxed, enjoying the beach. No disruptions noted and visibility on the beach is clear.
+
+18:06:54 - Situation still calm with beachgoers. People scattered across the sand, some walking their dogs. The cyclists continue along their route. No loitering or groups forming that could suggest any untoward activity.
+
+18:06:55 - Consistent scene with more beach activity
+2024-06-13 18:07:58,648 debug:OpenAI Response for batch 5: 18:06:43 - We're looking at a lively promenade with a dense crowd. Lots of people walking, inspecting stalls, and generally enjoying the area. Quite a diverse group here, which is normal for this time. Several people in light, summery attire. No notable disruptions or suspicious behavior observed at this moment.
+
+18:06:44 - Similar scene, though the crowd seems to be in constant motion. A man in a white hat is visible towards the center left, also wearing a white shirt. There's a person to the right, under a tent, with a brightly colored costume, not causing a disturbance but worth keeping an eye on for visibility. Everyone seems to be going about their business peacefully.
+
+18:06:47 - Activity continues as people move along at a steady pace. In the center right, there is a couple walking together, holding hands, dressed casually. No signs of distress or unusual behavior. A young man near the front in black clothing appears to be engaged in conversation. Crowd dynamics remain steady.
+
+18:06:48 - Family with a small dog now visible in the center. Dog is well-behaved, walking alongside them. People near the vendor tents are browsing through items. Still observing standard crowded activities, nothing out of the ordinary. Weather looks warm and pleasant, which is keeping crowd numbers high.
+
+18:06:49 - A woman in a black dress towards the front left carrying a bag. The family with the dog continues on the path. Notice several people appearing interested in the merchandise under the tent. All individuals are still moving along calmly, no aggressive behavior or conflicts detected. 
+
+18:06:50 - Large red flag in the foreground flutters, not obscuring visibility significantly. More people appear to join the crowd, maintaining the same level of density. The woman in black from earlier is moving toward a stall. Vendor activities are stable and uninterrupted. Environment remains friendly and safe.
+
+18:06:53 - Camera shifts to a beachside view. Sparse number of people walking on the sand. Notice a couple of cyclists on the pathway. People appear relaxed, enjoying the beach. No disruptions noted and visibility on the beach is clear.
+
+18:06:54 - Situation still calm with beachgoers. People scattered across the sand, some walking their dogs. The cyclists continue along their route. No loitering or groups forming that could suggest any untoward activity.
+
+18:06:55 - Consistent scene with more beach activity
+2024-06-13 18:07:58,648 error:Task exception was never retrieved
+future: <Task finished name='Task-7683' coro=<handle_openai_response() done, defined at /Users/naji.mounsef/Documents/vaiguard-1/guard3.py:207> exception=NoSessionContext()>
+Traceback (most recent call last):
+  File "/Users/naji.mounsef/Documents/vaiguard-1/guard3.py", line 216, in handle_openai_response
+    display_placeholder.markdown(f"### OpenAI Response for batch {batch_number}:\n{response}")
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/runtime/metrics_util.py", line 397, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/elements/markdown.py", line 106, in markdown
+    return self.dg._enqueue("markdown", markdown_proto)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 530, in _enqueue
+    _enqueue_message(msg)
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 869, in _enqueue_message
+    raise NoSessionContext()
+streamlit.errors.NoSessionContext
+2024-06-13 18:07:58,665 debug:Sending batch 6 to OpenAI for analysis.
+2024-06-13 18:07:58,667 info:Sending 10 frames to OpenAI for analysis.
+2024-06-13 18:08:07,269 debug:Captured and queued frames. Sleeping for 0 seconds.
+2024-06-13 18:08:12,697 debug:Sending batch 7 to OpenAI for analysis.
+2024-06-13 18:08:12,698 info:Sending 10 frames to OpenAI for analysis.
+2024-06-13 18:08:12,975 debug:OpenAI response: Looking out at the beach area, visibility is clear with multiple activity points to monitor. At 18:06:59, several individuals can be seen scattered on the sand and some within the grassy area near the palm trees. The pier in the background remains a noticeable landmark.
+
+At 18:07:00, no noticeable changes in activities, but maintenance of visual on individuals in red and white attire sitting near the signpost is necessary.
+
+At 18:07:01 and 18:07:02, groups along the horizon line become more active. Close observation of a person wearing a white top moving towards the beach. The presence on the grassy knoll continues to be static.
+
+Moving to 18:07:03, a noticeable increase in foot traffic near the pavilion is observed. Individuals in casual clothing - shorts and T-shirts - are moving towards the shoreline.
+
+By 18:07:04, there is a shift in the occupants near the palm trees. Pay extra attention to a person in bright attire walking down the beach path towards the water, ensuring consistent pace and direction.
+
+At 18:07:07 and 18:07:08, notice a couple of persons on bikes approaching from the right side of the viewing angle. They appear to be headed towards the beachfront. Maintaining visual on possible interactions and ensuring path clearance is crucial.
+
+At 18:07:09, increase in foot and bike traffic along the main paved path. Two individuals in darker outfits and with possible accessories appear to be walking towards the center of the area.
+
+Finally, at 18:07:10, the cohort near the aquamarine-roofed restroom or pavilion area needs close monitoring due to the congregation of multiple individuals potentially obstructing the pathway. Continuous scanning of the entire scene is essential to ensure all areas and entry points are under surveillance. 
+
+Note: Sunset is in roughly 2 hours, necessitating vigilance for any shifts in behavior as daylight decreases.
+2024-06-13 18:08:13,659 debug:Logged OpenAI response: Looking out at the beach area, visibility is clear with multiple activity points to monitor. At 18:06:59, several individuals can be seen scattered on the sand and some within the grassy area near the palm trees. The pier in the background remains a noticeable landmark.
+
+At 18:07:00, no noticeable changes in activities, but maintenance of visual on individuals in red and white attire sitting near the signpost is necessary.
+
+At 18:07:01 and 18:07:02, groups along the horizon line become more active. Close observation of a person wearing a white top moving towards the beach. The presence on the grassy knoll continues to be static.
+
+Moving to 18:07:03, a noticeable increase in foot traffic near the pavilion is observed. Individuals in casual clothing - shorts and T-shirts - are moving towards the shoreline.
+
+By 18:07:04, there is a shift in the occupants near the palm trees. Pay extra attention to a person in bright attire walking down the beach path towards the water, ensuring consistent pace and direction.
+
+At 18:07:07 and 18:07:08, notice a couple of persons on bikes approaching from the right side of the viewing angle. They appear to be headed towards the beachfront. Maintaining visual on possible interactions and ensuring path clearance is crucial.
+
+At 18:07:09, increase in foot and bike traffic along the main paved path. Two individuals in darker outfits and with possible accessories appear to be walking towards the center of the area.
+
+Finally, at 18:07:10, the cohort near the aquamarine-roofed restroom or pavilion area needs close monitoring due to the congregation of multiple individuals potentially obstructing the pathway. Continuous scanning of the entire scene is essential to ensure all areas and entry points are under surveillance. 
+
+Note: Sunset is in roughly 2 hours, necessitating vigilance for any shifts in behavior as daylight decreases.
+2024-06-13 18:08:13,660 debug:OpenAI Response for batch 6: Looking out at the beach area, visibility is clear with multiple activity points to monitor. At 18:06:59, several individuals can be seen scattered on the sand and some within the grassy area near the palm trees. The pier in the background remains a noticeable landmark.
+
+At 18:07:00, no noticeable changes in activities, but maintenance of visual on individuals in red and white attire sitting near the signpost is necessary.
+
+At 18:07:01 and 18:07:02, groups along the horizon line become more active. Close observation of a person wearing a white top moving towards the beach. The presence on the grassy knoll continues to be static.
+
+Moving to 18:07:03, a noticeable increase in foot traffic near the pavilion is observed. Individuals in casual clothing - shorts and T-shirts - are moving towards the shoreline.
+
+By 18:07:04, there is a shift in the occupants near the palm trees. Pay extra attention to a person in bright attire walking down the beach path towards the water, ensuring consistent pace and direction.
+
+At 18:07:07 and 18:07:08, notice a couple of persons on bikes approaching from the right side of the viewing angle. They appear to be headed towards the beachfront. Maintaining visual on possible interactions and ensuring path clearance is crucial.
+
+At 18:07:09, increase in foot and bike traffic along the main paved path. Two individuals in darker outfits and with possible accessories appear to be walking towards the center of the area.
+
+Finally, at 18:07:10, the cohort near the aquamarine-roofed restroom or pavilion area needs close monitoring due to the congregation of multiple individuals potentially obstructing the pathway. Continuous scanning of the entire scene is essential to ensure all areas and entry points are under surveillance. 
+
+Note: Sunset is in roughly 2 hours, necessitating vigilance for any shifts in behavior as daylight decreases.
+2024-06-13 18:08:13,660 error:Task exception was never retrieved
+future: <Task finished name='Task-9114' coro=<handle_openai_response() done, defined at /Users/naji.mounsef/Documents/vaiguard-1/guard3.py:207> exception=NoSessionContext()>
+Traceback (most recent call last):
+  File "/Users/naji.mounsef/Documents/vaiguard-1/guard3.py", line 216, in handle_openai_response
+    display_placeholder.markdown(f"### OpenAI Response for batch {batch_number}:\n{response}")
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/runtime/metrics_util.py", line 397, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/elements/markdown.py", line 106, in markdown
+    return self.dg._enqueue("markdown", markdown_proto)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 530, in _enqueue
+    _enqueue_message(msg)
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 869, in _enqueue_message
+    raise NoSessionContext()
+streamlit.errors.NoSessionContext
+2024-06-13 18:08:22,434 debug:Captured and queued frames. Sleeping for 0 seconds.
+2024-06-13 18:08:25,358 debug:OpenAI response: [18:07:13] The area looks busy with lots of foot traffic. There are several clusters of people gathered around stalls and vendors. One bicyclist is heading down the path towards the beach. Nothing seems out of the ordinary at this moment. People appear to be enjoying the pleasant weather, with temperature showing 64°F.
+
+[18:07:14] The bicyclist continues on the path towards the beach area. The vendor stalls are drawing more people. Most visitors are dressed in casual attire; no one stands out as suspicious so far. There are a few people with possessions like bags and strollers, but they appear to be focused on leisure activities.
+
+[18:07:15] Foot traffic is picking up near the vendor areas. A person in a blue shirt appears to be looking at the display of one stall more closely. The group on the left side, near the grassy area, seems to be gathering. Check if their behavior changes or shows any suspicious signs. The atmosphere remains relaxed.
+
+[18:07:16] More people are gathering around the vendor area. Some individuals are moving towards the beach side. The person in the blue shirt remains near the stall, still showing interest in the items. Keep an eye on this individual for any extended period of immobile behavior which might be unusual.
+
+[18:07:19] It is worth noting the group in the lower left corner of the frame, close to the musician stall, now has some more people joining. All clothing continues to be casual, no one stands out as uncomfortable. There is a person with colorful pants standing near the middle; keep monitoring for any odd behavior.
+
+[18:07:20] The crowd remains dispersed with some people walking calmly. The individual with bright-colored pants on the lower left has moved slightly closer into the scene. All groups are in slow, relaxed motion towards various stalls or walking paths. Continue routine observation.
+
+[18:07:21] The crowd trajectory is steady; more people are approaching the vendor stalls. Check-out area shows no pressing concerns; the person in colorful pants is engaging with another individual. Flow of foot traffic towards the beach remains constant and orderly.
+
+[18:07:22] Nothing irregular within the crowd so far. A person with a stroller has entered the frame on the far left, joining the scene near the sandy path. People near vendor areas are interacting peacefully. A man to the lower right of the display stands out due to his
+2024-06-13 18:08:26,164 debug:Logged OpenAI response: [18:07:13] The area looks busy with lots of foot traffic. There are several clusters of people gathered around stalls and vendors. One bicyclist is heading down the path towards the beach. Nothing seems out of the ordinary at this moment. People appear to be enjoying the pleasant weather, with temperature showing 64°F.
+
+[18:07:14] The bicyclist continues on the path towards the beach area. The vendor stalls are drawing more people. Most visitors are dressed in casual attire; no one stands out as suspicious so far. There are a few people with possessions like bags and strollers, but they appear to be focused on leisure activities.
+
+[18:07:15] Foot traffic is picking up near the vendor areas. A person in a blue shirt appears to be looking at the display of one stall more closely. The group on the left side, near the grassy area, seems to be gathering. Check if their behavior changes or shows any suspicious signs. The atmosphere remains relaxed.
+
+[18:07:16] More people are gathering around the vendor area. Some individuals are moving towards the beach side. The person in the blue shirt remains near the stall, still showing interest in the items. Keep an eye on this individual for any extended period of immobile behavior which might be unusual.
+
+[18:07:19] It is worth noting the group in the lower left corner of the frame, close to the musician stall, now has some more people joining. All clothing continues to be casual, no one stands out as uncomfortable. There is a person with colorful pants standing near the middle; keep monitoring for any odd behavior.
+
+[18:07:20] The crowd remains dispersed with some people walking calmly. The individual with bright-colored pants on the lower left has moved slightly closer into the scene. All groups are in slow, relaxed motion towards various stalls or walking paths. Continue routine observation.
+
+[18:07:21] The crowd trajectory is steady; more people are approaching the vendor stalls. Check-out area shows no pressing concerns; the person in colorful pants is engaging with another individual. Flow of foot traffic towards the beach remains constant and orderly.
+
+[18:07:22] Nothing irregular within the crowd so far. A person with a stroller has entered the frame on the far left, joining the scene near the sandy path. People near vendor areas are interacting peacefully. A man to the lower right of the display stands out due to his
+2024-06-13 18:08:26,165 debug:OpenAI Response for batch 7: [18:07:13] The area looks busy with lots of foot traffic. There are several clusters of people gathered around stalls and vendors. One bicyclist is heading down the path towards the beach. Nothing seems out of the ordinary at this moment. People appear to be enjoying the pleasant weather, with temperature showing 64°F.
+
+[18:07:14] The bicyclist continues on the path towards the beach area. The vendor stalls are drawing more people. Most visitors are dressed in casual attire; no one stands out as suspicious so far. There are a few people with possessions like bags and strollers, but they appear to be focused on leisure activities.
+
+[18:07:15] Foot traffic is picking up near the vendor areas. A person in a blue shirt appears to be looking at the display of one stall more closely. The group on the left side, near the grassy area, seems to be gathering. Check if their behavior changes or shows any suspicious signs. The atmosphere remains relaxed.
+
+[18:07:16] More people are gathering around the vendor area. Some individuals are moving towards the beach side. The person in the blue shirt remains near the stall, still showing interest in the items. Keep an eye on this individual for any extended period of immobile behavior which might be unusual.
+
+[18:07:19] It is worth noting the group in the lower left corner of the frame, close to the musician stall, now has some more people joining. All clothing continues to be casual, no one stands out as uncomfortable. There is a person with colorful pants standing near the middle; keep monitoring for any odd behavior.
+
+[18:07:20] The crowd remains dispersed with some people walking calmly. The individual with bright-colored pants on the lower left has moved slightly closer into the scene. All groups are in slow, relaxed motion towards various stalls or walking paths. Continue routine observation.
+
+[18:07:21] The crowd trajectory is steady; more people are approaching the vendor stalls. Check-out area shows no pressing concerns; the person in colorful pants is engaging with another individual. Flow of foot traffic towards the beach remains constant and orderly.
+
+[18:07:22] Nothing irregular within the crowd so far. A person with a stroller has entered the frame on the far left, joining the scene near the sandy path. People near vendor areas are interacting peacefully. A man to the lower right of the display stands out due to his
+2024-06-13 18:08:26,165 error:Task exception was never retrieved
+future: <Task finished name='Task-10318' coro=<handle_openai_response() done, defined at /Users/naji.mounsef/Documents/vaiguard-1/guard3.py:207> exception=NoSessionContext()>
+Traceback (most recent call last):
+  File "/Users/naji.mounsef/Documents/vaiguard-1/guard3.py", line 216, in handle_openai_response
+    display_placeholder.markdown(f"### OpenAI Response for batch {batch_number}:\n{response}")
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/runtime/metrics_util.py", line 397, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/elements/markdown.py", line 106, in markdown
+    return self.dg._enqueue("markdown", markdown_proto)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 530, in _enqueue
+    _enqueue_message(msg)
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 869, in _enqueue_message
+    raise NoSessionContext()
+streamlit.errors.NoSessionContext
+2024-06-13 18:08:28,193 debug:Sending batch 8 to OpenAI for analysis.
+2024-06-13 18:08:28,196 info:Sending 10 frames to OpenAI for analysis.
+2024-06-13 18:08:37,148 debug:Captured and queued frames. Sleeping for 0 seconds.
+2024-06-13 18:08:42,297 debug:Sending batch 9 to OpenAI for analysis.
+2024-06-13 18:08:42,301 info:Sending 10 frames to OpenAI for analysis.
+2024-06-13 18:08:51,857 debug:Captured and queued frames. Sleeping for 0 seconds.
+2024-06-13 18:08:53,030 debug:OpenAI response: 18:07:27 - The walkway is moderately busy. A couple walks leisurely to the left, both dressed casually, with one in a light-colored top and the other in darker attire. Multiple people can be seen browsing the vendor stands on the right side. One person seems to be riding a bicycle on the pathway without causing any disruptions.
+
+18:07:28 - The couple continues walking on, unremarkable behavior. One vendor appears to be engaging a potential customer. The cyclist rides closer to the camera without any signs of erratic movement.
+
+18:07:31 - The cyclist now in the foreground is clearly identifiable, wearing a white shirt and green shoes while riding a green bicycle. Foot traffic remains steady, with individuals mingling around the vendor area. No suspicious activity observed.
+
+18:07:32 - The cyclist remains in view progressing to the left side, maintaining a composed manner. An increase in people near the center can be seen, yet everyone appears calm and engaged in typical outdoor activity. 
+
+18:07:33 - The cyclist is almost out of sight to the left. The crowd seems to have grown slightly, but everyone appears to be behaving calmly. A person near the center of the frame wears a blue shirt and seems to be observing something.
+
+18:07:34 - Several people gather near what appears to be an information or sales booth. One person, wearing a blue jacket and cap, stands out in the foreground, likely browsing the stands. Activity remains normal.
+
+18:07:37 - People distribute themselves evenly along the pathway, maintaining a casual pace. The same person in blue jacket and cap is still present at the same spot, displaying no unusual behavior.
+
+18:07:38 - A person riding a bicycle in the distance can be seen approaching the center of the frame. The man in the blue jacket and cap remains in place. General foot traffic and vendor interactions continue as usual.
+
+18:07:39 - Foot traffic continues steadily with a group of three individuals approaching the center from the left, seen calmly walking. The same cyclist from earlier is now mid-frame, pedaling at a steady, controlled speed.
+
+18:07:40 - A routine scene with a mixture of pedestrians and cyclists. The group of three characters continues their walk without any signs of distress or disruptive behavior. The overall environment appears peaceful and organized.
+2024-06-13 18:08:53,792 debug:Logged OpenAI response: 18:07:27 - The walkway is moderately busy. A couple walks leisurely to the left, both dressed casually, with one in a light-colored top and the other in darker attire. Multiple people can be seen browsing the vendor stands on the right side. One person seems to be riding a bicycle on the pathway without causing any disruptions.
+
+18:07:28 - The couple continues walking on, unremarkable behavior. One vendor appears to be engaging a potential customer. The cyclist rides closer to the camera without any signs of erratic movement.
+
+18:07:31 - The cyclist now in the foreground is clearly identifiable, wearing a white shirt and green shoes while riding a green bicycle. Foot traffic remains steady, with individuals mingling around the vendor area. No suspicious activity observed.
+
+18:07:32 - The cyclist remains in view progressing to the left side, maintaining a composed manner. An increase in people near the center can be seen, yet everyone appears calm and engaged in typical outdoor activity. 
+
+18:07:33 - The cyclist is almost out of sight to the left. The crowd seems to have grown slightly, but everyone appears to be behaving calmly. A person near the center of the frame wears a blue shirt and seems to be observing something.
+
+18:07:34 - Several people gather near what appears to be an information or sales booth. One person, wearing a blue jacket and cap, stands out in the foreground, likely browsing the stands. Activity remains normal.
+
+18:07:37 - People distribute themselves evenly along the pathway, maintaining a casual pace. The same person in blue jacket and cap is still present at the same spot, displaying no unusual behavior.
+
+18:07:38 - A person riding a bicycle in the distance can be seen approaching the center of the frame. The man in the blue jacket and cap remains in place. General foot traffic and vendor interactions continue as usual.
+
+18:07:39 - Foot traffic continues steadily with a group of three individuals approaching the center from the left, seen calmly walking. The same cyclist from earlier is now mid-frame, pedaling at a steady, controlled speed.
+
+18:07:40 - A routine scene with a mixture of pedestrians and cyclists. The group of three characters continues their walk without any signs of distress or disruptive behavior. The overall environment appears peaceful and organized.
+2024-06-13 18:08:53,792 debug:OpenAI Response for batch 8: 18:07:27 - The walkway is moderately busy. A couple walks leisurely to the left, both dressed casually, with one in a light-colored top and the other in darker attire. Multiple people can be seen browsing the vendor stands on the right side. One person seems to be riding a bicycle on the pathway without causing any disruptions.
+
+18:07:28 - The couple continues walking on, unremarkable behavior. One vendor appears to be engaging a potential customer. The cyclist rides closer to the camera without any signs of erratic movement.
+
+18:07:31 - The cyclist now in the foreground is clearly identifiable, wearing a white shirt and green shoes while riding a green bicycle. Foot traffic remains steady, with individuals mingling around the vendor area. No suspicious activity observed.
+
+18:07:32 - The cyclist remains in view progressing to the left side, maintaining a composed manner. An increase in people near the center can be seen, yet everyone appears calm and engaged in typical outdoor activity. 
+
+18:07:33 - The cyclist is almost out of sight to the left. The crowd seems to have grown slightly, but everyone appears to be behaving calmly. A person near the center of the frame wears a blue shirt and seems to be observing something.
+
+18:07:34 - Several people gather near what appears to be an information or sales booth. One person, wearing a blue jacket and cap, stands out in the foreground, likely browsing the stands. Activity remains normal.
+
+18:07:37 - People distribute themselves evenly along the pathway, maintaining a casual pace. The same person in blue jacket and cap is still present at the same spot, displaying no unusual behavior.
+
+18:07:38 - A person riding a bicycle in the distance can be seen approaching the center of the frame. The man in the blue jacket and cap remains in place. General foot traffic and vendor interactions continue as usual.
+
+18:07:39 - Foot traffic continues steadily with a group of three individuals approaching the center from the left, seen calmly walking. The same cyclist from earlier is now mid-frame, pedaling at a steady, controlled speed.
+
+18:07:40 - A routine scene with a mixture of pedestrians and cyclists. The group of three characters continues their walk without any signs of distress or disruptive behavior. The overall environment appears peaceful and organized.
+2024-06-13 18:08:53,793 error:Task exception was never retrieved
+future: <Task finished name='Task-11558' coro=<handle_openai_response() done, defined at /Users/naji.mounsef/Documents/vaiguard-1/guard3.py:207> exception=NoSessionContext()>
+Traceback (most recent call last):
+  File "/Users/naji.mounsef/Documents/vaiguard-1/guard3.py", line 216, in handle_openai_response
+    display_placeholder.markdown(f"### OpenAI Response for batch {batch_number}:\n{response}")
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/runtime/metrics_util.py", line 397, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/elements/markdown.py", line 106, in markdown
+    return self.dg._enqueue("markdown", markdown_proto)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 530, in _enqueue
+    _enqueue_message(msg)
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 869, in _enqueue_message
+    raise NoSessionContext()
+streamlit.errors.NoSessionContext
+2024-06-13 18:08:57,840 debug:Sending batch 10 to OpenAI for analysis.
+2024-06-13 18:08:57,840 info:Sending 10 frames to OpenAI for analysis.
+2024-06-13 18:09:04,421 debug:OpenAI response: Alright, here we go. I've got eyes on the entire area and I'm ready to provide a detailed walkthrough.
+
+18:07:43 - The boardwalk is busy. People are walking around, some appear to be browsing the stalls. There’s a group gathered near a table setup, it looks like some kind of vendor. A person wearing a light blue top and cap is walking towards the foreground. 
+
+18:07:44 - The crowd hasn't changed much. The person in the light blue top is still moving forward. Lots of foot traffic on the boardwalk. No vehicles or suspicious activity so far.
+
+18:07:45 - A person with a backpack has joined the group near the vendor table. The individual in the light blue cap continues to move slowly forward, seemingly uninterested in the stalls. Still no recognition of unusual behavior. 
+
+18:07:46 - Now it looks like a jogger, dressed in dark athletic wear, is moving briskly towards the camera's right side. The crowd near the vendor table remains there, chatting and looking through items. Foot traffic remains steady.
+
+18:07:49 - The jogger has moved further along the path. The person in light blue is nearly out of the frame. No signs of any vehicles yet, and the crowd appears to be occupied with their activities.
+
+18:07:50 - More people are emerging into the frame from the right side. A cyclist is pushing their bike along the path, blending with those walking by. 
+
+18:07:51 - The cyclist is moving ahead, and the crowd near the vendor table is browsing, picking up items occasionally. The vendor seems to be engaged with the customers, no one stands out as behaving unusually.
+
+18:07:52 - The vendor area still has high interest. People are strolling around, no one is lingering too long. The temperature reads 64°F, fairly comfortable, potentially explaining the volume of activity.
+
+18:07:55 - The cyclist and the individuals near the vendor stand are all interacting normally. No sudden movements or suspicious behavior. Everyone seems to be enjoying the offerings at the stall.
+
+18:07:56 - Lastly, the area is still bustling. There’s a balanced mix of people walking, standing around, and watching the vendors. The person wearing the green top and tan shorts with a backpack seems to be moving away from the vendor area. Everything is calm and routine.
+
+I'll keep monitoring and report if there are any changes or suspicious activities
+2024-06-13 18:09:05,136 debug:Logged OpenAI response: Alright, here we go. I've got eyes on the entire area and I'm ready to provide a detailed walkthrough.
+
+18:07:43 - The boardwalk is busy. People are walking around, some appear to be browsing the stalls. There’s a group gathered near a table setup, it looks like some kind of vendor. A person wearing a light blue top and cap is walking towards the foreground. 
+
+18:07:44 - The crowd hasn't changed much. The person in the light blue top is still moving forward. Lots of foot traffic on the boardwalk. No vehicles or suspicious activity so far.
+
+18:07:45 - A person with a backpack has joined the group near the vendor table. The individual in the light blue cap continues to move slowly forward, seemingly uninterested in the stalls. Still no recognition of unusual behavior. 
+
+18:07:46 - Now it looks like a jogger, dressed in dark athletic wear, is moving briskly towards the camera's right side. The crowd near the vendor table remains there, chatting and looking through items. Foot traffic remains steady.
+
+18:07:49 - The jogger has moved further along the path. The person in light blue is nearly out of the frame. No signs of any vehicles yet, and the crowd appears to be occupied with their activities.
+
+18:07:50 - More people are emerging into the frame from the right side. A cyclist is pushing their bike along the path, blending with those walking by. 
+
+18:07:51 - The cyclist is moving ahead, and the crowd near the vendor table is browsing, picking up items occasionally. The vendor seems to be engaged with the customers, no one stands out as behaving unusually.
+
+18:07:52 - The vendor area still has high interest. People are strolling around, no one is lingering too long. The temperature reads 64°F, fairly comfortable, potentially explaining the volume of activity.
+
+18:07:55 - The cyclist and the individuals near the vendor stand are all interacting normally. No sudden movements or suspicious behavior. Everyone seems to be enjoying the offerings at the stall.
+
+18:07:56 - Lastly, the area is still bustling. There’s a balanced mix of people walking, standing around, and watching the vendors. The person wearing the green top and tan shorts with a backpack seems to be moving away from the vendor area. Everything is calm and routine.
+
+I'll keep monitoring and report if there are any changes or suspicious activities
+2024-06-13 18:09:05,136 debug:OpenAI Response for batch 9: Alright, here we go. I've got eyes on the entire area and I'm ready to provide a detailed walkthrough.
+
+18:07:43 - The boardwalk is busy. People are walking around, some appear to be browsing the stalls. There’s a group gathered near a table setup, it looks like some kind of vendor. A person wearing a light blue top and cap is walking towards the foreground. 
+
+18:07:44 - The crowd hasn't changed much. The person in the light blue top is still moving forward. Lots of foot traffic on the boardwalk. No vehicles or suspicious activity so far.
+
+18:07:45 - A person with a backpack has joined the group near the vendor table. The individual in the light blue cap continues to move slowly forward, seemingly uninterested in the stalls. Still no recognition of unusual behavior. 
+
+18:07:46 - Now it looks like a jogger, dressed in dark athletic wear, is moving briskly towards the camera's right side. The crowd near the vendor table remains there, chatting and looking through items. Foot traffic remains steady.
+
+18:07:49 - The jogger has moved further along the path. The person in light blue is nearly out of the frame. No signs of any vehicles yet, and the crowd appears to be occupied with their activities.
+
+18:07:50 - More people are emerging into the frame from the right side. A cyclist is pushing their bike along the path, blending with those walking by. 
+
+18:07:51 - The cyclist is moving ahead, and the crowd near the vendor table is browsing, picking up items occasionally. The vendor seems to be engaged with the customers, no one stands out as behaving unusually.
+
+18:07:52 - The vendor area still has high interest. People are strolling around, no one is lingering too long. The temperature reads 64°F, fairly comfortable, potentially explaining the volume of activity.
+
+18:07:55 - The cyclist and the individuals near the vendor stand are all interacting normally. No sudden movements or suspicious behavior. Everyone seems to be enjoying the offerings at the stall.
+
+18:07:56 - Lastly, the area is still bustling. There’s a balanced mix of people walking, standing around, and watching the vendors. The person wearing the green top and tan shorts with a backpack seems to be moving away from the vendor area. Everything is calm and routine.
+
+I'll keep monitoring and report if there are any changes or suspicious activities
+2024-06-13 18:09:05,137 error:Task exception was never retrieved
+future: <Task finished name='Task-12805' coro=<handle_openai_response() done, defined at /Users/naji.mounsef/Documents/vaiguard-1/guard3.py:207> exception=NoSessionContext()>
+Traceback (most recent call last):
+  File "/Users/naji.mounsef/Documents/vaiguard-1/guard3.py", line 216, in handle_openai_response
+    display_placeholder.markdown(f"### OpenAI Response for batch {batch_number}:\n{response}")
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/runtime/metrics_util.py", line 397, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/elements/markdown.py", line 106, in markdown
+    return self.dg._enqueue("markdown", markdown_proto)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 530, in _enqueue
+    _enqueue_message(msg)
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 869, in _enqueue_message
+    raise NoSessionContext()
+streamlit.errors.NoSessionContext
+2024-06-13 18:09:06,679 debug:Captured and queued frames. Sleeping for 0 seconds.
+2024-06-13 18:09:09,243 debug:OpenAI response: 18:07:57 - 18:08:10
+
+"Okay, I'm observing the Venice Boardwalk. It looks calm at the moment. We've got a musician with some gear and a bicycle set up on the sidewalk. He appears stationary. There's a group near him, on the grass, seated on a blanket; they seem to be having a picnic.
+
+A few people are walking along the boardwalk. Notably, a person in a green backpack, teal shorts, and a light-colored T-shirt is seen walking from left to right. Another group of three people, one with a skateboard, is visible walking together. The skateboarder seems relaxed, wearing a jacket with the hood up.
+
+At timestamp 18:08:01, a woman in a red dress walks past steadily. She's holding an item in her hand, perhaps a mobile phone.
+
+Everything looks routine; no suspicious activity detected. People seem to be enjoying the typical beach environment. Maintaining observation, just in case."
+2024-06-13 18:09:09,948 debug:Logged OpenAI response: 18:07:57 - 18:08:10
+
+"Okay, I'm observing the Venice Boardwalk. It looks calm at the moment. We've got a musician with some gear and a bicycle set up on the sidewalk. He appears stationary. There's a group near him, on the grass, seated on a blanket; they seem to be having a picnic.
+
+A few people are walking along the boardwalk. Notably, a person in a green backpack, teal shorts, and a light-colored T-shirt is seen walking from left to right. Another group of three people, one with a skateboard, is visible walking together. The skateboarder seems relaxed, wearing a jacket with the hood up.
+
+At timestamp 18:08:01, a woman in a red dress walks past steadily. She's holding an item in her hand, perhaps a mobile phone.
+
+Everything looks routine; no suspicious activity detected. People seem to be enjoying the typical beach environment. Maintaining observation, just in case."
+2024-06-13 18:09:09,948 debug:OpenAI Response for batch 10: 18:07:57 - 18:08:10
+
+"Okay, I'm observing the Venice Boardwalk. It looks calm at the moment. We've got a musician with some gear and a bicycle set up on the sidewalk. He appears stationary. There's a group near him, on the grass, seated on a blanket; they seem to be having a picnic.
+
+A few people are walking along the boardwalk. Notably, a person in a green backpack, teal shorts, and a light-colored T-shirt is seen walking from left to right. Another group of three people, one with a skateboard, is visible walking together. The skateboarder seems relaxed, wearing a jacket with the hood up.
+
+At timestamp 18:08:01, a woman in a red dress walks past steadily. She's holding an item in her hand, perhaps a mobile phone.
+
+Everything looks routine; no suspicious activity detected. People seem to be enjoying the typical beach environment. Maintaining observation, just in case."
+2024-06-13 18:09:09,949 error:Task exception was never retrieved
+future: <Task finished name='Task-14109' coro=<handle_openai_response() done, defined at /Users/naji.mounsef/Documents/vaiguard-1/guard3.py:207> exception=NoSessionContext()>
+Traceback (most recent call last):
+  File "/Users/naji.mounsef/Documents/vaiguard-1/guard3.py", line 216, in handle_openai_response
+    display_placeholder.markdown(f"### OpenAI Response for batch {batch_number}:\n{response}")
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/runtime/metrics_util.py", line 397, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/elements/markdown.py", line 106, in markdown
+    return self.dg._enqueue("markdown", markdown_proto)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 530, in _enqueue
+    _enqueue_message(msg)
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 869, in _enqueue_message
+    raise NoSessionContext()
+streamlit.errors.NoSessionContext
+2024-06-13 18:09:13,167 debug:Sending batch 11 to OpenAI for analysis.
+2024-06-13 18:09:13,168 info:Sending 10 frames to OpenAI for analysis.
+2024-06-13 18:09:21,725 debug:Captured and queued frames. Sleeping for 0 seconds.
+2024-06-13 18:09:28,214 debug:Sending batch 12 to OpenAI for analysis.
+2024-06-13 18:09:28,215 info:Sending 10 frames to OpenAI for analysis.
+2024-06-13 18:09:36,608 debug:Captured and queued frames. Sleeping for 0 seconds.
+2024-06-13 18:09:37,179 debug:OpenAI response: Alright, let's keep our eyes peeled. 
+
+18:08:11 - The screen shows a coastal area with green grass and a sandy beach in the background. A group of people are seen walking on the pathway. There’s an individual sitting beside a bicycle with what looks like a setup of goods or equipment. They seem settled and not currently moving. The group on the left-hand side is walking in different directions, no one stands out as doing anything suspicious here. 
+
+18:08:12 - Minimal movement detected. One person in light blue jeans and a white top is walking slowly closer to the grass on the right side, while another individual in a red top and red shoes seems to be chatting while on the move. Everything appears normal so far.
+
+18:08:15 - Not much change. The person in the white top and jeans is still walking. The person with the bicycle and goods remains seated.
+
+18:08:16 - The same person in the white top is now closer to the grassy area. Another figure, dressed similarly, has started to emerge further to the right, and looks like they might be headed toward the same area. Movement from the group on the left continues as people go about their activities.
+
+18:08:17 - The movements continue in a similar pattern. Another pair with dogs has appeared in the bottom part of the frame—they're walking casually. The individual on the bicycle remains stationed.
+
+18:08:18 - The group of people on the left congregate near each other, possibly chatting. The seated individual with the bicycle is not showing any signs of movement. Nothing stands out at the moment.
+
+18:08:21 - More people towards the left. They seem to be either arriving or leaving the beach area. The individual in the white top and jeans has moved further right, close to the middle of the grass patch. Casual movements, no visible disturbances. 
+
+18:08:22 - Increased crowd toward the left now, people moving in and out, chatting. The person on the bike still stationary, the white-top walker still pacing around the middle, nothing alarming.
+
+18:08:23 - Lots of movement on the left side, primarily involving the crowd coming closer together, general social behavior. The individual on the bike appears to be preoccupied with their goods and remains seated.
+
+18:08:24 - The crowd density towards the left continues as people seem to be heading in both directions. The person in the white top remains, and
+2024-06-13 18:09:37,876 debug:Logged OpenAI response: Alright, let's keep our eyes peeled. 
+
+18:08:11 - The screen shows a coastal area with green grass and a sandy beach in the background. A group of people are seen walking on the pathway. There’s an individual sitting beside a bicycle with what looks like a setup of goods or equipment. They seem settled and not currently moving. The group on the left-hand side is walking in different directions, no one stands out as doing anything suspicious here. 
+
+18:08:12 - Minimal movement detected. One person in light blue jeans and a white top is walking slowly closer to the grass on the right side, while another individual in a red top and red shoes seems to be chatting while on the move. Everything appears normal so far.
+
+18:08:15 - Not much change. The person in the white top and jeans is still walking. The person with the bicycle and goods remains seated.
+
+18:08:16 - The same person in the white top is now closer to the grassy area. Another figure, dressed similarly, has started to emerge further to the right, and looks like they might be headed toward the same area. Movement from the group on the left continues as people go about their activities.
+
+18:08:17 - The movements continue in a similar pattern. Another pair with dogs has appeared in the bottom part of the frame—they're walking casually. The individual on the bicycle remains stationed.
+
+18:08:18 - The group of people on the left congregate near each other, possibly chatting. The seated individual with the bicycle is not showing any signs of movement. Nothing stands out at the moment.
+
+18:08:21 - More people towards the left. They seem to be either arriving or leaving the beach area. The individual in the white top and jeans has moved further right, close to the middle of the grass patch. Casual movements, no visible disturbances. 
+
+18:08:22 - Increased crowd toward the left now, people moving in and out, chatting. The person on the bike still stationary, the white-top walker still pacing around the middle, nothing alarming.
+
+18:08:23 - Lots of movement on the left side, primarily involving the crowd coming closer together, general social behavior. The individual on the bike appears to be preoccupied with their goods and remains seated.
+
+18:08:24 - The crowd density towards the left continues as people seem to be heading in both directions. The person in the white top remains, and
+2024-06-13 18:09:37,877 debug:OpenAI Response for batch 11: Alright, let's keep our eyes peeled. 
+
+18:08:11 - The screen shows a coastal area with green grass and a sandy beach in the background. A group of people are seen walking on the pathway. There’s an individual sitting beside a bicycle with what looks like a setup of goods or equipment. They seem settled and not currently moving. The group on the left-hand side is walking in different directions, no one stands out as doing anything suspicious here. 
+
+18:08:12 - Minimal movement detected. One person in light blue jeans and a white top is walking slowly closer to the grass on the right side, while another individual in a red top and red shoes seems to be chatting while on the move. Everything appears normal so far.
+
+18:08:15 - Not much change. The person in the white top and jeans is still walking. The person with the bicycle and goods remains seated.
+
+18:08:16 - The same person in the white top is now closer to the grassy area. Another figure, dressed similarly, has started to emerge further to the right, and looks like they might be headed toward the same area. Movement from the group on the left continues as people go about their activities.
+
+18:08:17 - The movements continue in a similar pattern. Another pair with dogs has appeared in the bottom part of the frame—they're walking casually. The individual on the bicycle remains stationed.
+
+18:08:18 - The group of people on the left congregate near each other, possibly chatting. The seated individual with the bicycle is not showing any signs of movement. Nothing stands out at the moment.
+
+18:08:21 - More people towards the left. They seem to be either arriving or leaving the beach area. The individual in the white top and jeans has moved further right, close to the middle of the grass patch. Casual movements, no visible disturbances. 
+
+18:08:22 - Increased crowd toward the left now, people moving in and out, chatting. The person on the bike still stationary, the white-top walker still pacing around the middle, nothing alarming.
+
+18:08:23 - Lots of movement on the left side, primarily involving the crowd coming closer together, general social behavior. The individual on the bike appears to be preoccupied with their goods and remains seated.
+
+18:08:24 - The crowd density towards the left continues as people seem to be heading in both directions. The person in the white top remains, and
+2024-06-13 18:09:37,877 error:Task exception was never retrieved
+future: <Task finished name='Task-15360' coro=<handle_openai_response() done, defined at /Users/naji.mounsef/Documents/vaiguard-1/guard3.py:207> exception=NoSessionContext()>
+Traceback (most recent call last):
+  File "/Users/naji.mounsef/Documents/vaiguard-1/guard3.py", line 216, in handle_openai_response
+    display_placeholder.markdown(f"### OpenAI Response for batch {batch_number}:\n{response}")
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/runtime/metrics_util.py", line 397, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/elements/markdown.py", line 106, in markdown
+    return self.dg._enqueue("markdown", markdown_proto)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 530, in _enqueue
+    _enqueue_message(msg)
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 869, in _enqueue_message
+    raise NoSessionContext()
+streamlit.errors.NoSessionContext
+2024-06-13 18:09:42,910 debug:Sending batch 13 to OpenAI for analysis.
+2024-06-13 18:09:42,911 info:Sending 10 frames to OpenAI for analysis.
+2024-06-13 18:09:44,105 debug:OpenAI response: (Video starts monitoring at 18:08:27)
+
+---
+
+18:08:27 - Area is busy. Group of people walking towards the camera. Black-clad individual in front wearing a black shirt and tan shorts. Slightly behind, grey hoodie with jeans.
+
+18:08:28 - Black-shirt individual still ahead, flanked by the grey hoodie person closer to the camera. New entrant, a man with red cap, white shirt, and navy shorts walking behind.
+
+18:08:29 - Female ahead, wearing a black top and grey skirt, accompanied by the red-cap male. 
+
+18:08:30 - Black-shirt individual moves out of frame. New female in a purple top and a black skirt joins. 
+
+18:08:33 - Continued movement of pedestrians. Few notable movements towards the food stalls. 
+
+18:08:34 - Overall calm. Some newly joined people wearing summer clothing like a tank top and shorts. 
+
+18:08:35 - Lady in black top appears intrigued by the stalls, possibly stopping. 
+
+18:08:36 - General pedestrian activity continues. New group from the right, one with white hoodie and green cap.
+
+18:08:39 - Group stops near a green bench on the right of the walkway.
+
+18:08:40 - Mobile food stall actions observed, didn’t notice anything unusual.
+
+---
+
+(End of monitored timeframe at 18:08:40)
+
+Scene is typical of a public beach area with shops and passerby. Clothing is typically casual, mostly summerwear. The primary behavior involves walking, browsing, and interacting with food stalls. No unusual or suspicious behavior observed within the monitored frames.
+2024-06-13 18:09:44,863 debug:Logged OpenAI response: (Video starts monitoring at 18:08:27)
+
+---
+
+18:08:27 - Area is busy. Group of people walking towards the camera. Black-clad individual in front wearing a black shirt and tan shorts. Slightly behind, grey hoodie with jeans.
+
+18:08:28 - Black-shirt individual still ahead, flanked by the grey hoodie person closer to the camera. New entrant, a man with red cap, white shirt, and navy shorts walking behind.
+
+18:08:29 - Female ahead, wearing a black top and grey skirt, accompanied by the red-cap male. 
+
+18:08:30 - Black-shirt individual moves out of frame. New female in a purple top and a black skirt joins. 
+
+18:08:33 - Continued movement of pedestrians. Few notable movements towards the food stalls. 
+
+18:08:34 - Overall calm. Some newly joined people wearing summer clothing like a tank top and shorts. 
+
+18:08:35 - Lady in black top appears intrigued by the stalls, possibly stopping. 
+
+18:08:36 - General pedestrian activity continues. New group from the right, one with white hoodie and green cap.
+
+18:08:39 - Group stops near a green bench on the right of the walkway.
+
+18:08:40 - Mobile food stall actions observed, didn’t notice anything unusual.
+
+---
+
+(End of monitored timeframe at 18:08:40)
+
+Scene is typical of a public beach area with shops and passerby. Clothing is typically casual, mostly summerwear. The primary behavior involves walking, browsing, and interacting with food stalls. No unusual or suspicious behavior observed within the monitored frames.
+2024-06-13 18:09:44,863 debug:OpenAI Response for batch 12: (Video starts monitoring at 18:08:27)
+
+---
+
+18:08:27 - Area is busy. Group of people walking towards the camera. Black-clad individual in front wearing a black shirt and tan shorts. Slightly behind, grey hoodie with jeans.
+
+18:08:28 - Black-shirt individual still ahead, flanked by the grey hoodie person closer to the camera. New entrant, a man with red cap, white shirt, and navy shorts walking behind.
+
+18:08:29 - Female ahead, wearing a black top and grey skirt, accompanied by the red-cap male. 
+
+18:08:30 - Black-shirt individual moves out of frame. New female in a purple top and a black skirt joins. 
+
+18:08:33 - Continued movement of pedestrians. Few notable movements towards the food stalls. 
+
+18:08:34 - Overall calm. Some newly joined people wearing summer clothing like a tank top and shorts. 
+
+18:08:35 - Lady in black top appears intrigued by the stalls, possibly stopping. 
+
+18:08:36 - General pedestrian activity continues. New group from the right, one with white hoodie and green cap.
+
+18:08:39 - Group stops near a green bench on the right of the walkway.
+
+18:08:40 - Mobile food stall actions observed, didn’t notice anything unusual.
+
+---
+
+(End of monitored timeframe at 18:08:40)
+
+Scene is typical of a public beach area with shops and passerby. Clothing is typically casual, mostly summerwear. The primary behavior involves walking, browsing, and interacting with food stalls. No unusual or suspicious behavior observed within the monitored frames.
+2024-06-13 18:09:44,863 error:Task exception was never retrieved
+future: <Task finished name='Task-16632' coro=<handle_openai_response() done, defined at /Users/naji.mounsef/Documents/vaiguard-1/guard3.py:207> exception=NoSessionContext()>
+Traceback (most recent call last):
+  File "/Users/naji.mounsef/Documents/vaiguard-1/guard3.py", line 216, in handle_openai_response
+    display_placeholder.markdown(f"### OpenAI Response for batch {batch_number}:\n{response}")
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/runtime/metrics_util.py", line 397, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/elements/markdown.py", line 106, in markdown
+    return self.dg._enqueue("markdown", markdown_proto)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 530, in _enqueue
+    _enqueue_message(msg)
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 869, in _enqueue_message
+    raise NoSessionContext()
+streamlit.errors.NoSessionContext
+2024-06-13 18:09:51,762 debug:Captured and queued frames. Sleeping for 0 seconds.
+2024-06-13 18:09:55,708 debug:OpenAI response: 18:08:41 - The scene is vibrant and bustling with many people walking. Notice the group on the right, three individuals, two of which are wearing hats. One wears a green long-sleeve shirt and another a dark jacket. The third person is in light clothing. 
+
+18:08:42 - The group on the right continues to walk along the path. More people are visible in the background congregating. Two individuals in black have swapped places. The colorfully dressed vendor area remains quiet.
+
+18:08:43 - The crowd is moving steadily. A notable change is the individual carrying a backpack closer now, wearing white pants. 
+
+18:08:44 - A person in black joins the scene, stopping momentarily to scan the area. The path comprises beachgoers and those enjoying the promenade. 
+
+18:08:45 - Foot traffic increases as more people wearing light and dark clothing converge, moving past the bright umbrella vendor stalls.  
+
+18:08:46 - Two more individuals enter the bottom right corner of the frame; one in black shorts and another in a gray jacket. Not far behind them, another two seem to join the flow in contrasting clothing colors.
+
+18:08:47 - The crowd progressing steadily forward. Notice a new individual entering from the right, wearing a green dress and accompanied by a large white dog. 
+
+18:08:50 - The dense crowd is more visible, a congregation picking up near the vendor areas. Individuals in colorful attire split between the left and right facing the food stand and walking straight.
+
+18:08:51 - Close-up view reveals significant vendor activity with people moving in and out of small stalls selling items. Those present are casual and varied in clothing style.
+
+18:08:52 - A bustling thoroughfare with colorful attire distinguishing the crowd. Notice the vendor stands continue to attract patrons. Several groups of three people are visible—one cyclist too.
+
+18:08:53 - Activity remains high, people spread evenly enjoying the promenade, some approaching vendor stands. Movement appears free-flowing without congestion despite the sizeable crowd.
+2024-06-13 18:09:56,390 debug:Logged OpenAI response: 18:08:41 - The scene is vibrant and bustling with many people walking. Notice the group on the right, three individuals, two of which are wearing hats. One wears a green long-sleeve shirt and another a dark jacket. The third person is in light clothing. 
+
+18:08:42 - The group on the right continues to walk along the path. More people are visible in the background congregating. Two individuals in black have swapped places. The colorfully dressed vendor area remains quiet.
+
+18:08:43 - The crowd is moving steadily. A notable change is the individual carrying a backpack closer now, wearing white pants. 
+
+18:08:44 - A person in black joins the scene, stopping momentarily to scan the area. The path comprises beachgoers and those enjoying the promenade. 
+
+18:08:45 - Foot traffic increases as more people wearing light and dark clothing converge, moving past the bright umbrella vendor stalls.  
+
+18:08:46 - Two more individuals enter the bottom right corner of the frame; one in black shorts and another in a gray jacket. Not far behind them, another two seem to join the flow in contrasting clothing colors.
+
+18:08:47 - The crowd progressing steadily forward. Notice a new individual entering from the right, wearing a green dress and accompanied by a large white dog. 
+
+18:08:50 - The dense crowd is more visible, a congregation picking up near the vendor areas. Individuals in colorful attire split between the left and right facing the food stand and walking straight.
+
+18:08:51 - Close-up view reveals significant vendor activity with people moving in and out of small stalls selling items. Those present are casual and varied in clothing style.
+
+18:08:52 - A bustling thoroughfare with colorful attire distinguishing the crowd. Notice the vendor stands continue to attract patrons. Several groups of three people are visible—one cyclist too.
+
+18:08:53 - Activity remains high, people spread evenly enjoying the promenade, some approaching vendor stands. Movement appears free-flowing without congestion despite the sizeable crowd.
+2024-06-13 18:09:56,391 debug:OpenAI Response for batch 13: 18:08:41 - The scene is vibrant and bustling with many people walking. Notice the group on the right, three individuals, two of which are wearing hats. One wears a green long-sleeve shirt and another a dark jacket. The third person is in light clothing. 
+
+18:08:42 - The group on the right continues to walk along the path. More people are visible in the background congregating. Two individuals in black have swapped places. The colorfully dressed vendor area remains quiet.
+
+18:08:43 - The crowd is moving steadily. A notable change is the individual carrying a backpack closer now, wearing white pants. 
+
+18:08:44 - A person in black joins the scene, stopping momentarily to scan the area. The path comprises beachgoers and those enjoying the promenade. 
+
+18:08:45 - Foot traffic increases as more people wearing light and dark clothing converge, moving past the bright umbrella vendor stalls.  
+
+18:08:46 - Two more individuals enter the bottom right corner of the frame; one in black shorts and another in a gray jacket. Not far behind them, another two seem to join the flow in contrasting clothing colors.
+
+18:08:47 - The crowd progressing steadily forward. Notice a new individual entering from the right, wearing a green dress and accompanied by a large white dog. 
+
+18:08:50 - The dense crowd is more visible, a congregation picking up near the vendor areas. Individuals in colorful attire split between the left and right facing the food stand and walking straight.
+
+18:08:51 - Close-up view reveals significant vendor activity with people moving in and out of small stalls selling items. Those present are casual and varied in clothing style.
+
+18:08:52 - A bustling thoroughfare with colorful attire distinguishing the crowd. Notice the vendor stands continue to attract patrons. Several groups of three people are visible—one cyclist too.
+
+18:08:53 - Activity remains high, people spread evenly enjoying the promenade, some approaching vendor stands. Movement appears free-flowing without congestion despite the sizeable crowd.
+2024-06-13 18:09:56,391 error:Task exception was never retrieved
+future: <Task finished name='Task-17848' coro=<handle_openai_response() done, defined at /Users/naji.mounsef/Documents/vaiguard-1/guard3.py:207> exception=NoSessionContext()>
+Traceback (most recent call last):
+  File "/Users/naji.mounsef/Documents/vaiguard-1/guard3.py", line 216, in handle_openai_response
+    display_placeholder.markdown(f"### OpenAI Response for batch {batch_number}:\n{response}")
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/runtime/metrics_util.py", line 397, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/elements/markdown.py", line 106, in markdown
+    return self.dg._enqueue("markdown", markdown_proto)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 530, in _enqueue
+    _enqueue_message(msg)
+  File "/Users/naji.mounsef/anaconda3/lib/python3.11/site-packages/streamlit/delta_generator.py", line 869, in _enqueue_message
+    raise NoSessionContext()
+streamlit.errors.NoSessionContext
+2024-06-13 18:09:58,414 debug:Sending batch 14 to OpenAI for analysis.
+2024-06-13 18:09:58,416 info:Sending 10 frames to OpenAI for analysis.
+2024-06-13 18:10:01,773 debug:NativeEvent(path="/Users/naji.mounsef/Documents/vaiguard-1/.git/FETCH_HEAD", inode=44922400, flags=10400, id=707308434): is_file, is_inode_meta_mod
+2024-06-13 18:10:01,773 debug:queue_event <FileModifiedEvent: event_type=modified, src_path='/Users/naji.mounsef/Documents/vaiguard-1/.git/FETCH_HEAD', is_directory=False>
+2024-06-13 18:10:02,245 debug:NativeEvent(path="/Users/naji.mounsef/Documents/vaiguard-1/.git/FETCH_HEAD", inode=44922400, flags=11400, id=707308568): is_file, is_inode_meta_mod, is_modified
+2024-06-13 18:10:02,245 debug:queue_event <FileModifiedEvent: event_type=modified, src_path='/Users/naji.mounsef/Documents/vaiguard-1/.git/FETCH_HEAD', is_directory=False>
+2024-06-13 18:10:02,257 debug:NativeEvent(path="/Users/naji.mounsef/Documents/vaiguard-1/.git/objects/maintenance.lock", inode=49706111, flags=18300, id=707308577): is_coalesced, is_created, is_file, is_removed, is_xattr_mod
+2024-06-13 18:10:02,257 debug:queue_event <FileCreatedEvent: event_type=created, src_path='/Users/naji.mounsef/Documents/vaiguard-1/.git/objects/maintenance.lock', is_directory=False>
+2024-06-13 18:10:02,257 debug:queue_event <DirModifiedEvent: event_type=modified, src_path='/Users/naji.mounsef/Documents/vaiguard-1/.git/objects', is_directory=True>
+2024-06-13 18:10:02,258 debug:queue_event <FileModifiedEvent: event_type=modified, src_path='/Users/naji.mounsef/Documents/vaiguard-1/.git/objects/maintenance.lock', is_directory=False>
+2024-06-13 18:10:02,258 debug:queue_event <FileDeletedEvent: event_type=deleted, src_path='/Users/naji.mounsef/Documents/vaiguard-1/.git/objects/maintenance.lock', is_directory=False>
+2024-06-13 18:10:02,258 debug:queue_event <DirModifiedEvent: event_type=modified, src_path='/Users/naji.mounsef/Documents/vaiguard-1/.git/objects', is_directory=True>
+2024-06-13 18:10:06,115 debug:Captured and queued frames. Sleeping for 0 seconds.

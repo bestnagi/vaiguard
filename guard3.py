@@ -13,6 +13,8 @@ import logging
 import json
 import os
 from datetime import datetime
+import asyncio
+import aiohttp
 
 # Initialize the OpenAI client with your API key from environment variables
 openai_api_key = st.secrets["secrets"]["OPENAI_API_KEY"]
@@ -23,8 +25,7 @@ if not openai_api_key:
 client = OpenAI(api_key=openai_api_key)
 
 # Set up logging
-logging.basicConfig(filename='error_log.log', level=logging.ERROR, 
-                    format='%(asctime)s %(levelname)s:%(message)s')
+logging.basicConfig(filename='error_log.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
 
 # Temporary directory for logs and video clips
 log_dir = tempfile.gettempdir()
@@ -39,8 +40,11 @@ def log_openai_response(frames, openai_response, log_file="log_history.json"):
     
     log_path = os.path.join(log_dir, log_file)
     if os.path.exists(log_path):
-        with open(log_path, "r") as f:
-            log_history = json.load(f)
+        try:
+            with open(log_path, "r") as f:
+                log_history = json.load(f)
+        except json.JSONDecodeError:
+            log_history = []
     else:
         log_history = []
     
@@ -48,6 +52,7 @@ def log_openai_response(frames, openai_response, log_file="log_history.json"):
     
     with open(log_path, "w") as f:
         json.dump(log_history, f, indent=4)
+    logging.debug(f"Logged OpenAI response: {openai_response}")
 
 def detect_person(frame, body_cascade):
     try:
@@ -60,7 +65,7 @@ def detect_person(frame, body_cascade):
         logging.error(error_message)
         return False
 
-def read_frames_from_stream(youtube_url, frame_queue, stop_event, frame_skip):
+def read_frames_from_stream(youtube_url, frame_queue, stop_event):
     try:
         stream_url = get_youtube_stream_url(youtube_url)
         if not stream_url:
@@ -72,19 +77,21 @@ def read_frames_from_stream(youtube_url, frame_queue, stop_event, frame_skip):
         if fps <= 0:
             fps = 30  # Default to 30 FPS if the value is not available
         frame_duration = 1 / fps
-        frame_count = 0
 
         while not stop_event.is_set():
             start_time = time.time()
-            ret, frame = cap.read()
-            if not ret:
-                frame_queue.put((None, "Error retrieving frame."))
-                break
-            if frame_count % frame_skip == 0:
-                frame_queue.put((frame, None))
-            frame_count += 1
+            frames = []
+            for _ in range(int(fps * 10)):  # Capture 10 seconds of frames
+                ret, frame = cap.read()
+                if not ret:
+                    frame_queue.put((None, "Error retrieving frame."))
+                    break
+                frames.append(frame)
+                time.sleep(frame_duration)
+            frame_queue.put((frames, None))
             elapsed_time = time.time() - start_time
-            sleep_time = max(0, frame_duration - elapsed_time)
+            sleep_time = max(0, 10 - elapsed_time)  # Ensure a 10-second interval between batches
+            logging.debug(f"Captured and queued frames. Sleeping for {sleep_time} seconds.")
             time.sleep(sleep_time)
 
         cap.release()
@@ -97,7 +104,9 @@ def read_frames_from_stream(youtube_url, frame_queue, stop_event, frame_skip):
 
 def get_youtube_stream_url(youtube_url):
     try:
+        logging.info(f"Attempting to retrieve streams for URL: {youtube_url}")
         streams = streamlink.streams(youtube_url)
+        logging.info(f"Streams found: {streams.keys()}")
         if "best" in streams:
             return streams["best"].to_url()
         else:
@@ -105,19 +114,30 @@ def get_youtube_stream_url(youtube_url):
             st.error(error_message)
             logging.error(error_message)
             return None
+    except streamlink.exceptions.PluginError as e:
+        error_message = f"Streamlink PluginError: {e}"
+        st.error(error_message)
+        logging.error(error_message)
+        return None
+    except streamlink.exceptions.NoPluginError as e:
+        error_message = f"No Streamlink plugin can handle URL: {e}"
+        st.error(error_message)
+        logging.error(error_message)
+        return None
     except Exception as e:
-        error_message = f"Error retrieving stream URL: {e}"
+        error_message = f"Unexpected error retrieving stream URL: {e}"
         st.error(error_message)
         logging.error(error_message)
         return None
 
-def generate_openai_response(base64Frames):
+async def generate_openai_response(session, base64Frames):
     try:
+        logging.info(f"Sending {len(base64Frames)} frames to OpenAI for analysis.")
         prompt_messages = [
             {
                 "role": "user",
                 "content": [
-                    "These are frames of a video. You are the best security guard in the world. You pay attention to little details and you're super vigilant. Commentate in the style of a security guard who's watching for any person or vehicle or anything that stands out. Focus also on clothing and behavior and anything you redeem relevant. Only mention timestamps if the video includes timestamps. Only include narration.",
+                    "These are frames of a video. You are the best security guard in the world. You pay attention to little details and you're super vigilant. Commentate in the style of a security guard who's watching for any person or vehicle or anything that stands out. Focus also on clothing and behavior and anything you deem relevant. Only mention timestamps if the video includes timestamps. Only include narration.",
                     *map(lambda x: {"image": x, "resize": 768}, base64Frames),
                 ],
             },
@@ -127,8 +147,14 @@ def generate_openai_response(base64Frames):
             "messages": prompt_messages,
             "max_tokens": 500,
         }
-        result = client.chat.completions.create(**params)
-        return result.choices[0].message.content
+        headers = {
+            'Authorization': f'Bearer {openai_api_key}',
+            'Content-Type': 'application/json'
+        }
+        async with session.post('https://api.openai.com/v1/chat/completions', json=params, headers=headers) as response:
+            result = await response.json()
+            logging.debug(f"OpenAI response: {result['choices'][0]['message']['content']}")
+            return result['choices'][0]['message']['content']
     except Exception as e:
         error_message = f"Error in generate_openai_response: {e}"
         st.error(error_message)
@@ -144,50 +170,61 @@ def resize_frame(frame, width=640, height=360):
         logging.error(error_message)
         return frame
 
-def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock, body_cascade):
+async def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock, display_placeholder):
     frame_counter = 0
     batch_size = 10  # Send every 10 frames
 
-    while not stop_event.is_set():
-        try:
-            analysis_lock.acquire()
-            if len(buffer_queue) >= batch_size:
-                frames_to_analyze = [buffer_queue.pop(0) for _ in range(batch_size)]
-                analysis_lock.release()
+    async with aiohttp.ClientSession() as session:
+        while not stop_event.is_set():
+            try:
+                analysis_lock.acquire()
+                if len(buffer_queue) >= batch_size:
+                    frames_to_analyze = [buffer_queue.pop(0) for _ in range(batch_size)]
+                    analysis_lock.release()
 
-                # Convert frames to base64
-                base64Frames = [base64.b64encode(cv2.imencode('.jpg', frame)[1]).decode('utf-8') for frame in frames_to_analyze]
+                    # Convert frames to base64
+                    base64Frames = [base64.b64encode(cv2.imencode('.jpg', frame)[1]).decode('utf-8') for frame in frames_to_analyze]
 
-                # Prepare thumbnails HTML
-                thumbnails_html = '<div style="white-space: nowrap; overflow-x: auto;">'
-                for base64_frame in base64Frames:
-                    thumbnails_html += f'<img src="data:image/jpeg;base64,{base64_frame}" style="display: inline-block; margin-right: 5px;" width="100"/>'
-                thumbnails_html += '</div>'
+                    # Prepare thumbnails HTML
+                    thumbnails_html = '<div style="white-space: nowrap; overflow-x: auto;">'
+                    for base64_frame in base64Frames:
+                        thumbnails_html += f'<img src="data:image/jpeg;base64,{base64_frame}" style="display: inline-block; margin-right: 5px;" width="100"/>'
+                    thumbnails_html += '</div>'
 
-                # Send frames to OpenAI for analysis
-                st.write(f"Sending frames to OpenAI for analysis: {len(base64Frames)} frames")
-                response = generate_openai_response(base64Frames)
+                    # Send frames to OpenAI for analysis
+                    st.write(f"Sending frames to OpenAI for analysis: {len(base64Frames)} frames")
+                    logging.debug(f"Sending batch {frame_counter // batch_size + 1} to OpenAI for analysis.")
+                    asyncio.create_task(handle_openai_response(session, base64Frames, analysis_queue, frame_counter // batch_size + 1, display_placeholder))
+                    frame_counter += batch_size
+                else:
+                    analysis_lock.release()
+            except Exception as e:
+                error_message = f"Error in analyze_frames: {e}"
+                st.error(error_message)
+                logging.error(error_message)
+            await asyncio.sleep(1)  # Adjust this value to control analysis frequency
 
-                # Log the response along with the frames
-                log_openai_response(base64Frames, response)
+async def handle_openai_response(session, base64Frames, analysis_queue, batch_number, display_placeholder):
+    response = await generate_openai_response(session, base64Frames)
+    log_openai_response(base64Frames, response)
 
-                # Send results to analysis_queue
-                analysis_queue.put(("thumbnails", thumbnails_html))
-                analysis_queue.put(("incident_report", f"OpenAI Response for batch {frame_counter // batch_size + 1}: {response}"))
-                frame_counter += batch_size
-            else:
-                analysis_lock.release()
-        except Exception as e:
-            error_message = f"Error in analyze_frames: {e}"
-            st.error(error_message)
-            logging.error(error_message)
-        time.sleep(1)  # Adjust this value to control analysis frequency
+    # Send results to analysis_queue
+    analysis_queue.put(("incident_report", f"OpenAI Response for batch {batch_number}: {response}"))
+    logging.debug(f"OpenAI Response for batch {batch_number}: {response}")
+    
+    # Update the Streamlit display with the OpenAI response
+    display_placeholder.markdown(f"### OpenAI Response for batch {batch_number}:\n{response}")
 
 def display_log_history(selected_date=None):
     log_path = os.path.join(log_dir, "log_history.json")
     if os.path.exists(log_path):
-        with open(log_path, "r") as f:
-            log_history = json.load(f)
+        try:
+            with open(log_path, "r") as f:
+                log_history = json.load(f)
+        except json.JSONDecodeError as e:
+            st.error(f"Error reading log history: {e}")
+            logging.error(f"Error reading log history: {e}")
+            return
         
         if selected_date:
             log_history = [entry for entry in log_history if entry["timestamp"].startswith(selected_date)]
@@ -207,8 +244,13 @@ def display_log_history(selected_date=None):
 def query_logs(query, log_file="log_history.json"):
     log_path = os.path.join(log_dir, log_file)
     if os.path.exists(log_path):
-        with open(log_path, "r") as f:
-            log_history = json.load(f)
+        try:
+            with open(log_path, "r") as f:
+                log_history = json.load(f)
+        except json.JSONDecodeError as e:
+            st.error(f"Error reading log history: {e}")
+            logging.error(f"Error reading log history: {e}")
+            return "Error reading log history."
         
         # Format log history as context for the chatbot
         context = "\n".join([f"Timestamp: {entry['timestamp']}\nResponse: {entry['openai_response']}" for entry in log_history])
@@ -232,7 +274,7 @@ def main():
     st.title("Live Stream Viewer and AI Incident Reporter")
 
     youtube_url = st.text_input("Enter Live Stream URL", key="youtube_url")
-    frame_skip = 10  # st.number_input("Enter number of frames to skip", min_value=1, max_value=30, value=5, key="frame_skip")
+    frame_skip = 30  # Sample every 30 frames
 
     col1, col2 = st.columns([2, 1])
 
@@ -251,7 +293,7 @@ def main():
             body_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_fullbody.xml")
 
             def fetch_frames():
-                read_frames_from_stream(youtube_url, frame_queue, stop_event, frame_skip)
+                read_frames_from_stream(youtube_url, frame_queue, stop_event)
 
             def process_frames():
                 nonlocal person_detected, base64Frames, buffer_queue, pedestrian_detected_flag
@@ -260,37 +302,38 @@ def main():
 
                 while not stop_event.is_set():
                     try:
-                        frame, error_message = frame_queue.get()
+                        frames, error_message = frame_queue.get()
                         if error_message:
                             st.error(error_message)
                             logging.error(error_message)
                             break
-                        if frame is None:
+                        if frames is None:
                             break
 
-                        # Resize the frame to a larger size for display
-                        resized_frame = resize_frame(frame, width=640, height=360)
-                        
-                        # Update the live stream frame
-                        display_placeholder.image(resized_frame, channels="BGR", caption="Live Stream")
+                        for i, frame in enumerate(frames):
+                            # Resize the frame to a larger size for display
+                            resized_frame = resize_frame(frame, width=640, height=360)
+                            
+                            # Update the live stream frame
+                            display_placeholder.image(resized_frame, channels="BGR", caption="Live Stream")
 
-                        # Detect person in the frame
-                        if detect_person(resized_frame, body_cascade):
-                            person_detected = True
-                            pedestrian_detected_flag[0] = True
-                            st.write("Person detected. Collecting frames for analysis.")
-                            frame_counter = 0  # Reset frame counter when a person is detected
-                            message_displayed = False
-                        elif person_detected and not message_displayed:
-                            st.write("Continuing to send frames for analysis until the next batch is processed.")
-                            message_displayed = True
-                        
-                        if person_detected:
-                            analysis_lock.acquire()
-                            buffer_queue.append(resized_frame)
-                            analysis_lock.release()
-                            frame_counter += 1
-                            frame_counter_placeholder.write(f"Frames collected: {frame_counter}")
+                            # Detect person in the frame
+                            if detect_person(resized_frame, body_cascade):
+                                person_detected = True
+                                pedestrian_detected_flag[0] = True
+                                #st.write("Person detected. Collecting frames for analysis.")
+                                frame_counter = 0  # Reset frame counter when a person is detected
+                                message_displayed = False
+                            elif person_detected and not message_displayed:
+                                #st.write("Continuing to send frames for analysis until the next batch is processed.")
+                                message_displayed = True
+                            
+                            if person_detected and i % frame_skip == 0:  # Sample frames
+                                analysis_lock.acquire()
+                                buffer_queue.append(resized_frame)
+                                analysis_lock.release()
+                                frame_counter += 1
+                                frame_counter_placeholder.write(f"Frames collected: {frame_counter}")
 
                         # Process analysis results from the queue
                         while not analysis_queue.empty():
@@ -312,7 +355,7 @@ def main():
             fetch_thread = Thread(target=fetch_frames)
             fetch_thread.start()
 
-            analysis_thread = Thread(target=analyze_frames, args=(buffer_queue, analysis_queue, stop_event, analysis_lock, body_cascade))
+            analysis_thread = Thread(target=lambda: asyncio.run(analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock, display_placeholder)))
             analysis_thread.start()
 
             st.write("Live stream is running...")
