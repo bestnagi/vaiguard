@@ -163,7 +163,7 @@ async def generate_openai_response(session, base64Frames):
         logging.error(error_message)
         return "Error generating response."
 
-def resize_frame(frame, width=640, height=360):
+def resize_frame(frame, width=320, height=180):
     try:
         return cv2.resize(frame, (width, height))
     except Exception as e:
@@ -174,7 +174,7 @@ def resize_frame(frame, width=640, height=360):
 
 async def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock, display_placeholder):
     frame_counter = 0
-    batch_size = 5  # Send every 5 frames to reduce memory usage
+    batch_size = 3  # Send every 3 frames to reduce memory usage
 
     async with aiohttp.ClientSession() as session:
         while not stop_event.is_set():
@@ -315,8 +315,8 @@ def main():
                             break
 
                         for i, frame in enumerate(frames):
-                            # Resize the frame to a larger size for display
-                            resized_frame = resize_frame(frame, width=640, height=360)
+                            # Resize the frame to a smaller size for display
+                            resized_frame = resize_frame(frame, width=320, height=180)
                             
                             # Update the live stream frame
                             display_placeholder.image(resized_frame, channels="BGR", caption="Live Stream")
@@ -325,11 +325,11 @@ def main():
                             if detect_person(resized_frame, body_cascade):
                                 person_detected = True
                                 pedestrian_detected_flag[0] = True
-                                #st.write("Person detected. Collecting frames for analysis.")
+                                st.write("Person detected. Collecting frames for analysis.")
                                 frame_counter = 0  # Reset frame counter when a person is detected
                                 message_displayed = False
                             elif person_detected and not message_displayed:
-                                #st.write("Continuing to send frames for analysis until the next batch is processed.")
+                                st.write("Continuing to send frames for analysis until the next batch is processed.")
                                 message_displayed = True
                             
                             if person_detected and i % frame_skip == 0:  # Sample frames
