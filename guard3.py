@@ -209,7 +209,7 @@ def display_log_history(selected_date=None):
     log_path = os.path.join(log_dir, "log_history.json")
     if os.path.exists(log_path):
         try:
-            with open(log_path, "r") as f):
+            with open(log_path, "r") as f:
                 log_history = json.load(f)
         except json.JSONDecodeError as e:
             st.error(f"Error reading log history: {e}")
