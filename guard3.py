@@ -215,7 +215,9 @@ async def handle_openai_response(session, base64Frames, analysis_queue, batch_nu
     logging.debug(f"OpenAI Response for batch {batch_number}: {response}")
 
     # Update the Streamlit display with the OpenAI response
-    st.session_state['openai_response'] = f"### OpenAI Response for batch {batch_number}:\n{response}"
+    if 'openai_response' not in st.session_state:
+        st.session_state['openai_response'] = ""
+    st.session_state['openai_response'] += f"### OpenAI Response for batch {batch_number}:\n{response}\n\n"
     with display_placeholder:
         st.markdown(st.session_state['openai_response'])
 
@@ -325,11 +327,11 @@ def main():
                             if detect_person(resized_frame, body_cascade):
                                 person_detected = True
                                 pedestrian_detected_flag[0] = True
-                                st.write("Person detected. Collecting frames for analysis.")
+                                #st.write("Person detected. Collecting frames for analysis.")
                                 frame_counter = 0  # Reset frame counter when a person is detected
                                 message_displayed = False
                             elif person_detected and not message_displayed:
-                                st.write("Continuing to send frames for analysis until the next batch is processed.")
+                                #st.write("Continuing to send frames for analysis until the next batch is processed.")
                                 message_displayed = True
                             
                             if person_detected and i % frame_skip == 0:  # Sample frames
