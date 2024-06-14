@@ -243,7 +243,7 @@ def query_logs(query, log_file="log_history.json"):
             return "Error reading log history."
         
         # Format log history as context for the chatbot
-        context = "\n.join([f"Timestamp: {entry['timestamp']}\nResponse: {entry['openai_response']}" for entry in log_history])
+        context = "\n".join([f"Timestamp: {entry['timestamp']}\nResponse: {entry['openai_response']}" for entry in log_history])
         
         prompt_messages = [
             {"role": "system", "content": "You are an assistant that answers questions based on the log history of OpenAI responses."},
