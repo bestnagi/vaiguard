@@ -65,7 +65,7 @@ def detect_person(frame, body_cascade):
         logging.error(error_message)
         return False
 
-def read_frames_from_stream(youtube_url, frame_queue, stop_event):
+def read_frames_from_stream(youtube_url, frame_queue, stop_event, frame_skip):
     try:
         stream_url = get_youtube_stream_url(youtube_url)
         if not stream_url:
@@ -86,7 +86,8 @@ def read_frames_from_stream(youtube_url, frame_queue, stop_event):
                 if not ret:
                     frame_queue.put((None, "Error retrieving frame."))
                     break
-                frames.append(frame)
+                if len(frames) % frame_skip == 0:
+                    frames.append(resize_frame(frame))
                 time.sleep(frame_duration)
             frame_queue.put((frames, None))
             elapsed_time = time.time() - start_time
@@ -174,7 +175,7 @@ def resize_frame(frame, width=320, height=180):
 
 async def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock, display_placeholder):
     frame_counter = 0
-    batch_size = 3  # Send every 3 frames to reduce memory usage
+    batch_size = 5  # Send every 5 frames to reduce memory usage
 
     async with aiohttp.ClientSession() as session:
         while not stop_event.is_set():
@@ -187,16 +188,14 @@ async def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock
                     # Convert frames to base64
                     base64Frames = [base64.b64encode(cv2.imencode('.jpg', frame)[1]).decode('utf-8') for frame in frames_to_analyze]
 
-                    # Prepare thumbnails HTML
-                    thumbnails_html = '<div style="white-space: nowrap; overflow-x: auto;">'
-                    for base64_frame in base64Frames:
-                        thumbnails_html += f'<img src="data:image/jpeg;base64,{base64_frame}" style="display: inline-block; margin-right: 5px;" width="100"/>'
-                    thumbnails_html += '</div>'
-
                     # Send frames to OpenAI for analysis
                     st.write(f"Sending frames to OpenAI for analysis: {len(base64Frames)} frames")
                     logging.debug(f"Sending batch {frame_counter // batch_size + 1} to OpenAI for analysis.")
-                    asyncio.create_task(handle_openai_response(session, base64Frames, analysis_queue, frame_counter // batch_size + 1, display_placeholder))
+                    response = await generate_openai_response(session, base64Frames)
+                    log_openai_response(base64Frames, response)
+                    
+                    # Update the Streamlit display with the OpenAI response
+                    analysis_queue.put(("incident_report", f"OpenAI Response for batch {frame_counter // batch_size + 1}: {response}"))
                     frame_counter += batch_size
                 else:
                     analysis_lock.release()
@@ -205,21 +204,6 @@ async def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock
                 st.error(error_message)
                 logging.error(error_message)
             await asyncio.sleep(1)  # Adjust this value to control analysis frequency
-
-async def handle_openai_response(session, base64Frames, analysis_queue, batch_number, display_placeholder):
-    response = await generate_openai_response(session, base64Frames)
-    log_openai_response(base64Frames, response)
-
-    # Send results to analysis_queue
-    analysis_queue.put(("incident_report", f"OpenAI Response for batch {batch_number}: {response}"))
-    logging.debug(f"OpenAI Response for batch {batch_number}: {response}")
-
-    # Update the Streamlit display with the OpenAI response
-    if 'openai_response' not in st.session_state:
-        st.session_state['openai_response'] = ""
-    st.session_state['openai_response'] += f"### OpenAI Response for batch {batch_number}:\n{response}\n\n"
-    with display_placeholder:
-        st.markdown(st.session_state['openai_response'])
 
 def display_log_history(selected_date=None):
     log_path = os.path.join(log_dir, "log_history.json")
@@ -299,7 +283,7 @@ def main():
             body_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_fullbody.xml")
 
             def fetch_frames():
-                read_frames_from_stream(youtube_url, frame_queue, stop_event)
+                read_frames_from_stream(youtube_url, frame_queue, stop_event, frame_skip)
 
             def process_frames():
                 nonlocal person_detected, base64Frames, buffer_queue, pedestrian_detected_flag
@@ -327,11 +311,11 @@ def main():
                             if detect_person(resized_frame, body_cascade):
                                 person_detected = True
                                 pedestrian_detected_flag[0] = True
-                                #st.write("Person detected. Collecting frames for analysis.")
+                                st.write("Person detected. Collecting frames for analysis.")
                                 frame_counter = 0  # Reset frame counter when a person is detected
                                 message_displayed = False
                             elif person_detected and not message_displayed:
-                                #st.write("Continuing to send frames for analysis until the next batch is processed.")
+                                st.write("Continuing to send frames for analysis until the next batch is processed.")
                                 message_displayed = True
                             
                             if person_detected and i % frame_skip == 0:  # Sample frames
@@ -344,10 +328,7 @@ def main():
                         # Process analysis results from the queue
                         while not analysis_queue.empty():
                             item_type, content = analysis_queue.get()
-                            if item_type == "thumbnails":
-                                thumbnails_container = st.empty()
-                                thumbnails_container.markdown(content, unsafe_allow_html=True)
-                            elif item_type == "incident_report":
+                            if item_type == "incident_report":
                                 incident_report_placeholder = st.empty()
                                 incident_report_placeholder.write(content)
 
