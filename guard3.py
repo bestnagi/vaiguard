@@ -153,6 +153,8 @@ async def generate_openai_response(session, base64Frames):
         }
         async with session.post('https://api.openai.com/v1/chat/completions', json=params, headers=headers) as response:
             result = await response.json()
+            if 'choices' not in result:
+                raise ValueError("Invalid response structure")
             logging.debug(f"OpenAI response: {result['choices'][0]['message']['content']}")
             return result['choices'][0]['message']['content']
     except Exception as e:
@@ -172,7 +174,7 @@ def resize_frame(frame, width=640, height=360):
 
 async def analyze_frames(buffer_queue, analysis_queue, stop_event, analysis_lock, display_placeholder):
     frame_counter = 0
-    batch_size = 10  # Send every 10 frames
+    batch_size = 5  # Send every 5 frames to reduce memory usage
 
     async with aiohttp.ClientSession() as session:
         while not stop_event.is_set():
@@ -211,9 +213,11 @@ async def handle_openai_response(session, base64Frames, analysis_queue, batch_nu
     # Send results to analysis_queue
     analysis_queue.put(("incident_report", f"OpenAI Response for batch {batch_number}: {response}"))
     logging.debug(f"OpenAI Response for batch {batch_number}: {response}")
-    
+
     # Update the Streamlit display with the OpenAI response
-    display_placeholder.markdown(f"### OpenAI Response for batch {batch_number}:\n{response}")
+    st.session_state['openai_response'] = f"### OpenAI Response for batch {batch_number}:\n{response}"
+    with display_placeholder:
+        st.markdown(st.session_state['openai_response'])
 
 def display_log_history(selected_date=None):
     log_path = os.path.join(log_dir, "log_history.json")
